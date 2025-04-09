@@ -32,6 +32,9 @@ var (
 )
 
 // EmojiStatusEmpty represents TL type `emojiStatusEmpty#2de11aae`.
+// No emoji status is set
+//
+// See https://core.telegram.org/constructor/emojiStatusEmpty for reference.
 type EmojiStatusEmpty struct {
 }
 
@@ -131,8 +134,17 @@ func (e *EmojiStatusEmpty) DecodeBare(b *bin.Buffer) error {
 }
 
 // EmojiStatus represents TL type `emojiStatus#929b619d`.
+// An emoji status¹
+//
+// Links:
+//  1. https://core.telegram.org/api/emoji-status
+//
+// See https://core.telegram.org/constructor/emojiStatus for reference.
 type EmojiStatus struct {
-	// DocumentID field of EmojiStatus.
+	// Custom emoji document ID¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/custom-emoji
 	DocumentID int64
 }
 
@@ -170,6 +182,13 @@ func (e *EmojiStatus) String() string {
 	}
 	type Alias EmojiStatus
 	return fmt.Sprintf("EmojiStatus%+v", Alias(*e))
+}
+
+// FillFrom fills EmojiStatus from given interface.
+func (e *EmojiStatus) FillFrom(from interface {
+	GetDocumentID() (value int64)
+}) {
+	e.DocumentID = from.GetDocumentID()
 }
 
 // TypeID returns type id in TL schema.
@@ -256,10 +275,19 @@ func (e *EmojiStatus) GetDocumentID() (value int64) {
 }
 
 // EmojiStatusUntil represents TL type `emojiStatusUntil#fa30a8c7`.
+// An emoji status¹ valid until the specified date
+//
+// Links:
+//  1. https://core.telegram.org/api/emoji-status
+//
+// See https://core.telegram.org/constructor/emojiStatusUntil for reference.
 type EmojiStatusUntil struct {
-	// DocumentID field of EmojiStatusUntil.
+	// Custom emoji document ID¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/custom-emoji
 	DocumentID int64
-	// Until field of EmojiStatusUntil.
+	// This status is valid until this date
 	Until int
 }
 
@@ -300,6 +328,15 @@ func (e *EmojiStatusUntil) String() string {
 	}
 	type Alias EmojiStatusUntil
 	return fmt.Sprintf("EmojiStatusUntil%+v", Alias(*e))
+}
+
+// FillFrom fills EmojiStatusUntil from given interface.
+func (e *EmojiStatusUntil) FillFrom(from interface {
+	GetDocumentID() (value int64)
+	GetUntil() (value int)
+}) {
+	e.DocumentID = from.GetDocumentID()
+	e.Until = from.GetUntil()
 }
 
 // TypeID returns type id in TL schema.
@@ -410,6 +447,8 @@ const EmojiStatusClassName = "EmojiStatus"
 
 // EmojiStatusClass represents EmojiStatus generic type.
 //
+// See https://core.telegram.org/type/EmojiStatus for reference.
+//
 // Constructors:
 //   - [EmojiStatusEmpty]
 //   - [EmojiStatus]
@@ -444,6 +483,53 @@ type EmojiStatusClass interface {
 	String() string
 	// Zero returns true if current object has a zero value.
 	Zero() bool
+
+	// AsNotEmpty tries to map EmojiStatusClass to NotEmptyEmojiStatus.
+	AsNotEmpty() (NotEmptyEmojiStatus, bool)
+}
+
+// NotEmptyEmojiStatus represents NotEmpty subset of EmojiStatusClass.
+type NotEmptyEmojiStatus interface {
+	bin.Encoder
+	bin.Decoder
+	bin.BareEncoder
+	bin.BareDecoder
+	construct() EmojiStatusClass
+
+	// TypeID returns type id in TL schema.
+	//
+	// See https://core.telegram.org/mtproto/TL-tl#remarks.
+	TypeID() uint32
+	// TypeName returns name of type in TL schema.
+	TypeName() string
+	// String implements fmt.Stringer.
+	String() string
+	// Zero returns true if current object has a zero value.
+	Zero() bool
+
+	// Custom emoji document ID¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/custom-emoji
+	GetDocumentID() (value int64)
+}
+
+// AsNotEmpty tries to map EmojiStatusEmpty to NotEmptyEmojiStatus.
+func (e *EmojiStatusEmpty) AsNotEmpty() (NotEmptyEmojiStatus, bool) {
+	value, ok := (EmojiStatusClass(e)).(NotEmptyEmojiStatus)
+	return value, ok
+}
+
+// AsNotEmpty tries to map EmojiStatus to NotEmptyEmojiStatus.
+func (e *EmojiStatus) AsNotEmpty() (NotEmptyEmojiStatus, bool) {
+	value, ok := (EmojiStatusClass(e)).(NotEmptyEmojiStatus)
+	return value, ok
+}
+
+// AsNotEmpty tries to map EmojiStatusUntil to NotEmptyEmojiStatus.
+func (e *EmojiStatusUntil) AsNotEmpty() (NotEmptyEmojiStatus, bool) {
+	value, ok := (EmojiStatusClass(e)).(NotEmptyEmojiStatus)
+	return value, ok
 }
 
 // DecodeEmojiStatus implements binary de-serialization for EmojiStatusClass.

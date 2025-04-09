@@ -32,12 +32,24 @@ var (
 )
 
 // MessagesReadReactionsRequest represents TL type `messages.readReactions#54aa7f8e`.
+// Mark message reactions »¹ as read
+//
+// Links:
+//  1. https://core.telegram.org/api/reactions
+//
+// See https://core.telegram.org/method/messages.readReactions for reference.
 type MessagesReadReactionsRequest struct {
-	// Flags field of MessagesReadReactionsRequest.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// Peer field of MessagesReadReactionsRequest.
+	// Peer
 	Peer InputPeerClass
-	// TopMsgID field of MessagesReadReactionsRequest.
+	// Mark as read only reactions to messages within the specified forum topic¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/forum#forum-topics
 	//
 	// Use SetTopMsgID and GetTopMsgID helpers.
 	TopMsgID int
@@ -78,6 +90,18 @@ func (r *MessagesReadReactionsRequest) String() string {
 	}
 	type Alias MessagesReadReactionsRequest
 	return fmt.Sprintf("MessagesReadReactionsRequest%+v", Alias(*r))
+}
+
+// FillFrom fills MessagesReadReactionsRequest from given interface.
+func (r *MessagesReadReactionsRequest) FillFrom(from interface {
+	GetPeer() (value InputPeerClass)
+	GetTopMsgID() (value int, ok bool)
+}) {
+	r.Peer = from.GetPeer()
+	if val, ok := from.GetTopMsgID(); ok {
+		r.TopMsgID = val
+	}
+
 }
 
 // TypeID returns type id in TL schema.
@@ -218,6 +242,16 @@ func (r *MessagesReadReactionsRequest) GetTopMsgID() (value int, ok bool) {
 }
 
 // MessagesReadReactions invokes method messages.readReactions#54aa7f8e returning error if any.
+// Mark message reactions »¹ as read
+//
+// Links:
+//  1. https://core.telegram.org/api/reactions
+//
+// Possible errors:
+//
+//	400 PEER_ID_INVALID: The provided peer id is invalid.
+//
+// See https://core.telegram.org/method/messages.readReactions for reference.
 func (c *Client) MessagesReadReactions(ctx context.Context, request *MessagesReadReactionsRequest) (*MessagesAffectedHistory, error) {
 	var result MessagesAffectedHistory
 

@@ -32,18 +32,30 @@ var (
 )
 
 // PaymentsUserStarGifts represents TL type `payments.userStarGifts#6b65b517`.
+// Gifts¹ displayed on a user's profile.
+//
+// Links:
+//  1. https://core.telegram.org/api/gifts
+//
+// See https://core.telegram.org/constructor/payments.userStarGifts for reference.
 type PaymentsUserStarGifts struct {
-	// Flags field of PaymentsUserStarGifts.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// Count field of PaymentsUserStarGifts.
+	// Total number of gifts displayed on the profile.
 	Count int
-	// Gifts field of PaymentsUserStarGifts.
+	// The gifts.
 	Gifts []UserStarGift
-	// NextOffset field of PaymentsUserStarGifts.
+	// Offset for pagination¹.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/offsets
 	//
 	// Use SetNextOffset and GetNextOffset helpers.
 	NextOffset string
-	// Users field of PaymentsUserStarGifts.
+	// Users mentioned in the gifts vector.
 	Users []UserClass
 }
 
@@ -88,6 +100,22 @@ func (u *PaymentsUserStarGifts) String() string {
 	}
 	type Alias PaymentsUserStarGifts
 	return fmt.Sprintf("PaymentsUserStarGifts%+v", Alias(*u))
+}
+
+// FillFrom fills PaymentsUserStarGifts from given interface.
+func (u *PaymentsUserStarGifts) FillFrom(from interface {
+	GetCount() (value int)
+	GetGifts() (value []UserStarGift)
+	GetNextOffset() (value string, ok bool)
+	GetUsers() (value []UserClass)
+}) {
+	u.Count = from.GetCount()
+	u.Gifts = from.GetGifts()
+	if val, ok := from.GetNextOffset(); ok {
+		u.NextOffset = val
+	}
+
+	u.Users = from.GetUsers()
 }
 
 // TypeID returns type id in TL schema.
@@ -293,4 +321,9 @@ func (u *PaymentsUserStarGifts) GetUsers() (value []UserClass) {
 		return
 	}
 	return u.Users
+}
+
+// MapUsers returns field Users wrapped in UserClassArray helper.
+func (u *PaymentsUserStarGifts) MapUsers() (value UserClassArray) {
+	return UserClassArray(u.Users)
 }

@@ -32,14 +32,23 @@ var (
 )
 
 // SavedDialog represents TL type `savedDialog#bd87cb6c`.
+// Represents a saved dialog »¹.
+//
+// Links:
+//  1. https://core.telegram.org/api/saved-messages
+//
+// See https://core.telegram.org/constructor/savedDialog for reference.
 type SavedDialog struct {
-	// Flags field of SavedDialog.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// Pinned field of SavedDialog.
+	// Is the dialog pinned
 	Pinned bool
-	// Peer field of SavedDialog.
+	// The dialog
 	Peer PeerClass
-	// TopMessage field of SavedDialog.
+	// The latest message ID
 	TopMessage int
 }
 
@@ -81,6 +90,17 @@ func (s *SavedDialog) String() string {
 	}
 	type Alias SavedDialog
 	return fmt.Sprintf("SavedDialog%+v", Alias(*s))
+}
+
+// FillFrom fills SavedDialog from given interface.
+func (s *SavedDialog) FillFrom(from interface {
+	GetPinned() (value bool)
+	GetPeer() (value PeerClass)
+	GetTopMessage() (value int)
+}) {
+	s.Pinned = from.GetPinned()
+	s.Peer = from.GetPeer()
+	s.TopMessage = from.GetTopMessage()
 }
 
 // TypeID returns type id in TL schema.

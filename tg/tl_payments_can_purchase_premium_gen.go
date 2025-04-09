@@ -32,8 +32,12 @@ var (
 )
 
 // PaymentsCanPurchasePremiumRequest represents TL type `payments.canPurchasePremium#9fc19eb6`.
+// Checks whether Telegram Premium purchase is possible. Must be called before in-store
+// Premium purchase, official apps only.
+//
+// See https://core.telegram.org/method/payments.canPurchasePremium for reference.
 type PaymentsCanPurchasePremiumRequest struct {
-	// Purpose field of PaymentsCanPurchasePremiumRequest.
+	// Payment purpose
 	Purpose InputStorePaymentPurposeClass
 }
 
@@ -66,6 +70,13 @@ func (c *PaymentsCanPurchasePremiumRequest) String() string {
 	}
 	type Alias PaymentsCanPurchasePremiumRequest
 	return fmt.Sprintf("PaymentsCanPurchasePremiumRequest%+v", Alias(*c))
+}
+
+// FillFrom fills PaymentsCanPurchasePremiumRequest from given interface.
+func (c *PaymentsCanPurchasePremiumRequest) FillFrom(from interface {
+	GetPurpose() (value InputStorePaymentPurposeClass)
+}) {
+	c.Purpose = from.GetPurpose()
 }
 
 // TypeID returns type id in TL schema.
@@ -157,6 +168,14 @@ func (c *PaymentsCanPurchasePremiumRequest) GetPurpose() (value InputStorePaymen
 }
 
 // PaymentsCanPurchasePremium invokes method payments.canPurchasePremium#9fc19eb6 returning error if any.
+// Checks whether Telegram Premium purchase is possible. Must be called before in-store
+// Premium purchase, official apps only.
+//
+// Possible errors:
+//
+//	406 PREMIUM_CURRENTLY_UNAVAILABLE: You cannot currently purchase a Premium subscription.
+//
+// See https://core.telegram.org/method/payments.canPurchasePremium for reference.
 func (c *Client) PaymentsCanPurchasePremium(ctx context.Context, purpose InputStorePaymentPurposeClass) (bool, error) {
 	var result BoolBox
 

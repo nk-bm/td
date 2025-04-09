@@ -32,14 +32,23 @@ var (
 )
 
 // MessagesSavedDialogs represents TL type `messages.savedDialogs#f83ae221`.
+// Represents some saved message dialogs »¹.
+//
+// Links:
+//  1. https://core.telegram.org/api/saved-messages
+//
+// See https://core.telegram.org/constructor/messages.savedDialogs for reference.
 type MessagesSavedDialogs struct {
-	// Dialogs field of MessagesSavedDialogs.
+	// Saved message dialogs »¹.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/saved-messages
 	Dialogs []SavedDialog
-	// Messages field of MessagesSavedDialogs.
+	// List of last messages from each saved dialog
 	Messages []MessageClass
-	// Chats field of MessagesSavedDialogs.
+	// Mentioned chats
 	Chats []ChatClass
-	// Users field of MessagesSavedDialogs.
+	// Mentioned users
 	Users []UserClass
 }
 
@@ -86,6 +95,19 @@ func (s *MessagesSavedDialogs) String() string {
 	}
 	type Alias MessagesSavedDialogs
 	return fmt.Sprintf("MessagesSavedDialogs%+v", Alias(*s))
+}
+
+// FillFrom fills MessagesSavedDialogs from given interface.
+func (s *MessagesSavedDialogs) FillFrom(from interface {
+	GetDialogs() (value []SavedDialog)
+	GetMessages() (value []MessageClass)
+	GetChats() (value []ChatClass)
+	GetUsers() (value []UserClass)
+}) {
+	s.Dialogs = from.GetDialogs()
+	s.Messages = from.GetMessages()
+	s.Chats = from.GetChats()
+	s.Users = from.GetUsers()
 }
 
 // TypeID returns type id in TL schema.
@@ -300,17 +322,38 @@ func (s *MessagesSavedDialogs) GetUsers() (value []UserClass) {
 	return s.Users
 }
 
+// MapMessages returns field Messages wrapped in MessageClassArray helper.
+func (s *MessagesSavedDialogs) MapMessages() (value MessageClassArray) {
+	return MessageClassArray(s.Messages)
+}
+
+// MapChats returns field Chats wrapped in ChatClassArray helper.
+func (s *MessagesSavedDialogs) MapChats() (value ChatClassArray) {
+	return ChatClassArray(s.Chats)
+}
+
+// MapUsers returns field Users wrapped in UserClassArray helper.
+func (s *MessagesSavedDialogs) MapUsers() (value UserClassArray) {
+	return UserClassArray(s.Users)
+}
+
 // MessagesSavedDialogsSlice represents TL type `messages.savedDialogsSlice#44ba9dd9`.
+// Incomplete list of saved message dialogs »¹ with messages and auxiliary data.
+//
+// Links:
+//  1. https://core.telegram.org/api/saved-messages
+//
+// See https://core.telegram.org/constructor/messages.savedDialogsSlice for reference.
 type MessagesSavedDialogsSlice struct {
-	// Count field of MessagesSavedDialogsSlice.
+	// Total number of saved message dialogs
 	Count int
-	// Dialogs field of MessagesSavedDialogsSlice.
+	// List of saved message dialogs
 	Dialogs []SavedDialog
-	// Messages field of MessagesSavedDialogsSlice.
+	// List of last messages from dialogs
 	Messages []MessageClass
-	// Chats field of MessagesSavedDialogsSlice.
+	// Mentioned chats
 	Chats []ChatClass
-	// Users field of MessagesSavedDialogsSlice.
+	// Mentioned users
 	Users []UserClass
 }
 
@@ -360,6 +403,21 @@ func (s *MessagesSavedDialogsSlice) String() string {
 	}
 	type Alias MessagesSavedDialogsSlice
 	return fmt.Sprintf("MessagesSavedDialogsSlice%+v", Alias(*s))
+}
+
+// FillFrom fills MessagesSavedDialogsSlice from given interface.
+func (s *MessagesSavedDialogsSlice) FillFrom(from interface {
+	GetCount() (value int)
+	GetDialogs() (value []SavedDialog)
+	GetMessages() (value []MessageClass)
+	GetChats() (value []ChatClass)
+	GetUsers() (value []UserClass)
+}) {
+	s.Count = from.GetCount()
+	s.Dialogs = from.GetDialogs()
+	s.Messages = from.GetMessages()
+	s.Chats = from.GetChats()
+	s.Users = from.GetUsers()
 }
 
 // TypeID returns type id in TL schema.
@@ -594,9 +652,30 @@ func (s *MessagesSavedDialogsSlice) GetUsers() (value []UserClass) {
 	return s.Users
 }
 
+// MapMessages returns field Messages wrapped in MessageClassArray helper.
+func (s *MessagesSavedDialogsSlice) MapMessages() (value MessageClassArray) {
+	return MessageClassArray(s.Messages)
+}
+
+// MapChats returns field Chats wrapped in ChatClassArray helper.
+func (s *MessagesSavedDialogsSlice) MapChats() (value ChatClassArray) {
+	return ChatClassArray(s.Chats)
+}
+
+// MapUsers returns field Users wrapped in UserClassArray helper.
+func (s *MessagesSavedDialogsSlice) MapUsers() (value UserClassArray) {
+	return UserClassArray(s.Users)
+}
+
 // MessagesSavedDialogsNotModified represents TL type `messages.savedDialogsNotModified#c01f6fe8`.
+// The saved dialogs haven't changed
+//
+// See https://core.telegram.org/constructor/messages.savedDialogsNotModified for reference.
 type MessagesSavedDialogsNotModified struct {
-	// Count field of MessagesSavedDialogsNotModified.
+	// Number of saved dialogs¹ found server-side by the query
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/saved-messages
 	Count int
 }
 
@@ -634,6 +713,13 @@ func (s *MessagesSavedDialogsNotModified) String() string {
 	}
 	type Alias MessagesSavedDialogsNotModified
 	return fmt.Sprintf("MessagesSavedDialogsNotModified%+v", Alias(*s))
+}
+
+// FillFrom fills MessagesSavedDialogsNotModified from given interface.
+func (s *MessagesSavedDialogsNotModified) FillFrom(from interface {
+	GetCount() (value int)
+}) {
+	s.Count = from.GetCount()
 }
 
 // TypeID returns type id in TL schema.
@@ -724,6 +810,8 @@ const MessagesSavedDialogsClassName = "messages.SavedDialogs"
 
 // MessagesSavedDialogsClass represents messages.SavedDialogs generic type.
 //
+// See https://core.telegram.org/type/messages.SavedDialogs for reference.
+//
 // Constructors:
 //   - [MessagesSavedDialogs]
 //   - [MessagesSavedDialogsSlice]
@@ -758,6 +846,62 @@ type MessagesSavedDialogsClass interface {
 	String() string
 	// Zero returns true if current object has a zero value.
 	Zero() bool
+
+	// AsModified tries to map MessagesSavedDialogsClass to ModifiedMessagesSavedDialogs.
+	AsModified() (ModifiedMessagesSavedDialogs, bool)
+}
+
+// ModifiedMessagesSavedDialogs represents Modified subset of MessagesSavedDialogsClass.
+type ModifiedMessagesSavedDialogs interface {
+	bin.Encoder
+	bin.Decoder
+	bin.BareEncoder
+	bin.BareDecoder
+	construct() MessagesSavedDialogsClass
+
+	// TypeID returns type id in TL schema.
+	//
+	// See https://core.telegram.org/mtproto/TL-tl#remarks.
+	TypeID() uint32
+	// TypeName returns name of type in TL schema.
+	TypeName() string
+	// String implements fmt.Stringer.
+	String() string
+	// Zero returns true if current object has a zero value.
+	Zero() bool
+
+	// Saved message dialogs »¹.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/saved-messages
+	GetDialogs() (value []SavedDialog)
+
+	// List of last messages from each saved dialog
+	GetMessages() (value []MessageClass)
+
+	// Mentioned chats
+	GetChats() (value []ChatClass)
+
+	// Mentioned users
+	GetUsers() (value []UserClass)
+}
+
+// AsModified tries to map MessagesSavedDialogs to ModifiedMessagesSavedDialogs.
+func (s *MessagesSavedDialogs) AsModified() (ModifiedMessagesSavedDialogs, bool) {
+	value, ok := (MessagesSavedDialogsClass(s)).(ModifiedMessagesSavedDialogs)
+	return value, ok
+}
+
+// AsModified tries to map MessagesSavedDialogsSlice to ModifiedMessagesSavedDialogs.
+func (s *MessagesSavedDialogsSlice) AsModified() (ModifiedMessagesSavedDialogs, bool) {
+	value, ok := (MessagesSavedDialogsClass(s)).(ModifiedMessagesSavedDialogs)
+	return value, ok
+}
+
+// AsModified tries to map MessagesSavedDialogsNotModified to ModifiedMessagesSavedDialogs.
+func (s *MessagesSavedDialogsNotModified) AsModified() (ModifiedMessagesSavedDialogs, bool) {
+	value, ok := (MessagesSavedDialogsClass(s)).(ModifiedMessagesSavedDialogs)
+	return value, ok
 }
 
 // DecodeMessagesSavedDialogs implements binary de-serialization for MessagesSavedDialogsClass.

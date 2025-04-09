@@ -32,12 +32,27 @@ var (
 )
 
 // PaymentsGetUserStarGiftsRequest represents TL type `payments.getUserStarGifts#5e72c7e1`.
+// Get the gifts »¹ pinned on a specific user's profile.
+// May also be used to fetch all gifts received by the current user.
+//
+// Links:
+//  1. https://core.telegram.org/api/gifts
+//
+// See https://core.telegram.org/method/payments.getUserStarGifts for reference.
 type PaymentsGetUserStarGiftsRequest struct {
-	// UserID field of PaymentsGetUserStarGiftsRequest.
+	// Identifier of the user (can be the current user to fetch all gifts received by the
+	// current user).
 	UserID InputUserClass
-	// Offset field of PaymentsGetUserStarGiftsRequest.
+	// Offset for pagination¹, taken from payments.userStarGifts² (initially empty).
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/offsets
+	//  2) https://core.telegram.org/constructor/payments.userStarGifts
 	Offset string
-	// Limit field of PaymentsGetUserStarGiftsRequest.
+	// Maximum number of results to return, see pagination¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/offsets
 	Limit int
 }
 
@@ -76,6 +91,17 @@ func (g *PaymentsGetUserStarGiftsRequest) String() string {
 	}
 	type Alias PaymentsGetUserStarGiftsRequest
 	return fmt.Sprintf("PaymentsGetUserStarGiftsRequest%+v", Alias(*g))
+}
+
+// FillFrom fills PaymentsGetUserStarGiftsRequest from given interface.
+func (g *PaymentsGetUserStarGiftsRequest) FillFrom(from interface {
+	GetUserID() (value InputUserClass)
+	GetOffset() (value string)
+	GetLimit() (value int)
+}) {
+	g.UserID = from.GetUserID()
+	g.Offset = from.GetOffset()
+	g.Limit = from.GetLimit()
 }
 
 // TypeID returns type id in TL schema.
@@ -207,6 +233,17 @@ func (g *PaymentsGetUserStarGiftsRequest) GetLimit() (value int) {
 }
 
 // PaymentsGetUserStarGifts invokes method payments.getUserStarGifts#5e72c7e1 returning error if any.
+// Get the gifts »¹ pinned on a specific user's profile.
+// May also be used to fetch all gifts received by the current user.
+//
+// Links:
+//  1. https://core.telegram.org/api/gifts
+//
+// Possible errors:
+//
+//	400 USER_ID_INVALID: The provided user ID is invalid.
+//
+// See https://core.telegram.org/method/payments.getUserStarGifts for reference.
 func (c *Client) PaymentsGetUserStarGifts(ctx context.Context, request *PaymentsGetUserStarGiftsRequest) (*PaymentsUserStarGifts, error) {
 	var result PaymentsUserStarGifts
 

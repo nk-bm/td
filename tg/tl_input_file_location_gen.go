@@ -32,14 +32,20 @@ var (
 )
 
 // InputFileLocation represents TL type `inputFileLocation#dfdaabe1`.
+// DEPRECATED location of a photo
+//
+// See https://core.telegram.org/constructor/inputFileLocation for reference.
 type InputFileLocation struct {
-	// VolumeID field of InputFileLocation.
+	// Server volume
 	VolumeID int64
-	// LocalID field of InputFileLocation.
+	// File identifier
 	LocalID int
-	// Secret field of InputFileLocation.
+	// Check sum to access the file
 	Secret int64
-	// FileReference field of InputFileLocation.
+	// File reference¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/file_reference
 	FileReference []byte
 }
 
@@ -86,6 +92,19 @@ func (i *InputFileLocation) String() string {
 	}
 	type Alias InputFileLocation
 	return fmt.Sprintf("InputFileLocation%+v", Alias(*i))
+}
+
+// FillFrom fills InputFileLocation from given interface.
+func (i *InputFileLocation) FillFrom(from interface {
+	GetVolumeID() (value int64)
+	GetLocalID() (value int)
+	GetSecret() (value int64)
+	GetFileReference() (value []byte)
+}) {
+	i.VolumeID = from.GetVolumeID()
+	i.LocalID = from.GetLocalID()
+	i.Secret = from.GetSecret()
+	i.FileReference = from.GetFileReference()
 }
 
 // TypeID returns type id in TL schema.
@@ -232,10 +251,19 @@ func (i *InputFileLocation) GetFileReference() (value []byte) {
 }
 
 // InputEncryptedFileLocation represents TL type `inputEncryptedFileLocation#f5235d55`.
+// Location of encrypted secret chat file.
+//
+// See https://core.telegram.org/constructor/inputEncryptedFileLocation for reference.
 type InputEncryptedFileLocation struct {
-	// ID field of InputEncryptedFileLocation.
+	// File ID, id parameter value from encryptedFile¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/constructor/encryptedFile
 	ID int64
-	// AccessHash field of InputEncryptedFileLocation.
+	// Checksum, access_hash parameter value from encryptedFile¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/constructor/encryptedFile
 	AccessHash int64
 }
 
@@ -276,6 +304,15 @@ func (i *InputEncryptedFileLocation) String() string {
 	}
 	type Alias InputEncryptedFileLocation
 	return fmt.Sprintf("InputEncryptedFileLocation%+v", Alias(*i))
+}
+
+// FillFrom fills InputEncryptedFileLocation from given interface.
+func (i *InputEncryptedFileLocation) FillFrom(from interface {
+	GetID() (value int64)
+	GetAccessHash() (value int64)
+}) {
+	i.ID = from.GetID()
+	i.AccessHash = from.GetAccessHash()
 }
 
 // TypeID returns type id in TL schema.
@@ -382,14 +419,23 @@ func (i *InputEncryptedFileLocation) GetAccessHash() (value int64) {
 }
 
 // InputDocumentFileLocation represents TL type `inputDocumentFileLocation#bad07584`.
+// Document location (video, voice, audio, basically every type except photo)
+//
+// See https://core.telegram.org/constructor/inputDocumentFileLocation for reference.
 type InputDocumentFileLocation struct {
-	// ID field of InputDocumentFileLocation.
+	// Document ID
 	ID int64
-	// AccessHash field of InputDocumentFileLocation.
+	// access_hash parameter from the document¹ constructor
+	//
+	// Links:
+	//  1) https://core.telegram.org/constructor/document
 	AccessHash int64
-	// FileReference field of InputDocumentFileLocation.
+	// File reference¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/file_reference
 	FileReference []byte
-	// ThumbSize field of InputDocumentFileLocation.
+	// Thumbnail size to download the thumbnail
 	ThumbSize string
 }
 
@@ -436,6 +482,19 @@ func (i *InputDocumentFileLocation) String() string {
 	}
 	type Alias InputDocumentFileLocation
 	return fmt.Sprintf("InputDocumentFileLocation%+v", Alias(*i))
+}
+
+// FillFrom fills InputDocumentFileLocation from given interface.
+func (i *InputDocumentFileLocation) FillFrom(from interface {
+	GetID() (value int64)
+	GetAccessHash() (value int64)
+	GetFileReference() (value []byte)
+	GetThumbSize() (value string)
+}) {
+	i.ID = from.GetID()
+	i.AccessHash = from.GetAccessHash()
+	i.FileReference = from.GetFileReference()
+	i.ThumbSize = from.GetThumbSize()
 }
 
 // TypeID returns type id in TL schema.
@@ -582,10 +641,22 @@ func (i *InputDocumentFileLocation) GetThumbSize() (value string) {
 }
 
 // InputSecureFileLocation represents TL type `inputSecureFileLocation#cbc7ee28`.
+// Location of encrypted telegram passport¹ file.
+//
+// Links:
+//  1. https://core.telegram.org/passport
+//
+// See https://core.telegram.org/constructor/inputSecureFileLocation for reference.
 type InputSecureFileLocation struct {
-	// ID field of InputSecureFileLocation.
+	// File ID, id parameter value from secureFile¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/constructor/secureFile
 	ID int64
-	// AccessHash field of InputSecureFileLocation.
+	// Checksum, access_hash parameter value from secureFile¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/constructor/secureFile
 	AccessHash int64
 }
 
@@ -626,6 +697,15 @@ func (i *InputSecureFileLocation) String() string {
 	}
 	type Alias InputSecureFileLocation
 	return fmt.Sprintf("InputSecureFileLocation%+v", Alias(*i))
+}
+
+// FillFrom fills InputSecureFileLocation from given interface.
+func (i *InputSecureFileLocation) FillFrom(from interface {
+	GetID() (value int64)
+	GetAccessHash() (value int64)
+}) {
+	i.ID = from.GetID()
+	i.AccessHash = from.GetAccessHash()
 }
 
 // TypeID returns type id in TL schema.
@@ -732,6 +812,15 @@ func (i *InputSecureFileLocation) GetAccessHash() (value int64) {
 }
 
 // InputTakeoutFileLocation represents TL type `inputTakeoutFileLocation#29be5899`.
+// Used to download a JSON file that will contain all personal data related to features
+// that do not have a specialized takeout method¹ yet, see here »² for more info on
+// the takeout API.
+//
+// Links:
+//  1. https://core.telegram.org/api/takeout
+//  2. https://core.telegram.org/api/takeout
+//
+// See https://core.telegram.org/constructor/inputTakeoutFileLocation for reference.
 type InputTakeoutFileLocation struct {
 }
 
@@ -831,14 +920,34 @@ func (i *InputTakeoutFileLocation) DecodeBare(b *bin.Buffer) error {
 }
 
 // InputPhotoFileLocation represents TL type `inputPhotoFileLocation#40181ffe`.
+// Use this object to download a photo with upload.getFile¹ method
+//
+// Links:
+//  1. https://core.telegram.org/method/upload.getFile
+//
+// See https://core.telegram.org/constructor/inputPhotoFileLocation for reference.
 type InputPhotoFileLocation struct {
-	// ID field of InputPhotoFileLocation.
+	// Photo ID, obtained from the photo¹ object
+	//
+	// Links:
+	//  1) https://core.telegram.org/constructor/photo
 	ID int64
-	// AccessHash field of InputPhotoFileLocation.
+	// Photo's access hash, obtained from the photo¹ object
+	//
+	// Links:
+	//  1) https://core.telegram.org/constructor/photo
 	AccessHash int64
-	// FileReference field of InputPhotoFileLocation.
+	// File reference¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/file_reference
 	FileReference []byte
-	// ThumbSize field of InputPhotoFileLocation.
+	// The PhotoSize¹ to download: must be set to the type field of the desired PhotoSize
+	// object of the photo²
+	//
+	// Links:
+	//  1) https://core.telegram.org/type/PhotoSize
+	//  2) https://core.telegram.org/constructor/photo
 	ThumbSize string
 }
 
@@ -885,6 +994,19 @@ func (i *InputPhotoFileLocation) String() string {
 	}
 	type Alias InputPhotoFileLocation
 	return fmt.Sprintf("InputPhotoFileLocation%+v", Alias(*i))
+}
+
+// FillFrom fills InputPhotoFileLocation from given interface.
+func (i *InputPhotoFileLocation) FillFrom(from interface {
+	GetID() (value int64)
+	GetAccessHash() (value int64)
+	GetFileReference() (value []byte)
+	GetThumbSize() (value string)
+}) {
+	i.ID = from.GetID()
+	i.AccessHash = from.GetAccessHash()
+	i.FileReference = from.GetFileReference()
+	i.ThumbSize = from.GetThumbSize()
 }
 
 // TypeID returns type id in TL schema.
@@ -1031,18 +1153,21 @@ func (i *InputPhotoFileLocation) GetThumbSize() (value string) {
 }
 
 // InputPhotoLegacyFileLocation represents TL type `inputPhotoLegacyFileLocation#d83466f3`.
+// DEPRECATED legacy photo file location
+//
+// See https://core.telegram.org/constructor/inputPhotoLegacyFileLocation for reference.
 type InputPhotoLegacyFileLocation struct {
-	// ID field of InputPhotoLegacyFileLocation.
+	// Photo ID
 	ID int64
-	// AccessHash field of InputPhotoLegacyFileLocation.
+	// Access hash
 	AccessHash int64
-	// FileReference field of InputPhotoLegacyFileLocation.
+	// File reference
 	FileReference []byte
-	// VolumeID field of InputPhotoLegacyFileLocation.
+	// Volume ID
 	VolumeID int64
-	// LocalID field of InputPhotoLegacyFileLocation.
+	// Local ID
 	LocalID int
-	// Secret field of InputPhotoLegacyFileLocation.
+	// Secret
 	Secret int64
 }
 
@@ -1095,6 +1220,23 @@ func (i *InputPhotoLegacyFileLocation) String() string {
 	}
 	type Alias InputPhotoLegacyFileLocation
 	return fmt.Sprintf("InputPhotoLegacyFileLocation%+v", Alias(*i))
+}
+
+// FillFrom fills InputPhotoLegacyFileLocation from given interface.
+func (i *InputPhotoLegacyFileLocation) FillFrom(from interface {
+	GetID() (value int64)
+	GetAccessHash() (value int64)
+	GetFileReference() (value []byte)
+	GetVolumeID() (value int64)
+	GetLocalID() (value int)
+	GetSecret() (value int64)
+}) {
+	i.ID = from.GetID()
+	i.AccessHash = from.GetAccessHash()
+	i.FileReference = from.GetFileReference()
+	i.VolumeID = from.GetVolumeID()
+	i.LocalID = from.GetLocalID()
+	i.Secret = from.GetSecret()
 }
 
 // TypeID returns type id in TL schema.
@@ -1281,14 +1423,20 @@ func (i *InputPhotoLegacyFileLocation) GetSecret() (value int64) {
 }
 
 // InputPeerPhotoFileLocation represents TL type `inputPeerPhotoFileLocation#37257e99`.
+// Location of profile photo of channel/group/supergroup/user
+//
+// See https://core.telegram.org/constructor/inputPeerPhotoFileLocation for reference.
 type InputPeerPhotoFileLocation struct {
-	// Flags field of InputPeerPhotoFileLocation.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// Big field of InputPeerPhotoFileLocation.
+	// Whether to download the high-quality version of the picture
 	Big bool
-	// Peer field of InputPeerPhotoFileLocation.
+	// The peer whose profile picture should be downloaded
 	Peer InputPeerClass
-	// PhotoID field of InputPeerPhotoFileLocation.
+	// Photo ID
 	PhotoID int64
 }
 
@@ -1335,6 +1483,17 @@ func (i *InputPeerPhotoFileLocation) String() string {
 	}
 	type Alias InputPeerPhotoFileLocation
 	return fmt.Sprintf("InputPeerPhotoFileLocation%+v", Alias(*i))
+}
+
+// FillFrom fills InputPeerPhotoFileLocation from given interface.
+func (i *InputPeerPhotoFileLocation) FillFrom(from interface {
+	GetBig() (value bool)
+	GetPeer() (value InputPeerClass)
+	GetPhotoID() (value int64)
+}) {
+	i.Big = from.GetBig()
+	i.Peer = from.GetPeer()
+	i.PhotoID = from.GetPhotoID()
 }
 
 // TypeID returns type id in TL schema.
@@ -1487,10 +1646,16 @@ func (i *InputPeerPhotoFileLocation) GetPhotoID() (value int64) {
 }
 
 // InputStickerSetThumb represents TL type `inputStickerSetThumb#9d84f3db`.
+// Location of stickerset thumbnail (see files¹)
+//
+// Links:
+//  1. https://core.telegram.org/api/files
+//
+// See https://core.telegram.org/constructor/inputStickerSetThumb for reference.
 type InputStickerSetThumb struct {
-	// Stickerset field of InputStickerSetThumb.
+	// Sticker set
 	Stickerset InputStickerSetClass
-	// ThumbVersion field of InputStickerSetThumb.
+	// Thumbnail version
 	ThumbVersion int
 }
 
@@ -1531,6 +1696,15 @@ func (i *InputStickerSetThumb) String() string {
 	}
 	type Alias InputStickerSetThumb
 	return fmt.Sprintf("InputStickerSetThumb%+v", Alias(*i))
+}
+
+// FillFrom fills InputStickerSetThumb from given interface.
+func (i *InputStickerSetThumb) FillFrom(from interface {
+	GetStickerset() (value InputStickerSetClass)
+	GetThumbVersion() (value int)
+}) {
+	i.Stickerset = from.GetStickerset()
+	i.ThumbVersion = from.GetThumbVersion()
 }
 
 // TypeID returns type id in TL schema.
@@ -1642,20 +1816,27 @@ func (i *InputStickerSetThumb) GetThumbVersion() (value int) {
 }
 
 // InputGroupCallStream represents TL type `inputGroupCallStream#598a92a`.
+// Chunk of a livestream
+//
+// See https://core.telegram.org/constructor/inputGroupCallStream for reference.
 type InputGroupCallStream struct {
-	// Flags field of InputGroupCallStream.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// Call field of InputGroupCallStream.
+	// Livestream info
 	Call InputGroupCall
-	// TimeMs field of InputGroupCallStream.
+	// Timestamp in milliseconds
 	TimeMs int64
-	// Scale field of InputGroupCallStream.
+	// Specifies the duration of the video segment to fetch in milliseconds, by bitshifting
+	// 1000 to the right scale times: duration_ms := 1000 >> scale
 	Scale int
-	// VideoChannel field of InputGroupCallStream.
+	// Selected video channel
 	//
 	// Use SetVideoChannel and GetVideoChannel helpers.
 	VideoChannel int
-	// VideoQuality field of InputGroupCallStream.
+	// Selected video quality (0 = lowest, 1 = medium, 2 = best)
 	//
 	// Use SetVideoQuality and GetVideoQuality helpers.
 	VideoQuality int
@@ -1710,6 +1891,27 @@ func (i *InputGroupCallStream) String() string {
 	}
 	type Alias InputGroupCallStream
 	return fmt.Sprintf("InputGroupCallStream%+v", Alias(*i))
+}
+
+// FillFrom fills InputGroupCallStream from given interface.
+func (i *InputGroupCallStream) FillFrom(from interface {
+	GetCall() (value InputGroupCall)
+	GetTimeMs() (value int64)
+	GetScale() (value int)
+	GetVideoChannel() (value int, ok bool)
+	GetVideoQuality() (value int, ok bool)
+}) {
+	i.Call = from.GetCall()
+	i.TimeMs = from.GetTimeMs()
+	i.Scale = from.GetScale()
+	if val, ok := from.GetVideoChannel(); ok {
+		i.VideoChannel = val
+	}
+
+	if val, ok := from.GetVideoQuality(); ok {
+		i.VideoQuality = val
+	}
+
 }
 
 // TypeID returns type id in TL schema.
@@ -1924,6 +2126,8 @@ func (i *InputGroupCallStream) GetVideoQuality() (value int, ok bool) {
 const InputFileLocationClassName = "InputFileLocation"
 
 // InputFileLocationClass represents InputFileLocation generic type.
+//
+// See https://core.telegram.org/type/InputFileLocation for reference.
 //
 // Constructors:
 //   - [InputFileLocation]

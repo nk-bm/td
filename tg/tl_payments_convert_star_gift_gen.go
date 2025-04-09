@@ -32,10 +32,29 @@ var (
 )
 
 // PaymentsConvertStarGiftRequest represents TL type `payments.convertStarGift#421e027`.
+// Convert a received gift »¹ into Telegram Stars: this will permanently destroy the
+// gift, converting it into starGift².convert_stars Telegram Stars³, added to the
+// user's balance.
+// Note that starGift¹.convert_stars will be less than the buying price (starGift²
+// stars) of the gift if it was originally bought using Telegram Stars bought a long time
+// ago.
+//
+// Links:
+//  1. https://core.telegram.org/api/gifts
+//  2. https://core.telegram.org/constructor/starGift
+//  3. https://core.telegram.org/api/stars
+//  4. https://core.telegram.org/constructor/starGift
+//  5. https://core.telegram.org/constructor/starGift
+//
+// See https://core.telegram.org/method/payments.convertStarGift for reference.
 type PaymentsConvertStarGiftRequest struct {
-	// UserID field of PaymentsConvertStarGiftRequest.
+	// ID of the user that sent us the gift.
 	UserID InputUserClass
-	// MsgID field of PaymentsConvertStarGiftRequest.
+	// The ID of the messageService¹ with the messageActionStarGift².
+	//
+	// Links:
+	//  1) https://core.telegram.org/constructor/messageService
+	//  2) https://core.telegram.org/constructor/messageActionStarGift
 	MsgID int
 }
 
@@ -71,6 +90,15 @@ func (c *PaymentsConvertStarGiftRequest) String() string {
 	}
 	type Alias PaymentsConvertStarGiftRequest
 	return fmt.Sprintf("PaymentsConvertStarGiftRequest%+v", Alias(*c))
+}
+
+// FillFrom fills PaymentsConvertStarGiftRequest from given interface.
+func (c *PaymentsConvertStarGiftRequest) FillFrom(from interface {
+	GetUserID() (value InputUserClass)
+	GetMsgID() (value int)
+}) {
+	c.UserID = from.GetUserID()
+	c.MsgID = from.GetMsgID()
 }
 
 // TypeID returns type id in TL schema.
@@ -182,6 +210,25 @@ func (c *PaymentsConvertStarGiftRequest) GetMsgID() (value int) {
 }
 
 // PaymentsConvertStarGift invokes method payments.convertStarGift#421e027 returning error if any.
+// Convert a received gift »¹ into Telegram Stars: this will permanently destroy the
+// gift, converting it into starGift².convert_stars Telegram Stars³, added to the
+// user's balance.
+// Note that starGift¹.convert_stars will be less than the buying price (starGift²
+// stars) of the gift if it was originally bought using Telegram Stars bought a long time
+// ago.
+//
+// Links:
+//  1. https://core.telegram.org/api/gifts
+//  2. https://core.telegram.org/constructor/starGift
+//  3. https://core.telegram.org/api/stars
+//  4. https://core.telegram.org/constructor/starGift
+//  5. https://core.telegram.org/constructor/starGift
+//
+// Possible errors:
+//
+//	400 USER_ID_INVALID: The provided user ID is invalid.
+//
+// See https://core.telegram.org/method/payments.convertStarGift for reference.
 func (c *Client) PaymentsConvertStarGift(ctx context.Context, request *PaymentsConvertStarGiftRequest) (bool, error) {
 	var result BoolBox
 

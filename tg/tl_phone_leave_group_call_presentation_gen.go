@@ -32,8 +32,11 @@ var (
 )
 
 // PhoneLeaveGroupCallPresentationRequest represents TL type `phone.leaveGroupCallPresentation#1c50d144`.
+// Stop screen sharing in a group call
+//
+// See https://core.telegram.org/method/phone.leaveGroupCallPresentation for reference.
 type PhoneLeaveGroupCallPresentationRequest struct {
-	// Call field of PhoneLeaveGroupCallPresentationRequest.
+	// The group call
 	Call InputGroupCall
 }
 
@@ -66,6 +69,13 @@ func (l *PhoneLeaveGroupCallPresentationRequest) String() string {
 	}
 	type Alias PhoneLeaveGroupCallPresentationRequest
 	return fmt.Sprintf("PhoneLeaveGroupCallPresentationRequest%+v", Alias(*l))
+}
+
+// FillFrom fills PhoneLeaveGroupCallPresentationRequest from given interface.
+func (l *PhoneLeaveGroupCallPresentationRequest) FillFrom(from interface {
+	GetCall() (value InputGroupCall)
+}) {
+	l.Call = from.GetCall()
 }
 
 // TypeID returns type id in TL schema.
@@ -152,6 +162,13 @@ func (l *PhoneLeaveGroupCallPresentationRequest) GetCall() (value InputGroupCall
 }
 
 // PhoneLeaveGroupCallPresentation invokes method phone.leaveGroupCallPresentation#1c50d144 returning error if any.
+// Stop screen sharing in a group call
+//
+// Possible errors:
+//
+//	400 GROUPCALL_INVALID: The specified group call is invalid.
+//
+// See https://core.telegram.org/method/phone.leaveGroupCallPresentation for reference.
 func (c *Client) PhoneLeaveGroupCallPresentation(ctx context.Context, call InputGroupCall) (UpdatesClass, error) {
 	var result UpdatesBox
 

@@ -32,8 +32,11 @@ var (
 )
 
 // HelpPromoDataEmpty represents TL type `help.promoDataEmpty#98f6ac75`.
+// No PSA/MTProxy info is available
+//
+// See https://core.telegram.org/constructor/help.promoDataEmpty for reference.
 type HelpPromoDataEmpty struct {
-	// Expires field of HelpPromoDataEmpty.
+	// Re-fetch PSA/MTProxy info after the specified number of seconds
 	Expires int
 }
 
@@ -71,6 +74,13 @@ func (p *HelpPromoDataEmpty) String() string {
 	}
 	type Alias HelpPromoDataEmpty
 	return fmt.Sprintf("HelpPromoDataEmpty%+v", Alias(*p))
+}
+
+// FillFrom fills HelpPromoDataEmpty from given interface.
+func (p *HelpPromoDataEmpty) FillFrom(from interface {
+	GetExpires() (value int)
+}) {
+	p.Expires = from.GetExpires()
 }
 
 // TypeID returns type id in TL schema.
@@ -157,24 +167,30 @@ func (p *HelpPromoDataEmpty) GetExpires() (value int) {
 }
 
 // HelpPromoData represents TL type `help.promoData#8c39793f`.
+// MTProxy/Public Service Announcement information
+//
+// See https://core.telegram.org/constructor/help.promoData for reference.
 type HelpPromoData struct {
-	// Flags field of HelpPromoData.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// Proxy field of HelpPromoData.
+	// MTProxy-related channel
 	Proxy bool
-	// Expires field of HelpPromoData.
+	// Expiry of PSA/MTProxy info
 	Expires int
-	// Peer field of HelpPromoData.
+	// MTProxy/PSA peer
 	Peer PeerClass
-	// Chats field of HelpPromoData.
+	// Chat info
 	Chats []ChatClass
-	// Users field of HelpPromoData.
+	// User info
 	Users []UserClass
-	// PsaType field of HelpPromoData.
+	// PSA type
 	//
 	// Use SetPsaType and GetPsaType helpers.
 	PsaType string
-	// PsaMessage field of HelpPromoData.
+	// PSA message
 	//
 	// Use SetPsaMessage and GetPsaMessage helpers.
 	PsaMessage string
@@ -235,6 +251,31 @@ func (p *HelpPromoData) String() string {
 	}
 	type Alias HelpPromoData
 	return fmt.Sprintf("HelpPromoData%+v", Alias(*p))
+}
+
+// FillFrom fills HelpPromoData from given interface.
+func (p *HelpPromoData) FillFrom(from interface {
+	GetProxy() (value bool)
+	GetExpires() (value int)
+	GetPeer() (value PeerClass)
+	GetChats() (value []ChatClass)
+	GetUsers() (value []UserClass)
+	GetPsaType() (value string, ok bool)
+	GetPsaMessage() (value string, ok bool)
+}) {
+	p.Proxy = from.GetProxy()
+	p.Expires = from.GetExpires()
+	p.Peer = from.GetPeer()
+	p.Chats = from.GetChats()
+	p.Users = from.GetUsers()
+	if val, ok := from.GetPsaType(); ok {
+		p.PsaType = val
+	}
+
+	if val, ok := from.GetPsaMessage(); ok {
+		p.PsaMessage = val
+	}
+
 }
 
 // TypeID returns type id in TL schema.
@@ -534,10 +575,22 @@ func (p *HelpPromoData) GetPsaMessage() (value string, ok bool) {
 	return p.PsaMessage, true
 }
 
+// MapChats returns field Chats wrapped in ChatClassArray helper.
+func (p *HelpPromoData) MapChats() (value ChatClassArray) {
+	return ChatClassArray(p.Chats)
+}
+
+// MapUsers returns field Users wrapped in UserClassArray helper.
+func (p *HelpPromoData) MapUsers() (value UserClassArray) {
+	return UserClassArray(p.Users)
+}
+
 // HelpPromoDataClassName is schema name of HelpPromoDataClass.
 const HelpPromoDataClassName = "help.PromoData"
 
 // HelpPromoDataClass represents help.PromoData generic type.
+//
+// See https://core.telegram.org/type/help.PromoData for reference.
 //
 // Constructors:
 //   - [HelpPromoDataEmpty]
@@ -572,8 +625,21 @@ type HelpPromoDataClass interface {
 	// Zero returns true if current object has a zero value.
 	Zero() bool
 
-	// Expires field of HelpPromoDataEmpty.
+	// Re-fetch PSA/MTProxy info after the specified number of seconds
 	GetExpires() (value int)
+
+	// AsNotEmpty tries to map HelpPromoDataClass to HelpPromoData.
+	AsNotEmpty() (*HelpPromoData, bool)
+}
+
+// AsNotEmpty tries to map HelpPromoDataEmpty to HelpPromoData.
+func (p *HelpPromoDataEmpty) AsNotEmpty() (*HelpPromoData, bool) {
+	return nil, false
+}
+
+// AsNotEmpty tries to map HelpPromoData to HelpPromoData.
+func (p *HelpPromoData) AsNotEmpty() (*HelpPromoData, bool) {
+	return p, true
 }
 
 // DecodeHelpPromoData implements binary de-serialization for HelpPromoDataClass.

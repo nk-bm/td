@@ -32,6 +32,9 @@ var (
 )
 
 // PhoneCallDiscardReasonMissed represents TL type `phoneCallDiscardReasonMissed#85e42301`.
+// The phone call was missed
+//
+// See https://core.telegram.org/constructor/phoneCallDiscardReasonMissed for reference.
 type PhoneCallDiscardReasonMissed struct {
 }
 
@@ -131,6 +134,9 @@ func (p *PhoneCallDiscardReasonMissed) DecodeBare(b *bin.Buffer) error {
 }
 
 // PhoneCallDiscardReasonDisconnect represents TL type `phoneCallDiscardReasonDisconnect#e095c1a0`.
+// The phone call was disconnected
+//
+// See https://core.telegram.org/constructor/phoneCallDiscardReasonDisconnect for reference.
 type PhoneCallDiscardReasonDisconnect struct {
 }
 
@@ -230,6 +236,9 @@ func (p *PhoneCallDiscardReasonDisconnect) DecodeBare(b *bin.Buffer) error {
 }
 
 // PhoneCallDiscardReasonHangup represents TL type `phoneCallDiscardReasonHangup#57adc690`.
+// The phone call was ended normally
+//
+// See https://core.telegram.org/constructor/phoneCallDiscardReasonHangup for reference.
 type PhoneCallDiscardReasonHangup struct {
 }
 
@@ -329,6 +338,9 @@ func (p *PhoneCallDiscardReasonHangup) DecodeBare(b *bin.Buffer) error {
 }
 
 // PhoneCallDiscardReasonBusy represents TL type `phoneCallDiscardReasonBusy#faf7e8c9`.
+// The phone call was discarded because the user is busy in another call
+//
+// See https://core.telegram.org/constructor/phoneCallDiscardReasonBusy for reference.
 type PhoneCallDiscardReasonBusy struct {
 }
 
@@ -431,6 +443,8 @@ func (p *PhoneCallDiscardReasonBusy) DecodeBare(b *bin.Buffer) error {
 const PhoneCallDiscardReasonClassName = "PhoneCallDiscardReason"
 
 // PhoneCallDiscardReasonClass represents PhoneCallDiscardReason generic type.
+//
+// See https://core.telegram.org/type/PhoneCallDiscardReason for reference.
 //
 // Constructors:
 //   - [PhoneCallDiscardReasonMissed]

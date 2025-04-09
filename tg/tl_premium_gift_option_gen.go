@@ -32,18 +32,37 @@ var (
 )
 
 // PremiumGiftOption represents TL type `premiumGiftOption#74c34319`.
+// Telegram Premium gift option
+//
+// See https://core.telegram.org/constructor/premiumGiftOption for reference.
 type PremiumGiftOption struct {
-	// Flags field of PremiumGiftOption.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// Months field of PremiumGiftOption.
+	// Duration of gifted Telegram Premium subscription
 	Months int
-	// Currency field of PremiumGiftOption.
+	// Three-letter ISO 4217 currency¹ code
+	//
+	// Links:
+	//  1) https://core.telegram.org/bots/payments#supported-currencies
 	Currency string
-	// Amount field of PremiumGiftOption.
+	// Price of the product in the smallest units of the currency (integer, not float/double)
+	// For example, for a price of US$ 1.45 pass amount = 145. See the exp parameter in
+	// currencies.json¹, it shows the number of digits past the decimal point for each
+	// currency (2 for the majority of currencies).
+	//
+	// Links:
+	//  1) https://core.telegram.org/bots/payments/currencies.json
 	Amount int64
-	// BotURL field of PremiumGiftOption.
+	// An invoice deep link »¹ to an invoice for in-app payment, using the official Premium
+	// bot; may be empty if direct payment isn't available.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/links#invoice-links
 	BotURL string
-	// StoreProduct field of PremiumGiftOption.
+	// An identifier for the App Store/Play Store product associated with the Premium gift.
 	//
 	// Use SetStoreProduct and GetStoreProduct helpers.
 	StoreProduct string
@@ -93,6 +112,24 @@ func (p *PremiumGiftOption) String() string {
 	}
 	type Alias PremiumGiftOption
 	return fmt.Sprintf("PremiumGiftOption%+v", Alias(*p))
+}
+
+// FillFrom fills PremiumGiftOption from given interface.
+func (p *PremiumGiftOption) FillFrom(from interface {
+	GetMonths() (value int)
+	GetCurrency() (value string)
+	GetAmount() (value int64)
+	GetBotURL() (value string)
+	GetStoreProduct() (value string, ok bool)
+}) {
+	p.Months = from.GetMonths()
+	p.Currency = from.GetCurrency()
+	p.Amount = from.GetAmount()
+	p.BotURL = from.GetBotURL()
+	if val, ok := from.GetStoreProduct(); ok {
+		p.StoreProduct = val
+	}
+
 }
 
 // TypeID returns type id in TL schema.

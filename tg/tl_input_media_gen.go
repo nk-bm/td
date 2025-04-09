@@ -32,6 +32,9 @@ var (
 )
 
 // InputMediaEmpty represents TL type `inputMediaEmpty#9664f57f`.
+// Empty media content of a message.
+//
+// See https://core.telegram.org/constructor/inputMediaEmpty for reference.
 type InputMediaEmpty struct {
 }
 
@@ -131,18 +134,27 @@ func (i *InputMediaEmpty) DecodeBare(b *bin.Buffer) error {
 }
 
 // InputMediaUploadedPhoto represents TL type `inputMediaUploadedPhoto#1e287d04`.
+// Photo
+//
+// See https://core.telegram.org/constructor/inputMediaUploadedPhoto for reference.
 type InputMediaUploadedPhoto struct {
-	// Flags field of InputMediaUploadedPhoto.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// Spoiler field of InputMediaUploadedPhoto.
+	// Whether this media should be hidden behind a spoiler warning
 	Spoiler bool
-	// File field of InputMediaUploadedPhoto.
+	// The uploaded file¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/files
 	File InputFileClass
-	// Stickers field of InputMediaUploadedPhoto.
+	// Attached mask stickers
 	//
 	// Use SetStickers and GetStickers helpers.
 	Stickers []InputDocumentClass
-	// TTLSeconds field of InputMediaUploadedPhoto.
+	// Time to live in seconds of self-destructing photo
 	//
 	// Use SetTTLSeconds and GetTTLSeconds helpers.
 	TTLSeconds int
@@ -194,6 +206,25 @@ func (i *InputMediaUploadedPhoto) String() string {
 	}
 	type Alias InputMediaUploadedPhoto
 	return fmt.Sprintf("InputMediaUploadedPhoto%+v", Alias(*i))
+}
+
+// FillFrom fills InputMediaUploadedPhoto from given interface.
+func (i *InputMediaUploadedPhoto) FillFrom(from interface {
+	GetSpoiler() (value bool)
+	GetFile() (value InputFileClass)
+	GetStickers() (value []InputDocumentClass, ok bool)
+	GetTTLSeconds() (value int, ok bool)
+}) {
+	i.Spoiler = from.GetSpoiler()
+	i.File = from.GetFile()
+	if val, ok := from.GetStickers(); ok {
+		i.Stickers = val
+	}
+
+	if val, ok := from.GetTTLSeconds(); ok {
+		i.TTLSeconds = val
+	}
+
 }
 
 // TypeID returns type id in TL schema.
@@ -415,15 +446,29 @@ func (i *InputMediaUploadedPhoto) GetTTLSeconds() (value int, ok bool) {
 	return i.TTLSeconds, true
 }
 
+// MapStickers returns field Stickers wrapped in InputDocumentClassArray helper.
+func (i *InputMediaUploadedPhoto) MapStickers() (value InputDocumentClassArray, ok bool) {
+	if !i.Flags.Has(0) {
+		return value, false
+	}
+	return InputDocumentClassArray(i.Stickers), true
+}
+
 // InputMediaPhoto represents TL type `inputMediaPhoto#b3ba0635`.
+// Forwarded photo
+//
+// See https://core.telegram.org/constructor/inputMediaPhoto for reference.
 type InputMediaPhoto struct {
-	// Flags field of InputMediaPhoto.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// Spoiler field of InputMediaPhoto.
+	// Whether this media should be hidden behind a spoiler warning
 	Spoiler bool
-	// ID field of InputMediaPhoto.
+	// Photo to be forwarded
 	ID InputPhotoClass
-	// TTLSeconds field of InputMediaPhoto.
+	// Time to live in seconds of self-destructing photo
 	//
 	// Use SetTTLSeconds and GetTTLSeconds helpers.
 	TTLSeconds int
@@ -472,6 +517,20 @@ func (i *InputMediaPhoto) String() string {
 	}
 	type Alias InputMediaPhoto
 	return fmt.Sprintf("InputMediaPhoto%+v", Alias(*i))
+}
+
+// FillFrom fills InputMediaPhoto from given interface.
+func (i *InputMediaPhoto) FillFrom(from interface {
+	GetSpoiler() (value bool)
+	GetID() (value InputPhotoClass)
+	GetTTLSeconds() (value int, ok bool)
+}) {
+	i.Spoiler = from.GetSpoiler()
+	i.ID = from.GetID()
+	if val, ok := from.GetTTLSeconds(); ok {
+		i.TTLSeconds = val
+	}
+
 }
 
 // TypeID returns type id in TL schema.
@@ -640,8 +699,11 @@ func (i *InputMediaPhoto) GetTTLSeconds() (value int, ok bool) {
 }
 
 // InputMediaGeoPoint represents TL type `inputMediaGeoPoint#f9c44144`.
+// Map.
+//
+// See https://core.telegram.org/constructor/inputMediaGeoPoint for reference.
 type InputMediaGeoPoint struct {
-	// GeoPoint field of InputMediaGeoPoint.
+	// GeoPoint
 	GeoPoint InputGeoPointClass
 }
 
@@ -679,6 +741,13 @@ func (i *InputMediaGeoPoint) String() string {
 	}
 	type Alias InputMediaGeoPoint
 	return fmt.Sprintf("InputMediaGeoPoint%+v", Alias(*i))
+}
+
+// FillFrom fills InputMediaGeoPoint from given interface.
+func (i *InputMediaGeoPoint) FillFrom(from interface {
+	GetGeoPoint() (value InputGeoPointClass)
+}) {
+	i.GeoPoint = from.GetGeoPoint()
 }
 
 // TypeID returns type id in TL schema.
@@ -770,14 +839,17 @@ func (i *InputMediaGeoPoint) GetGeoPoint() (value InputGeoPointClass) {
 }
 
 // InputMediaContact represents TL type `inputMediaContact#f8ab7dfb`.
+// Phone book contact
+//
+// See https://core.telegram.org/constructor/inputMediaContact for reference.
 type InputMediaContact struct {
-	// PhoneNumber field of InputMediaContact.
+	// Phone number
 	PhoneNumber string
-	// FirstName field of InputMediaContact.
+	// Contact's first name
 	FirstName string
-	// LastName field of InputMediaContact.
+	// Contact's last name
 	LastName string
-	// Vcard field of InputMediaContact.
+	// Contact vcard
 	Vcard string
 }
 
@@ -824,6 +896,19 @@ func (i *InputMediaContact) String() string {
 	}
 	type Alias InputMediaContact
 	return fmt.Sprintf("InputMediaContact%+v", Alias(*i))
+}
+
+// FillFrom fills InputMediaContact from given interface.
+func (i *InputMediaContact) FillFrom(from interface {
+	GetPhoneNumber() (value string)
+	GetFirstName() (value string)
+	GetLastName() (value string)
+	GetVcard() (value string)
+}) {
+	i.PhoneNumber = from.GetPhoneNumber()
+	i.FirstName = from.GetFirstName()
+	i.LastName = from.GetLastName()
+	i.Vcard = from.GetVcard()
 }
 
 // TypeID returns type id in TL schema.
@@ -970,30 +1055,40 @@ func (i *InputMediaContact) GetVcard() (value string) {
 }
 
 // InputMediaUploadedDocument represents TL type `inputMediaUploadedDocument#5b38c6c1`.
+// New document
+//
+// See https://core.telegram.org/constructor/inputMediaUploadedDocument for reference.
 type InputMediaUploadedDocument struct {
-	// Flags field of InputMediaUploadedDocument.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// NosoundVideo field of InputMediaUploadedDocument.
+	// Whether the specified document is a video file with no audio tracks (a GIF animation
+	// (even as MPEG4), for example)
 	NosoundVideo bool
-	// ForceFile field of InputMediaUploadedDocument.
+	// Force the media file to be uploaded as document
 	ForceFile bool
-	// Spoiler field of InputMediaUploadedDocument.
+	// Whether this media should be hidden behind a spoiler warning
 	Spoiler bool
-	// File field of InputMediaUploadedDocument.
+	// The uploaded file¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/files
 	File InputFileClass
-	// Thumb field of InputMediaUploadedDocument.
+	// Thumbnail of the document, uploaded as for the file
 	//
 	// Use SetThumb and GetThumb helpers.
 	Thumb InputFileClass
-	// MimeType field of InputMediaUploadedDocument.
+	// MIME type of document
 	MimeType string
-	// Attributes field of InputMediaUploadedDocument.
+	// Attributes that specify the type of the document (video, audio, voice, sticker, etc.)
 	Attributes []DocumentAttributeClass
-	// Stickers field of InputMediaUploadedDocument.
+	// Attached stickers
 	//
 	// Use SetStickers and GetStickers helpers.
 	Stickers []InputDocumentClass
-	// TTLSeconds field of InputMediaUploadedDocument.
+	// Time to live in seconds of self-destructing document
 	//
 	// Use SetTTLSeconds and GetTTLSeconds helpers.
 	TTLSeconds int
@@ -1060,6 +1155,38 @@ func (i *InputMediaUploadedDocument) String() string {
 	}
 	type Alias InputMediaUploadedDocument
 	return fmt.Sprintf("InputMediaUploadedDocument%+v", Alias(*i))
+}
+
+// FillFrom fills InputMediaUploadedDocument from given interface.
+func (i *InputMediaUploadedDocument) FillFrom(from interface {
+	GetNosoundVideo() (value bool)
+	GetForceFile() (value bool)
+	GetSpoiler() (value bool)
+	GetFile() (value InputFileClass)
+	GetThumb() (value InputFileClass, ok bool)
+	GetMimeType() (value string)
+	GetAttributes() (value []DocumentAttributeClass)
+	GetStickers() (value []InputDocumentClass, ok bool)
+	GetTTLSeconds() (value int, ok bool)
+}) {
+	i.NosoundVideo = from.GetNosoundVideo()
+	i.ForceFile = from.GetForceFile()
+	i.Spoiler = from.GetSpoiler()
+	i.File = from.GetFile()
+	if val, ok := from.GetThumb(); ok {
+		i.Thumb = val
+	}
+
+	i.MimeType = from.GetMimeType()
+	i.Attributes = from.GetAttributes()
+	if val, ok := from.GetStickers(); ok {
+		i.Stickers = val
+	}
+
+	if val, ok := from.GetTTLSeconds(); ok {
+		i.TTLSeconds = val
+	}
+
 }
 
 // TypeID returns type id in TL schema.
@@ -1436,19 +1563,39 @@ func (i *InputMediaUploadedDocument) GetTTLSeconds() (value int, ok bool) {
 	return i.TTLSeconds, true
 }
 
+// MapAttributes returns field Attributes wrapped in DocumentAttributeClassArray helper.
+func (i *InputMediaUploadedDocument) MapAttributes() (value DocumentAttributeClassArray) {
+	return DocumentAttributeClassArray(i.Attributes)
+}
+
+// MapStickers returns field Stickers wrapped in InputDocumentClassArray helper.
+func (i *InputMediaUploadedDocument) MapStickers() (value InputDocumentClassArray, ok bool) {
+	if !i.Flags.Has(0) {
+		return value, false
+	}
+	return InputDocumentClassArray(i.Stickers), true
+}
+
 // InputMediaDocument represents TL type `inputMediaDocument#33473058`.
+// Forwarded document
+//
+// See https://core.telegram.org/constructor/inputMediaDocument for reference.
 type InputMediaDocument struct {
-	// Flags field of InputMediaDocument.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// Spoiler field of InputMediaDocument.
+	// Whether this media should be hidden behind a spoiler warning
 	Spoiler bool
-	// ID field of InputMediaDocument.
+	// The document to be forwarded.
 	ID InputDocumentClass
-	// TTLSeconds field of InputMediaDocument.
+	// Time to live of self-destructing document
 	//
 	// Use SetTTLSeconds and GetTTLSeconds helpers.
 	TTLSeconds int
-	// Query field of InputMediaDocument.
+	// Text query or emoji that was used by the user to find this sticker or GIF: used to
+	// improve search result relevance.
 	//
 	// Use SetQuery and GetQuery helpers.
 	Query string
@@ -1500,6 +1647,25 @@ func (i *InputMediaDocument) String() string {
 	}
 	type Alias InputMediaDocument
 	return fmt.Sprintf("InputMediaDocument%+v", Alias(*i))
+}
+
+// FillFrom fills InputMediaDocument from given interface.
+func (i *InputMediaDocument) FillFrom(from interface {
+	GetSpoiler() (value bool)
+	GetID() (value InputDocumentClass)
+	GetTTLSeconds() (value int, ok bool)
+	GetQuery() (value string, ok bool)
+}) {
+	i.Spoiler = from.GetSpoiler()
+	i.ID = from.GetID()
+	if val, ok := from.GetTTLSeconds(); ok {
+		i.TTLSeconds = val
+	}
+
+	if val, ok := from.GetQuery(); ok {
+		i.Query = val
+	}
+
 }
 
 // TypeID returns type id in TL schema.
@@ -1704,18 +1870,22 @@ func (i *InputMediaDocument) GetQuery() (value string, ok bool) {
 }
 
 // InputMediaVenue represents TL type `inputMediaVenue#c13d1c11`.
+// Can be used to send a venue geolocation.
+//
+// See https://core.telegram.org/constructor/inputMediaVenue for reference.
 type InputMediaVenue struct {
-	// GeoPoint field of InputMediaVenue.
+	// Geolocation
 	GeoPoint InputGeoPointClass
-	// Title field of InputMediaVenue.
+	// Venue name
 	Title string
-	// Address field of InputMediaVenue.
+	// Physical address of the venue
 	Address string
-	// Provider field of InputMediaVenue.
+	// Venue provider: currently only "foursquare" and "gplaces" (Google Places) need to be
+	// supported
 	Provider string
-	// VenueID field of InputMediaVenue.
+	// Venue ID in the provider's database
 	VenueID string
-	// VenueType field of InputMediaVenue.
+	// Venue type in the provider's database
 	VenueType string
 }
 
@@ -1768,6 +1938,23 @@ func (i *InputMediaVenue) String() string {
 	}
 	type Alias InputMediaVenue
 	return fmt.Sprintf("InputMediaVenue%+v", Alias(*i))
+}
+
+// FillFrom fills InputMediaVenue from given interface.
+func (i *InputMediaVenue) FillFrom(from interface {
+	GetGeoPoint() (value InputGeoPointClass)
+	GetTitle() (value string)
+	GetAddress() (value string)
+	GetProvider() (value string)
+	GetVenueID() (value string)
+	GetVenueType() (value string)
+}) {
+	i.GeoPoint = from.GetGeoPoint()
+	i.Title = from.GetTitle()
+	i.Address = from.GetAddress()
+	i.Provider = from.GetProvider()
+	i.VenueID = from.GetVenueID()
+	i.VenueType = from.GetVenueType()
 }
 
 // TypeID returns type id in TL schema.
@@ -1959,14 +2146,20 @@ func (i *InputMediaVenue) GetVenueType() (value string) {
 }
 
 // InputMediaPhotoExternal represents TL type `inputMediaPhotoExternal#e5bbfe1a`.
+// New photo that will be uploaded by the server using the specified URL
+//
+// See https://core.telegram.org/constructor/inputMediaPhotoExternal for reference.
 type InputMediaPhotoExternal struct {
-	// Flags field of InputMediaPhotoExternal.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// Spoiler field of InputMediaPhotoExternal.
+	// Whether this media should be hidden behind a spoiler warning
 	Spoiler bool
-	// URL field of InputMediaPhotoExternal.
+	// URL of the photo
 	URL string
-	// TTLSeconds field of InputMediaPhotoExternal.
+	// Self-destruct time to live of photo
 	//
 	// Use SetTTLSeconds and GetTTLSeconds helpers.
 	TTLSeconds int
@@ -2015,6 +2208,20 @@ func (i *InputMediaPhotoExternal) String() string {
 	}
 	type Alias InputMediaPhotoExternal
 	return fmt.Sprintf("InputMediaPhotoExternal%+v", Alias(*i))
+}
+
+// FillFrom fills InputMediaPhotoExternal from given interface.
+func (i *InputMediaPhotoExternal) FillFrom(from interface {
+	GetSpoiler() (value bool)
+	GetURL() (value string)
+	GetTTLSeconds() (value int, ok bool)
+}) {
+	i.Spoiler = from.GetSpoiler()
+	i.URL = from.GetURL()
+	if val, ok := from.GetTTLSeconds(); ok {
+		i.TTLSeconds = val
+	}
+
 }
 
 // TypeID returns type id in TL schema.
@@ -2178,14 +2385,20 @@ func (i *InputMediaPhotoExternal) GetTTLSeconds() (value int, ok bool) {
 }
 
 // InputMediaDocumentExternal represents TL type `inputMediaDocumentExternal#fb52dc99`.
+// Document that will be downloaded by the telegram servers
+//
+// See https://core.telegram.org/constructor/inputMediaDocumentExternal for reference.
 type InputMediaDocumentExternal struct {
-	// Flags field of InputMediaDocumentExternal.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// Spoiler field of InputMediaDocumentExternal.
+	// Whether this media should be hidden behind a spoiler warning
 	Spoiler bool
-	// URL field of InputMediaDocumentExternal.
+	// URL of the document
 	URL string
-	// TTLSeconds field of InputMediaDocumentExternal.
+	// Self-destruct time to live of document
 	//
 	// Use SetTTLSeconds and GetTTLSeconds helpers.
 	TTLSeconds int
@@ -2234,6 +2447,20 @@ func (i *InputMediaDocumentExternal) String() string {
 	}
 	type Alias InputMediaDocumentExternal
 	return fmt.Sprintf("InputMediaDocumentExternal%+v", Alias(*i))
+}
+
+// FillFrom fills InputMediaDocumentExternal from given interface.
+func (i *InputMediaDocumentExternal) FillFrom(from interface {
+	GetSpoiler() (value bool)
+	GetURL() (value string)
+	GetTTLSeconds() (value int, ok bool)
+}) {
+	i.Spoiler = from.GetSpoiler()
+	i.URL = from.GetURL()
+	if val, ok := from.GetTTLSeconds(); ok {
+		i.TTLSeconds = val
+	}
+
 }
 
 // TypeID returns type id in TL schema.
@@ -2397,8 +2624,11 @@ func (i *InputMediaDocumentExternal) GetTTLSeconds() (value int, ok bool) {
 }
 
 // InputMediaGame represents TL type `inputMediaGame#d33f43f3`.
+// A game
+//
+// See https://core.telegram.org/constructor/inputMediaGame for reference.
 type InputMediaGame struct {
-	// ID field of InputMediaGame.
+	// The game to forward
 	ID InputGameClass
 }
 
@@ -2436,6 +2666,13 @@ func (i *InputMediaGame) String() string {
 	}
 	type Alias InputMediaGame
 	return fmt.Sprintf("InputMediaGame%+v", Alias(*i))
+}
+
+// FillFrom fills InputMediaGame from given interface.
+func (i *InputMediaGame) FillFrom(from interface {
+	GetID() (value InputGameClass)
+}) {
+	i.ID = from.GetID()
 }
 
 // TypeID returns type id in TL schema.
@@ -2527,32 +2764,55 @@ func (i *InputMediaGame) GetID() (value InputGameClass) {
 }
 
 // InputMediaInvoice represents TL type `inputMediaInvoice#405fef0d`.
+// Generated invoice of a bot payment¹
+//
+// Links:
+//  1. https://core.telegram.org/bots/payments
+//
+// See https://core.telegram.org/constructor/inputMediaInvoice for reference.
 type InputMediaInvoice struct {
-	// Flags field of InputMediaInvoice.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// Title field of InputMediaInvoice.
+	// Product name, 1-32 characters
 	Title string
-	// Description field of InputMediaInvoice.
+	// Product description, 1-255 characters
 	Description string
-	// Photo field of InputMediaInvoice.
+	// URL of the product photo for the invoice. Can be a photo of the goods or a marketing
+	// image for a service. People like it better when they see what they are paying for.
 	//
 	// Use SetPhoto and GetPhoto helpers.
 	Photo InputWebDocument
-	// Invoice field of InputMediaInvoice.
+	// The actual invoice
 	Invoice Invoice
-	// Payload field of InputMediaInvoice.
+	// Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use
+	// for your internal processes.
 	Payload []byte
-	// Provider field of InputMediaInvoice.
+	// Payments provider token, obtained via Botfather¹
+	//
+	// Links:
+	//  1) https://t.me/botfather
 	//
 	// Use SetProvider and GetProvider helpers.
 	Provider string
-	// ProviderData field of InputMediaInvoice.
+	// JSON-encoded data about the invoice, which will be shared with the payment provider. A
+	// detailed description of required fields should be provided by the payment provider.
 	ProviderData DataJSON
-	// StartParam field of InputMediaInvoice.
+	// Unique bot deep links start parameter¹. If present, forwarded copies of the sent
+	// message will have a URL button with a deep link² to the bot (instead of a Pay button)
+	// with the value used as the start parameter. If absent, forwarded copies of the sent
+	// message will have a Pay button, allowing multiple users to pay directly from the
+	// forwarded message, using the same invoice.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/links#bot-links
+	//  2) https://core.telegram.org/api/links#bot-links
 	//
 	// Use SetStartParam and GetStartParam helpers.
 	StartParam string
-	// ExtendedMedia field of InputMediaInvoice.
+	// Deprecated
 	//
 	// Use SetExtendedMedia and GetExtendedMedia helpers.
 	ExtendedMedia InputMediaClass
@@ -2619,6 +2879,41 @@ func (i *InputMediaInvoice) String() string {
 	}
 	type Alias InputMediaInvoice
 	return fmt.Sprintf("InputMediaInvoice%+v", Alias(*i))
+}
+
+// FillFrom fills InputMediaInvoice from given interface.
+func (i *InputMediaInvoice) FillFrom(from interface {
+	GetTitle() (value string)
+	GetDescription() (value string)
+	GetPhoto() (value InputWebDocument, ok bool)
+	GetInvoice() (value Invoice)
+	GetPayload() (value []byte)
+	GetProvider() (value string, ok bool)
+	GetProviderData() (value DataJSON)
+	GetStartParam() (value string, ok bool)
+	GetExtendedMedia() (value InputMediaClass, ok bool)
+}) {
+	i.Title = from.GetTitle()
+	i.Description = from.GetDescription()
+	if val, ok := from.GetPhoto(); ok {
+		i.Photo = val
+	}
+
+	i.Invoice = from.GetInvoice()
+	i.Payload = from.GetPayload()
+	if val, ok := from.GetProvider(); ok {
+		i.Provider = val
+	}
+
+	i.ProviderData = from.GetProviderData()
+	if val, ok := from.GetStartParam(); ok {
+		i.StartParam = val
+	}
+
+	if val, ok := from.GetExtendedMedia(); ok {
+		i.ExtendedMedia = val
+	}
+
 }
 
 // TypeID returns type id in TL schema.
@@ -2947,22 +3242,38 @@ func (i *InputMediaInvoice) GetExtendedMedia() (value InputMediaClass, ok bool) 
 }
 
 // InputMediaGeoLive represents TL type `inputMediaGeoLive#971fa843`.
+// Live geolocation¹
+//
+// Links:
+//  1. https://core.telegram.org/api/live-location
+//
+// See https://core.telegram.org/constructor/inputMediaGeoLive for reference.
 type InputMediaGeoLive struct {
-	// Flags field of InputMediaGeoLive.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// Stopped field of InputMediaGeoLive.
+	// Whether sending of the geolocation was stopped
 	Stopped bool
-	// GeoPoint field of InputMediaGeoLive.
+	// Current geolocation
 	GeoPoint InputGeoPointClass
-	// Heading field of InputMediaGeoLive.
+	// For live locations¹, a direction in which the location moves, in degrees; 1-360.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/live-location
 	//
 	// Use SetHeading and GetHeading helpers.
 	Heading int
-	// Period field of InputMediaGeoLive.
+	// Validity period of the current location
 	//
 	// Use SetPeriod and GetPeriod helpers.
 	Period int
-	// ProximityNotificationRadius field of InputMediaGeoLive.
+	// For live locations¹, a maximum distance to another chat member for proximity alerts,
+	// in meters (0-100000)
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/live-location
 	//
 	// Use SetProximityNotificationRadius and GetProximityNotificationRadius helpers.
 	ProximityNotificationRadius int
@@ -3017,6 +3328,30 @@ func (i *InputMediaGeoLive) String() string {
 	}
 	type Alias InputMediaGeoLive
 	return fmt.Sprintf("InputMediaGeoLive%+v", Alias(*i))
+}
+
+// FillFrom fills InputMediaGeoLive from given interface.
+func (i *InputMediaGeoLive) FillFrom(from interface {
+	GetStopped() (value bool)
+	GetGeoPoint() (value InputGeoPointClass)
+	GetHeading() (value int, ok bool)
+	GetPeriod() (value int, ok bool)
+	GetProximityNotificationRadius() (value int, ok bool)
+}) {
+	i.Stopped = from.GetStopped()
+	i.GeoPoint = from.GetGeoPoint()
+	if val, ok := from.GetHeading(); ok {
+		i.Heading = val
+	}
+
+	if val, ok := from.GetPeriod(); ok {
+		i.Period = val
+	}
+
+	if val, ok := from.GetProximityNotificationRadius(); ok {
+		i.ProximityNotificationRadius = val
+	}
+
 }
 
 // TypeID returns type id in TL schema.
@@ -3257,20 +3592,29 @@ func (i *InputMediaGeoLive) GetProximityNotificationRadius() (value int, ok bool
 }
 
 // InputMediaPoll represents TL type `inputMediaPoll#f94e5f1`.
+// A poll
+//
+// See https://core.telegram.org/constructor/inputMediaPoll for reference.
 type InputMediaPoll struct {
-	// Flags field of InputMediaPoll.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// Poll field of InputMediaPoll.
+	// The poll to send
 	Poll Poll
-	// CorrectAnswers field of InputMediaPoll.
+	// Correct answer IDs (for quiz polls)
 	//
 	// Use SetCorrectAnswers and GetCorrectAnswers helpers.
 	CorrectAnswers [][]byte
-	// Solution field of InputMediaPoll.
+	// Explanation of quiz solution
 	//
 	// Use SetSolution and GetSolution helpers.
 	Solution string
-	// SolutionEntities field of InputMediaPoll.
+	// Message entities for styled text¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/entities
 	//
 	// Use SetSolutionEntities and GetSolutionEntities helpers.
 	SolutionEntities []MessageEntityClass
@@ -3322,6 +3666,28 @@ func (i *InputMediaPoll) String() string {
 	}
 	type Alias InputMediaPoll
 	return fmt.Sprintf("InputMediaPoll%+v", Alias(*i))
+}
+
+// FillFrom fills InputMediaPoll from given interface.
+func (i *InputMediaPoll) FillFrom(from interface {
+	GetPoll() (value Poll)
+	GetCorrectAnswers() (value [][]byte, ok bool)
+	GetSolution() (value string, ok bool)
+	GetSolutionEntities() (value []MessageEntityClass, ok bool)
+}) {
+	i.Poll = from.GetPoll()
+	if val, ok := from.GetCorrectAnswers(); ok {
+		i.CorrectAnswers = val
+	}
+
+	if val, ok := from.GetSolution(); ok {
+		i.Solution = val
+	}
+
+	if val, ok := from.GetSolutionEntities(); ok {
+		i.SolutionEntities = val
+	}
+
 }
 
 // TypeID returns type id in TL schema.
@@ -3559,9 +3925,23 @@ func (i *InputMediaPoll) GetSolutionEntities() (value []MessageEntityClass, ok b
 	return i.SolutionEntities, true
 }
 
+// MapSolutionEntities returns field SolutionEntities wrapped in MessageEntityClassArray helper.
+func (i *InputMediaPoll) MapSolutionEntities() (value MessageEntityClassArray, ok bool) {
+	if !i.Flags.Has(1) {
+		return value, false
+	}
+	return MessageEntityClassArray(i.SolutionEntities), true
+}
+
 // InputMediaDice represents TL type `inputMediaDice#e66fbf7b`.
+// Send a dice-based animated sticker¹
+//
+// Links:
+//  1. https://core.telegram.org/api/dice
+//
+// See https://core.telegram.org/constructor/inputMediaDice for reference.
 type InputMediaDice struct {
-	// Emoticon field of InputMediaDice.
+	// The emoji, for now ,  and  are supported
 	Emoticon string
 }
 
@@ -3599,6 +3979,13 @@ func (i *InputMediaDice) String() string {
 	}
 	type Alias InputMediaDice
 	return fmt.Sprintf("InputMediaDice%+v", Alias(*i))
+}
+
+// FillFrom fills InputMediaDice from given interface.
+func (i *InputMediaDice) FillFrom(from interface {
+	GetEmoticon() (value string)
+}) {
+	i.Emoticon = from.GetEmoticon()
 }
 
 // TypeID returns type id in TL schema.
@@ -3685,10 +4072,13 @@ func (i *InputMediaDice) GetEmoticon() (value string) {
 }
 
 // InputMediaStory represents TL type `inputMediaStory#89fdd778`.
+// Forwarded story
+//
+// See https://core.telegram.org/constructor/inputMediaStory for reference.
 type InputMediaStory struct {
-	// Peer field of InputMediaStory.
+	// Peer where the story was posted
 	Peer InputPeerClass
-	// ID field of InputMediaStory.
+	// Story ID
 	ID int
 }
 
@@ -3729,6 +4119,15 @@ func (i *InputMediaStory) String() string {
 	}
 	type Alias InputMediaStory
 	return fmt.Sprintf("InputMediaStory%+v", Alias(*i))
+}
+
+// FillFrom fills InputMediaStory from given interface.
+func (i *InputMediaStory) FillFrom(from interface {
+	GetPeer() (value InputPeerClass)
+	GetID() (value int)
+}) {
+	i.Peer = from.GetPeer()
+	i.ID = from.GetID()
 }
 
 // TypeID returns type id in TL schema.
@@ -3840,16 +4239,26 @@ func (i *InputMediaStory) GetID() (value int) {
 }
 
 // InputMediaWebPage represents TL type `inputMediaWebPage#c21b8849`.
+// Specifies options that will be used to generate the link preview for the caption, or
+// even a standalone link preview without an attached message.
+//
+// See https://core.telegram.org/constructor/inputMediaWebPage for reference.
 type InputMediaWebPage struct {
-	// Flags field of InputMediaWebPage.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// ForceLargeMedia field of InputMediaWebPage.
+	// If set, specifies that a large media preview should be used.
 	ForceLargeMedia bool
-	// ForceSmallMedia field of InputMediaWebPage.
+	// If set, specifies that a small media preview should be used.
 	ForceSmallMedia bool
-	// Optional field of InputMediaWebPage.
+	// If not set, a WEBPAGE_NOT_FOUND RPC error will be emitted if a webpage preview cannot
+	// be generated for the specified url; otherwise, no error will be emitted (unless the
+	// provided message is also empty, in which case a MESSAGE_EMPTY will be emitted,
+	// instead).
 	Optional bool
-	// URL field of InputMediaWebPage.
+	// The URL to use for the link preview.
 	URL string
 }
 
@@ -3899,6 +4308,19 @@ func (i *InputMediaWebPage) String() string {
 	}
 	type Alias InputMediaWebPage
 	return fmt.Sprintf("InputMediaWebPage%+v", Alias(*i))
+}
+
+// FillFrom fills InputMediaWebPage from given interface.
+func (i *InputMediaWebPage) FillFrom(from interface {
+	GetForceLargeMedia() (value bool)
+	GetForceSmallMedia() (value bool)
+	GetOptional() (value bool)
+	GetURL() (value string)
+}) {
+	i.ForceLargeMedia = from.GetForceLargeMedia()
+	i.ForceSmallMedia = from.GetForceSmallMedia()
+	i.Optional = from.GetOptional()
+	i.URL = from.GetURL()
 }
 
 // TypeID returns type id in TL schema.
@@ -4082,14 +4504,31 @@ func (i *InputMediaWebPage) GetURL() (value string) {
 }
 
 // InputMediaPaidMedia represents TL type `inputMediaPaidMedia#c4103386`.
+// Paid media, see here »¹ for more info.
+//
+// Links:
+//  1. https://core.telegram.org/api/paid-media
+//
+// See https://core.telegram.org/constructor/inputMediaPaidMedia for reference.
 type InputMediaPaidMedia struct {
-	// Flags field of InputMediaPaidMedia.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// StarsAmount field of InputMediaPaidMedia.
+	// The price of the media in Telegram Stars¹.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/stars
 	StarsAmount int64
-	// ExtendedMedia field of InputMediaPaidMedia.
+	// Photos or videos.
 	ExtendedMedia []InputMediaClass
-	// Payload field of InputMediaPaidMedia.
+	// Bots only, specifies a custom payload that will then be passed in
+	// updateBotPurchasedPaidMedia¹ when a payment is made (this field will not be visible
+	// to the user)
+	//
+	// Links:
+	//  1) https://core.telegram.org/constructor/updateBotPurchasedPaidMedia
 	//
 	// Use SetPayload and GetPayload helpers.
 	Payload string
@@ -4138,6 +4577,20 @@ func (i *InputMediaPaidMedia) String() string {
 	}
 	type Alias InputMediaPaidMedia
 	return fmt.Sprintf("InputMediaPaidMedia%+v", Alias(*i))
+}
+
+// FillFrom fills InputMediaPaidMedia from given interface.
+func (i *InputMediaPaidMedia) FillFrom(from interface {
+	GetStarsAmount() (value int64)
+	GetExtendedMedia() (value []InputMediaClass)
+	GetPayload() (value string, ok bool)
+}) {
+	i.StarsAmount = from.GetStarsAmount()
+	i.ExtendedMedia = from.GetExtendedMedia()
+	if val, ok := from.GetPayload(); ok {
+		i.Payload = val
+	}
+
 }
 
 // TypeID returns type id in TL schema.
@@ -4310,10 +4763,17 @@ func (i *InputMediaPaidMedia) GetPayload() (value string, ok bool) {
 	return i.Payload, true
 }
 
+// MapExtendedMedia returns field ExtendedMedia wrapped in InputMediaClassArray helper.
+func (i *InputMediaPaidMedia) MapExtendedMedia() (value InputMediaClassArray) {
+	return InputMediaClassArray(i.ExtendedMedia)
+}
+
 // InputMediaClassName is schema name of InputMediaClass.
 const InputMediaClassName = "InputMedia"
 
 // InputMediaClass represents InputMedia generic type.
+//
+// See https://core.telegram.org/type/InputMedia for reference.
 //
 // Constructors:
 //   - [InputMediaEmpty]

@@ -129,23 +129,10 @@ func (s EmojiStatusClassArray) AsEmojiStatus() (to EmojiStatusArray) {
 	return to
 }
 
-// AsEmojiStatusCollectible returns copy with only EmojiStatusCollectible constructors.
-func (s EmojiStatusClassArray) AsEmojiStatusCollectible() (to EmojiStatusCollectibleArray) {
+// AsEmojiStatusUntil returns copy with only EmojiStatusUntil constructors.
+func (s EmojiStatusClassArray) AsEmojiStatusUntil() (to EmojiStatusUntilArray) {
 	for _, elem := range s {
-		value, ok := elem.(*EmojiStatusCollectible)
-		if !ok {
-			continue
-		}
-		to = append(to, *value)
-	}
-
-	return to
-}
-
-// AsInputEmojiStatusCollectible returns copy with only InputEmojiStatusCollectible constructors.
-func (s EmojiStatusClassArray) AsInputEmojiStatusCollectible() (to InputEmojiStatusCollectibleArray) {
-	for _, elem := range s {
-		value, ok := elem.(*InputEmojiStatusCollectible)
+		value, ok := elem.(*EmojiStatusUntil)
 		if !ok {
 			continue
 		}
@@ -292,27 +279,27 @@ func (s *EmojiStatusArray) Pop() (v EmojiStatus, ok bool) {
 	return v, true
 }
 
-// EmojiStatusCollectibleArray is adapter for slice of EmojiStatusCollectible.
-type EmojiStatusCollectibleArray []EmojiStatusCollectible
+// EmojiStatusUntilArray is adapter for slice of EmojiStatusUntil.
+type EmojiStatusUntilArray []EmojiStatusUntil
 
-// Sort sorts slice of EmojiStatusCollectible.
-func (s EmojiStatusCollectibleArray) Sort(less func(a, b EmojiStatusCollectible) bool) EmojiStatusCollectibleArray {
+// Sort sorts slice of EmojiStatusUntil.
+func (s EmojiStatusUntilArray) Sort(less func(a, b EmojiStatusUntil) bool) EmojiStatusUntilArray {
 	sort.Slice(s, func(i, j int) bool {
 		return less(s[i], s[j])
 	})
 	return s
 }
 
-// SortStable sorts slice of EmojiStatusCollectible.
-func (s EmojiStatusCollectibleArray) SortStable(less func(a, b EmojiStatusCollectible) bool) EmojiStatusCollectibleArray {
+// SortStable sorts slice of EmojiStatusUntil.
+func (s EmojiStatusUntilArray) SortStable(less func(a, b EmojiStatusUntil) bool) EmojiStatusUntilArray {
 	sort.SliceStable(s, func(i, j int) bool {
 		return less(s[i], s[j])
 	})
 	return s
 }
 
-// Retain filters in-place slice of EmojiStatusCollectible.
-func (s EmojiStatusCollectibleArray) Retain(keep func(x EmojiStatusCollectible) bool) EmojiStatusCollectibleArray {
+// Retain filters in-place slice of EmojiStatusUntil.
+func (s EmojiStatusUntilArray) Retain(keep func(x EmojiStatusUntil) bool) EmojiStatusUntilArray {
 	n := 0
 	for _, x := range s {
 		if keep(x) {
@@ -326,7 +313,7 @@ func (s EmojiStatusCollectibleArray) Retain(keep func(x EmojiStatusCollectible) 
 }
 
 // First returns first element of slice (if exists).
-func (s EmojiStatusCollectibleArray) First() (v EmojiStatusCollectible, ok bool) {
+func (s EmojiStatusUntilArray) First() (v EmojiStatusUntil, ok bool) {
 	if len(s) < 1 {
 		return
 	}
@@ -334,7 +321,7 @@ func (s EmojiStatusCollectibleArray) First() (v EmojiStatusCollectible, ok bool)
 }
 
 // Last returns last element of slice (if exists).
-func (s EmojiStatusCollectibleArray) Last() (v EmojiStatusCollectible, ok bool) {
+func (s EmojiStatusUntilArray) Last() (v EmojiStatusUntil, ok bool) {
 	if len(s) < 1 {
 		return
 	}
@@ -342,7 +329,7 @@ func (s EmojiStatusCollectibleArray) Last() (v EmojiStatusCollectible, ok bool) 
 }
 
 // PopFirst returns first element of slice (if exists) and deletes it.
-func (s *EmojiStatusCollectibleArray) PopFirst() (v EmojiStatusCollectible, ok bool) {
+func (s *EmojiStatusUntilArray) PopFirst() (v EmojiStatusUntil, ok bool) {
 	if s == nil || len(*s) < 1 {
 		return
 	}
@@ -352,7 +339,7 @@ func (s *EmojiStatusCollectibleArray) PopFirst() (v EmojiStatusCollectible, ok b
 
 	// Delete by index from SliceTricks.
 	copy(a[0:], a[1:])
-	var zero EmojiStatusCollectible
+	var zero EmojiStatusUntil
 	a[len(a)-1] = zero
 	a = a[:len(a)-1]
 	*s = a
@@ -361,89 +348,7 @@ func (s *EmojiStatusCollectibleArray) PopFirst() (v EmojiStatusCollectible, ok b
 }
 
 // Pop returns last element of slice (if exists) and deletes it.
-func (s *EmojiStatusCollectibleArray) Pop() (v EmojiStatusCollectible, ok bool) {
-	if s == nil || len(*s) < 1 {
-		return
-	}
-
-	a := *s
-	v = a[len(a)-1]
-	a = a[:len(a)-1]
-	*s = a
-
-	return v, true
-}
-
-// InputEmojiStatusCollectibleArray is adapter for slice of InputEmojiStatusCollectible.
-type InputEmojiStatusCollectibleArray []InputEmojiStatusCollectible
-
-// Sort sorts slice of InputEmojiStatusCollectible.
-func (s InputEmojiStatusCollectibleArray) Sort(less func(a, b InputEmojiStatusCollectible) bool) InputEmojiStatusCollectibleArray {
-	sort.Slice(s, func(i, j int) bool {
-		return less(s[i], s[j])
-	})
-	return s
-}
-
-// SortStable sorts slice of InputEmojiStatusCollectible.
-func (s InputEmojiStatusCollectibleArray) SortStable(less func(a, b InputEmojiStatusCollectible) bool) InputEmojiStatusCollectibleArray {
-	sort.SliceStable(s, func(i, j int) bool {
-		return less(s[i], s[j])
-	})
-	return s
-}
-
-// Retain filters in-place slice of InputEmojiStatusCollectible.
-func (s InputEmojiStatusCollectibleArray) Retain(keep func(x InputEmojiStatusCollectible) bool) InputEmojiStatusCollectibleArray {
-	n := 0
-	for _, x := range s {
-		if keep(x) {
-			s[n] = x
-			n++
-		}
-	}
-	s = s[:n]
-
-	return s
-}
-
-// First returns first element of slice (if exists).
-func (s InputEmojiStatusCollectibleArray) First() (v InputEmojiStatusCollectible, ok bool) {
-	if len(s) < 1 {
-		return
-	}
-	return s[0], true
-}
-
-// Last returns last element of slice (if exists).
-func (s InputEmojiStatusCollectibleArray) Last() (v InputEmojiStatusCollectible, ok bool) {
-	if len(s) < 1 {
-		return
-	}
-	return s[len(s)-1], true
-}
-
-// PopFirst returns first element of slice (if exists) and deletes it.
-func (s *InputEmojiStatusCollectibleArray) PopFirst() (v InputEmojiStatusCollectible, ok bool) {
-	if s == nil || len(*s) < 1 {
-		return
-	}
-
-	a := *s
-	v = a[0]
-
-	// Delete by index from SliceTricks.
-	copy(a[0:], a[1:])
-	var zero InputEmojiStatusCollectible
-	a[len(a)-1] = zero
-	a = a[:len(a)-1]
-	*s = a
-
-	return v, true
-}
-
-// Pop returns last element of slice (if exists) and deletes it.
-func (s *InputEmojiStatusCollectibleArray) Pop() (v InputEmojiStatusCollectible, ok bool) {
+func (s *EmojiStatusUntilArray) Pop() (v EmojiStatusUntil, ok bool) {
 	if s == nil || len(*s) < 1 {
 		return
 	}

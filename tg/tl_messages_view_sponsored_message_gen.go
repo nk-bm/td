@@ -32,10 +32,16 @@ var (
 )
 
 // MessagesViewSponsoredMessageRequest represents TL type `messages.viewSponsoredMessage#673ad8f1`.
+// Mark a specific sponsored message »¹ as read
+//
+// Links:
+//  1. https://core.telegram.org/api/sponsored-messages
+//
+// See https://core.telegram.org/method/messages.viewSponsoredMessage for reference.
 type MessagesViewSponsoredMessageRequest struct {
-	// Peer field of MessagesViewSponsoredMessageRequest.
+	// The channel/bot where the ad is located
 	Peer InputPeerClass
-	// RandomID field of MessagesViewSponsoredMessageRequest.
+	// The ad's unique ID.
 	RandomID []byte
 }
 
@@ -71,6 +77,15 @@ func (v *MessagesViewSponsoredMessageRequest) String() string {
 	}
 	type Alias MessagesViewSponsoredMessageRequest
 	return fmt.Sprintf("MessagesViewSponsoredMessageRequest%+v", Alias(*v))
+}
+
+// FillFrom fills MessagesViewSponsoredMessageRequest from given interface.
+func (v *MessagesViewSponsoredMessageRequest) FillFrom(from interface {
+	GetPeer() (value InputPeerClass)
+	GetRandomID() (value []byte)
+}) {
+	v.Peer = from.GetPeer()
+	v.RandomID = from.GetRandomID()
 }
 
 // TypeID returns type id in TL schema.
@@ -182,6 +197,12 @@ func (v *MessagesViewSponsoredMessageRequest) GetRandomID() (value []byte) {
 }
 
 // MessagesViewSponsoredMessage invokes method messages.viewSponsoredMessage#673ad8f1 returning error if any.
+// Mark a specific sponsored message »¹ as read
+//
+// Links:
+//  1. https://core.telegram.org/api/sponsored-messages
+//
+// See https://core.telegram.org/method/messages.viewSponsoredMessage for reference.
 func (c *Client) MessagesViewSponsoredMessage(ctx context.Context, request *MessagesViewSponsoredMessageRequest) (bool, error) {
 	var result BoolBox
 

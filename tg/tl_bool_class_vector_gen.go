@@ -68,6 +68,13 @@ func (vec *BoolClassVector) String() string {
 	return fmt.Sprintf("BoolClassVector%+v", Alias(*vec))
 }
 
+// FillFrom fills BoolClassVector from given interface.
+func (vec *BoolClassVector) FillFrom(from interface {
+	GetElems() (value []bool)
+}) {
+	vec.Elems = from.GetElems()
+}
+
 // TypeID returns type id in TL schema.
 //
 // See https://core.telegram.org/mtproto/TL-tl#remarks.

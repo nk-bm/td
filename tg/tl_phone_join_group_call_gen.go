@@ -32,22 +32,32 @@ var (
 )
 
 // PhoneJoinGroupCallRequest represents TL type `phone.joinGroupCall#b132ff7b`.
+// Join a group call
+//
+// See https://core.telegram.org/method/phone.joinGroupCall for reference.
 type PhoneJoinGroupCallRequest struct {
-	// Flags field of PhoneJoinGroupCallRequest.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// Muted field of PhoneJoinGroupCallRequest.
+	// If set, the user will be muted by default upon joining.
 	Muted bool
-	// VideoStopped field of PhoneJoinGroupCallRequest.
+	// If set, the user's video will be disabled by default upon joining.
 	VideoStopped bool
-	// Call field of PhoneJoinGroupCallRequest.
+	// The group call
 	Call InputGroupCall
-	// JoinAs field of PhoneJoinGroupCallRequest.
+	// Join the group call, presenting yourself as the specified user/channel
 	JoinAs InputPeerClass
-	// InviteHash field of PhoneJoinGroupCallRequest.
+	// The invitation hash from the invite link »¹, if provided allows speaking in a
+	// livestream or muted group chat.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/links#video-chat-livestream-links
 	//
 	// Use SetInviteHash and GetInviteHash helpers.
 	InviteHash string
-	// Params field of PhoneJoinGroupCallRequest.
+	// WebRTC parameters
 	Params DataJSON
 }
 
@@ -98,6 +108,26 @@ func (j *PhoneJoinGroupCallRequest) String() string {
 	}
 	type Alias PhoneJoinGroupCallRequest
 	return fmt.Sprintf("PhoneJoinGroupCallRequest%+v", Alias(*j))
+}
+
+// FillFrom fills PhoneJoinGroupCallRequest from given interface.
+func (j *PhoneJoinGroupCallRequest) FillFrom(from interface {
+	GetMuted() (value bool)
+	GetVideoStopped() (value bool)
+	GetCall() (value InputGroupCall)
+	GetJoinAs() (value InputPeerClass)
+	GetInviteHash() (value string, ok bool)
+	GetParams() (value DataJSON)
+}) {
+	j.Muted = from.GetMuted()
+	j.VideoStopped = from.GetVideoStopped()
+	j.Call = from.GetCall()
+	j.JoinAs = from.GetJoinAs()
+	if val, ok := from.GetInviteHash(); ok {
+		j.InviteHash = val
+	}
+
+	j.Params = from.GetParams()
 }
 
 // TypeID returns type id in TL schema.
@@ -334,6 +364,17 @@ func (j *PhoneJoinGroupCallRequest) GetParams() (value DataJSON) {
 }
 
 // PhoneJoinGroupCall invokes method phone.joinGroupCall#b132ff7b returning error if any.
+// Join a group call
+//
+// Possible errors:
+//
+//	400 DATA_JSON_INVALID: The provided JSON data is invalid.
+//	403 GROUPCALL_FORBIDDEN: The group call has already ended.
+//	400 GROUPCALL_INVALID: The specified group call is invalid.
+//	400 GROUPCALL_SSRC_DUPLICATE_MUCH: The app needs to retry joining the group call with a new SSRC value.
+//	400 JOIN_AS_PEER_INVALID: The specified peer cannot be used to join a group call.
+//
+// See https://core.telegram.org/method/phone.joinGroupCall for reference.
 func (c *Client) PhoneJoinGroupCall(ctx context.Context, request *PhoneJoinGroupCallRequest) (UpdatesClass, error) {
 	var result UpdatesBox
 

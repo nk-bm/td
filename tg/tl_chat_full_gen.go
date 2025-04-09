@@ -32,72 +32,111 @@ var (
 )
 
 // ChatFull represents TL type `chatFull#2633421b`.
+// Full info about a basic group¹.
+// When updating the local peer database »¹, all fields from the newly received
+// constructor take priority over the old constructor cached locally (including by
+// removing fields that aren't set in the new constructor).
+//
+// Links:
+//  1. https://core.telegram.org/api/channel#basic-groups
+//  2. https://core.telegram.org/api/peers
+//
+// See https://core.telegram.org/constructor/chatFull for reference.
 type ChatFull struct {
-	// Flags field of ChatFull.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// CanSetUsername field of ChatFull.
+	// Can we change the username of this chat
 	CanSetUsername bool
-	// HasScheduled field of ChatFull.
+	// Whether scheduled messages¹ are available
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/scheduled-messages
 	HasScheduled bool
-	// TranslationsDisabled field of ChatFull.
+	// Whether the real-time chat translation popup¹ should be hidden.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/translation
 	TranslationsDisabled bool
-	// ID field of ChatFull.
+	// ID of the chat
 	ID int64
-	// About field of ChatFull.
+	// About string for this chat
 	About string
-	// Participants field of ChatFull.
+	// Participant list
 	Participants ChatParticipantsClass
-	// ChatPhoto field of ChatFull.
+	// Chat photo
 	//
 	// Use SetChatPhoto and GetChatPhoto helpers.
 	ChatPhoto PhotoClass
-	// NotifySettings field of ChatFull.
+	// Notification settings
 	NotifySettings PeerNotifySettings
-	// ExportedInvite field of ChatFull.
+	// Chat invite
 	//
 	// Use SetExportedInvite and GetExportedInvite helpers.
 	ExportedInvite ExportedChatInviteClass
-	// BotInfo field of ChatFull.
+	// Info about bots that are in this chat
 	//
 	// Use SetBotInfo and GetBotInfo helpers.
 	BotInfo []BotInfo
-	// PinnedMsgID field of ChatFull.
+	// Message ID of the last pinned message¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/pin
 	//
 	// Use SetPinnedMsgID and GetPinnedMsgID helpers.
 	PinnedMsgID int
-	// FolderID field of ChatFull.
+	// Peer folder ID, for more info click here¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/folders#peer-folders
 	//
 	// Use SetFolderID and GetFolderID helpers.
 	FolderID int
-	// Call field of ChatFull.
+	// Group call information
 	//
 	// Use SetCall and GetCall helpers.
 	Call InputGroupCall
-	// TTLPeriod field of ChatFull.
+	// Time-To-Live of messages sent by the current user to this chat
 	//
 	// Use SetTTLPeriod and GetTTLPeriod helpers.
 	TTLPeriod int
-	// GroupcallDefaultJoinAs field of ChatFull.
+	// When using phone.getGroupCallJoinAs¹ to get a list of peers that can be used to join
+	// a group call, this field indicates the peer that should be selected by default.
+	//
+	// Links:
+	//  1) https://core.telegram.org/method/phone.getGroupCallJoinAs
 	//
 	// Use SetGroupcallDefaultJoinAs and GetGroupcallDefaultJoinAs helpers.
 	GroupcallDefaultJoinAs PeerClass
-	// ThemeEmoticon field of ChatFull.
+	// Emoji representing a specific chat theme
 	//
 	// Use SetThemeEmoticon and GetThemeEmoticon helpers.
 	ThemeEmoticon string
-	// RequestsPending field of ChatFull.
+	// Pending join requests »¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/invites#join-requests
 	//
 	// Use SetRequestsPending and GetRequestsPending helpers.
 	RequestsPending int
-	// RecentRequesters field of ChatFull.
+	// IDs of users who requested to join recently
 	//
 	// Use SetRecentRequesters and GetRecentRequesters helpers.
 	RecentRequesters []int64
-	// AvailableReactions field of ChatFull.
+	// Allowed message reactions »¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/reactions
 	//
 	// Use SetAvailableReactions and GetAvailableReactions helpers.
 	AvailableReactions ChatReactionsClass
-	// ReactionsLimit field of ChatFull.
+	// This flag may be used to impose a custom limit of unique reactions (i.e. a
+	// customizable version of appConfig.reactions_uniq_max¹).
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/config#reactions-uniq-max
 	//
 	// Use SetReactionsLimit and GetReactionsLimit helpers.
 	ReactionsLimit int
@@ -197,6 +236,90 @@ func (c *ChatFull) String() string {
 	}
 	type Alias ChatFull
 	return fmt.Sprintf("ChatFull%+v", Alias(*c))
+}
+
+// FillFrom fills ChatFull from given interface.
+func (c *ChatFull) FillFrom(from interface {
+	GetCanSetUsername() (value bool)
+	GetHasScheduled() (value bool)
+	GetTranslationsDisabled() (value bool)
+	GetID() (value int64)
+	GetAbout() (value string)
+	GetParticipants() (value ChatParticipantsClass)
+	GetChatPhoto() (value PhotoClass, ok bool)
+	GetNotifySettings() (value PeerNotifySettings)
+	GetExportedInvite() (value ExportedChatInviteClass, ok bool)
+	GetBotInfo() (value []BotInfo, ok bool)
+	GetPinnedMsgID() (value int, ok bool)
+	GetFolderID() (value int, ok bool)
+	GetCall() (value InputGroupCall, ok bool)
+	GetTTLPeriod() (value int, ok bool)
+	GetGroupcallDefaultJoinAs() (value PeerClass, ok bool)
+	GetThemeEmoticon() (value string, ok bool)
+	GetRequestsPending() (value int, ok bool)
+	GetRecentRequesters() (value []int64, ok bool)
+	GetAvailableReactions() (value ChatReactionsClass, ok bool)
+	GetReactionsLimit() (value int, ok bool)
+}) {
+	c.CanSetUsername = from.GetCanSetUsername()
+	c.HasScheduled = from.GetHasScheduled()
+	c.TranslationsDisabled = from.GetTranslationsDisabled()
+	c.ID = from.GetID()
+	c.About = from.GetAbout()
+	c.Participants = from.GetParticipants()
+	if val, ok := from.GetChatPhoto(); ok {
+		c.ChatPhoto = val
+	}
+
+	c.NotifySettings = from.GetNotifySettings()
+	if val, ok := from.GetExportedInvite(); ok {
+		c.ExportedInvite = val
+	}
+
+	if val, ok := from.GetBotInfo(); ok {
+		c.BotInfo = val
+	}
+
+	if val, ok := from.GetPinnedMsgID(); ok {
+		c.PinnedMsgID = val
+	}
+
+	if val, ok := from.GetFolderID(); ok {
+		c.FolderID = val
+	}
+
+	if val, ok := from.GetCall(); ok {
+		c.Call = val
+	}
+
+	if val, ok := from.GetTTLPeriod(); ok {
+		c.TTLPeriod = val
+	}
+
+	if val, ok := from.GetGroupcallDefaultJoinAs(); ok {
+		c.GroupcallDefaultJoinAs = val
+	}
+
+	if val, ok := from.GetThemeEmoticon(); ok {
+		c.ThemeEmoticon = val
+	}
+
+	if val, ok := from.GetRequestsPending(); ok {
+		c.RequestsPending = val
+	}
+
+	if val, ok := from.GetRecentRequesters(); ok {
+		c.RecentRequesters = val
+	}
+
+	if val, ok := from.GetAvailableReactions(); ok {
+		c.AvailableReactions = val
+	}
+
+	if val, ok := from.GetReactionsLimit(); ok {
+		c.ReactionsLimit = val
+	}
+
 }
 
 // TypeID returns type id in TL schema.
@@ -961,192 +1084,319 @@ func (c *ChatFull) GetReactionsLimit() (value int, ok bool) {
 }
 
 // ChannelFull represents TL type `channelFull#bbab348d`.
+// Full info about a channel¹, supergroup² or gigagroup³.
+// When updating the local peer database »¹, all fields from the newly received
+// constructor take priority over the old constructor cached locally (including by
+// removing fields that aren't set in the new constructor).
+//
+// Links:
+//  1. https://core.telegram.org/api/channel#channels
+//  2. https://core.telegram.org/api/channel#supergroups
+//  3. https://core.telegram.org/api/channel#gigagroups
+//  4. https://core.telegram.org/api/peers
+//
+// See https://core.telegram.org/constructor/channelFull for reference.
 type ChannelFull struct {
-	// Flags field of ChannelFull.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags bin.Fields
-	// CanViewParticipants field of ChannelFull.
+	// Can we view the participant list?
 	CanViewParticipants bool
-	// CanSetUsername field of ChannelFull.
+	// Can we set the channel's username?
 	CanSetUsername bool
-	// CanSetStickers field of ChannelFull.
+	// Can we associate¹ a stickerpack to the supergroup?
+	//
+	// Links:
+	//  1) https://core.telegram.org/method/channels.setStickers
 	CanSetStickers bool
-	// HiddenPrehistory field of ChannelFull.
+	// Is the history before we joined hidden to us?
 	HiddenPrehistory bool
-	// CanSetLocation field of ChannelFull.
+	// Can we set the geolocation of this group (for geogroups)
 	CanSetLocation bool
-	// HasScheduled field of ChannelFull.
+	// Whether scheduled messages are available
 	HasScheduled bool
-	// CanViewStats field of ChannelFull.
+	// Can the user view channel/supergroup statistics¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/stats
 	CanViewStats bool
-	// Blocked field of ChannelFull.
+	// Whether any anonymous admin of this supergroup was blocked: if set, you won't receive
+	// messages from anonymous group admins in discussion replies via @replies¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/discussion
 	Blocked bool
-	// Flags2 field of ChannelFull.
+	// Flags, see TL conditional fields¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
 	Flags2 bin.Fields
-	// CanDeleteChannel field of ChannelFull.
+	// Can we delete this channel?
 	CanDeleteChannel bool
-	// Antispam field of ChannelFull.
+	// Whether native antispam¹ functionality is enabled in this supergroup.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/antispam
 	Antispam bool
-	// ParticipantsHidden field of ChannelFull.
+	// Whether the participant list is hidden.
 	ParticipantsHidden bool
-	// TranslationsDisabled field of ChannelFull.
+	// Whether the real-time chat translation popup¹ should be hidden.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/translation
 	TranslationsDisabled bool
-	// StoriesPinnedAvailable field of ChannelFull.
+	// Whether this user has some pinned stories¹.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/stories#pinned-or-archived-stories
 	StoriesPinnedAvailable bool
-	// ViewForumAsMessages field of ChannelFull.
+	// Users may also choose to display messages from all topics of a forum¹ as if they were
+	// sent to a normal group, using a "View as messages" setting in the local client.  This
+	// setting only affects the current account, and is synced to other logged in sessions
+	// using the channels.toggleViewForumAsMessages² method; invoking this method will
+	// update the value of this flag.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/forum
+	//  2) https://core.telegram.org/method/channels.toggleViewForumAsMessages
 	ViewForumAsMessages bool
-	// RestrictedSponsored field of ChannelFull.
+	// Whether ads on this channel were disabled as specified here »¹ (this flag is only
+	// visible to the owner of the channel).
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/boost#disable-ads-on-the-channel
 	RestrictedSponsored bool
-	// CanViewRevenue field of ChannelFull.
+	// If set, this user can view ad revenue statistics »¹ for this channel.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/revenue#revenue-statistics
 	CanViewRevenue bool
-	// PaidMediaAllowed field of ChannelFull.
+	// Whether the current user can send or forward paid media »¹ to this channel.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/paid-media
 	PaidMediaAllowed bool
-	// CanViewStarsRevenue field of ChannelFull.
+	// If set, this user can view Telegram Star revenue statistics »¹ for this channel.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/stars#revenue-statistics
 	CanViewStarsRevenue bool
-	// PaidReactionsAvailable field of ChannelFull.
+	// If set, users may send paid Telegram Star reactions »¹ to messages of this channel.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/reactions#paid-reactions
 	PaidReactionsAvailable bool
-	// ID field of ChannelFull.
+	// ID of the channel
 	ID int64
-	// About field of ChannelFull.
+	// Info about the channel
 	About string
-	// ParticipantsCount field of ChannelFull.
+	// Number of participants of the channel
 	//
 	// Use SetParticipantsCount and GetParticipantsCount helpers.
 	ParticipantsCount int
-	// AdminsCount field of ChannelFull.
+	// Number of channel admins
 	//
 	// Use SetAdminsCount and GetAdminsCount helpers.
 	AdminsCount int
-	// KickedCount field of ChannelFull.
+	// Number of users kicked¹ from the channel
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/rights
 	//
 	// Use SetKickedCount and GetKickedCount helpers.
 	KickedCount int
-	// BannedCount field of ChannelFull.
+	// Number of users banned¹ from the channel
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/rights
 	//
 	// Use SetBannedCount and GetBannedCount helpers.
 	BannedCount int
-	// OnlineCount field of ChannelFull.
+	// Number of users currently online
 	//
 	// Use SetOnlineCount and GetOnlineCount helpers.
 	OnlineCount int
-	// ReadInboxMaxID field of ChannelFull.
+	// Position up to which all incoming messages are read.
 	ReadInboxMaxID int
-	// ReadOutboxMaxID field of ChannelFull.
+	// Position up to which all outgoing messages are read.
 	ReadOutboxMaxID int
-	// UnreadCount field of ChannelFull.
+	// Count of unread messages
 	UnreadCount int
-	// ChatPhoto field of ChannelFull.
+	// Channel picture
 	ChatPhoto PhotoClass
-	// NotifySettings field of ChannelFull.
+	// Notification settings
 	NotifySettings PeerNotifySettings
-	// ExportedInvite field of ChannelFull.
+	// Invite link
 	//
 	// Use SetExportedInvite and GetExportedInvite helpers.
 	ExportedInvite ExportedChatInviteClass
-	// BotInfo field of ChannelFull.
+	// Info about bots in the channel/supergroup
 	BotInfo []BotInfo
-	// MigratedFromChatID field of ChannelFull.
+	// The chat ID from which this group was migrated¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/channel
 	//
 	// Use SetMigratedFromChatID and GetMigratedFromChatID helpers.
 	MigratedFromChatID int64
-	// MigratedFromMaxID field of ChannelFull.
+	// The message ID in the original chat at which this group was migrated¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/channel
 	//
 	// Use SetMigratedFromMaxID and GetMigratedFromMaxID helpers.
 	MigratedFromMaxID int
-	// PinnedMsgID field of ChannelFull.
+	// Message ID of the last pinned message¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/pin
 	//
 	// Use SetPinnedMsgID and GetPinnedMsgID helpers.
 	PinnedMsgID int
-	// Stickerset field of ChannelFull.
+	// Associated stickerset
 	//
 	// Use SetStickerset and GetStickerset helpers.
 	Stickerset StickerSet
-	// AvailableMinID field of ChannelFull.
+	// Identifier of a maximum unavailable message in a channel due to hidden history.
 	//
 	// Use SetAvailableMinID and GetAvailableMinID helpers.
 	AvailableMinID int
-	// FolderID field of ChannelFull.
+	// Peer folder ID, for more info click here¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/folders#peer-folders
 	//
 	// Use SetFolderID and GetFolderID helpers.
 	FolderID int
-	// LinkedChatID field of ChannelFull.
+	// ID of the linked discussion chat¹ for channels (and vice versa, the ID of the linked
+	// channel for discussion chats).
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/discussion
 	//
 	// Use SetLinkedChatID and GetLinkedChatID helpers.
 	LinkedChatID int64
-	// Location field of ChannelFull.
+	// Location of the geogroup
 	//
 	// Use SetLocation and GetLocation helpers.
 	Location ChannelLocationClass
-	// SlowmodeSeconds field of ChannelFull.
+	// If specified, users in supergroups will only be able to send one message every
+	// slowmode_seconds seconds
 	//
 	// Use SetSlowmodeSeconds and GetSlowmodeSeconds helpers.
 	SlowmodeSeconds int
-	// SlowmodeNextSendDate field of ChannelFull.
+	// Indicates when the user will be allowed to send another message in the supergroup
+	// (unixtime)
 	//
 	// Use SetSlowmodeNextSendDate and GetSlowmodeNextSendDate helpers.
 	SlowmodeNextSendDate int
-	// StatsDC field of ChannelFull.
+	// If set, specifies the DC to use for fetching channel statistics
 	//
 	// Use SetStatsDC and GetStatsDC helpers.
 	StatsDC int
-	// Pts field of ChannelFull.
+	// Latest PTS¹ for this channel
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/updates
 	Pts int
-	// Call field of ChannelFull.
+	// Livestream or group call information
 	//
 	// Use SetCall and GetCall helpers.
 	Call InputGroupCall
-	// TTLPeriod field of ChannelFull.
+	// Time-To-Live of messages in this channel or supergroup
 	//
 	// Use SetTTLPeriod and GetTTLPeriod helpers.
 	TTLPeriod int
-	// PendingSuggestions field of ChannelFull.
+	// A list of suggested actions¹ for the supergroup admin, see here for more info »².
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/config#suggestions
+	//  2) https://core.telegram.org/api/config#suggestions
 	//
 	// Use SetPendingSuggestions and GetPendingSuggestions helpers.
 	PendingSuggestions []string
-	// GroupcallDefaultJoinAs field of ChannelFull.
+	// When using phone.getGroupCallJoinAs¹ to get a list of peers that can be used to join
+	// a group call, this field indicates the peer that should be selected by default.
+	//
+	// Links:
+	//  1) https://core.telegram.org/method/phone.getGroupCallJoinAs
 	//
 	// Use SetGroupcallDefaultJoinAs and GetGroupcallDefaultJoinAs helpers.
 	GroupcallDefaultJoinAs PeerClass
-	// ThemeEmoticon field of ChannelFull.
+	// Emoji representing a specific chat theme
 	//
 	// Use SetThemeEmoticon and GetThemeEmoticon helpers.
 	ThemeEmoticon string
-	// RequestsPending field of ChannelFull.
+	// Pending join requests »¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/invites#join-requests
 	//
 	// Use SetRequestsPending and GetRequestsPending helpers.
 	RequestsPending int
-	// RecentRequesters field of ChannelFull.
+	// IDs of users who requested to join recently
 	//
 	// Use SetRecentRequesters and GetRecentRequesters helpers.
 	RecentRequesters []int64
-	// DefaultSendAs field of ChannelFull.
+	// Default peer used for sending messages to this channel
 	//
 	// Use SetDefaultSendAs and GetDefaultSendAs helpers.
 	DefaultSendAs PeerClass
-	// AvailableReactions field of ChannelFull.
+	// Allowed message reactions »¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/reactions
 	//
 	// Use SetAvailableReactions and GetAvailableReactions helpers.
 	AvailableReactions ChatReactionsClass
-	// ReactionsLimit field of ChannelFull.
+	// This flag may be used to impose a custom limit of unique reactions (i.e. a
+	// customizable version of appConfig.reactions_uniq_max¹).
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/config#reactions-uniq-max
 	//
 	// Use SetReactionsLimit and GetReactionsLimit helpers.
 	ReactionsLimit int
-	// Stories field of ChannelFull.
+	// Channel stories¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/stories
 	//
 	// Use SetStories and GetStories helpers.
 	Stories PeerStories
-	// Wallpaper field of ChannelFull.
+	// Wallpaper¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/wallpapers
 	//
 	// Use SetWallpaper and GetWallpaper helpers.
 	Wallpaper WallPaperClass
-	// BoostsApplied field of ChannelFull.
+	// The number of boosts¹ the current user has applied to the current supergroup.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/boost
 	//
 	// Use SetBoostsApplied and GetBoostsApplied helpers.
 	BoostsApplied int
-	// BoostsUnrestrict field of ChannelFull.
+	// The number of boosts¹ this supergroup requires to bypass slowmode and other
+	// restrictions, see here »² for more info.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/boost
+	//  2) https://core.telegram.org/api/boost#bypass-slowmode-and-chat-restrictions
 	//
 	// Use SetBoostsUnrestrict and GetBoostsUnrestrict helpers.
 	BoostsUnrestrict int
-	// Emojiset field of ChannelFull.
+	// Custom emoji stickerset¹ associated to the current supergroup, set using channels
+	// setEmojiStickers² after reaching the appropriate boost level, see here »³ for more
+	// info.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/custom-emoji
+	//  2) https://core.telegram.org/method/channels.setEmojiStickers
+	//  3) https://core.telegram.org/api/boost#setting-a-custom-emoji-stickerset-for-supergroups
 	//
 	// Use SetEmojiset and GetEmojiset helpers.
 	Emojiset StickerSet
@@ -1369,6 +1619,227 @@ func (c *ChannelFull) String() string {
 	}
 	type Alias ChannelFull
 	return fmt.Sprintf("ChannelFull%+v", Alias(*c))
+}
+
+// FillFrom fills ChannelFull from given interface.
+func (c *ChannelFull) FillFrom(from interface {
+	GetCanViewParticipants() (value bool)
+	GetCanSetUsername() (value bool)
+	GetCanSetStickers() (value bool)
+	GetHiddenPrehistory() (value bool)
+	GetCanSetLocation() (value bool)
+	GetHasScheduled() (value bool)
+	GetCanViewStats() (value bool)
+	GetBlocked() (value bool)
+	GetCanDeleteChannel() (value bool)
+	GetAntispam() (value bool)
+	GetParticipantsHidden() (value bool)
+	GetTranslationsDisabled() (value bool)
+	GetStoriesPinnedAvailable() (value bool)
+	GetViewForumAsMessages() (value bool)
+	GetRestrictedSponsored() (value bool)
+	GetCanViewRevenue() (value bool)
+	GetPaidMediaAllowed() (value bool)
+	GetCanViewStarsRevenue() (value bool)
+	GetPaidReactionsAvailable() (value bool)
+	GetID() (value int64)
+	GetAbout() (value string)
+	GetParticipantsCount() (value int, ok bool)
+	GetAdminsCount() (value int, ok bool)
+	GetKickedCount() (value int, ok bool)
+	GetBannedCount() (value int, ok bool)
+	GetOnlineCount() (value int, ok bool)
+	GetReadInboxMaxID() (value int)
+	GetReadOutboxMaxID() (value int)
+	GetUnreadCount() (value int)
+	GetChatPhoto() (value PhotoClass)
+	GetNotifySettings() (value PeerNotifySettings)
+	GetExportedInvite() (value ExportedChatInviteClass, ok bool)
+	GetBotInfo() (value []BotInfo)
+	GetMigratedFromChatID() (value int64, ok bool)
+	GetMigratedFromMaxID() (value int, ok bool)
+	GetPinnedMsgID() (value int, ok bool)
+	GetStickerset() (value StickerSet, ok bool)
+	GetAvailableMinID() (value int, ok bool)
+	GetFolderID() (value int, ok bool)
+	GetLinkedChatID() (value int64, ok bool)
+	GetLocation() (value ChannelLocationClass, ok bool)
+	GetSlowmodeSeconds() (value int, ok bool)
+	GetSlowmodeNextSendDate() (value int, ok bool)
+	GetStatsDC() (value int, ok bool)
+	GetPts() (value int)
+	GetCall() (value InputGroupCall, ok bool)
+	GetTTLPeriod() (value int, ok bool)
+	GetPendingSuggestions() (value []string, ok bool)
+	GetGroupcallDefaultJoinAs() (value PeerClass, ok bool)
+	GetThemeEmoticon() (value string, ok bool)
+	GetRequestsPending() (value int, ok bool)
+	GetRecentRequesters() (value []int64, ok bool)
+	GetDefaultSendAs() (value PeerClass, ok bool)
+	GetAvailableReactions() (value ChatReactionsClass, ok bool)
+	GetReactionsLimit() (value int, ok bool)
+	GetStories() (value PeerStories, ok bool)
+	GetWallpaper() (value WallPaperClass, ok bool)
+	GetBoostsApplied() (value int, ok bool)
+	GetBoostsUnrestrict() (value int, ok bool)
+	GetEmojiset() (value StickerSet, ok bool)
+}) {
+	c.CanViewParticipants = from.GetCanViewParticipants()
+	c.CanSetUsername = from.GetCanSetUsername()
+	c.CanSetStickers = from.GetCanSetStickers()
+	c.HiddenPrehistory = from.GetHiddenPrehistory()
+	c.CanSetLocation = from.GetCanSetLocation()
+	c.HasScheduled = from.GetHasScheduled()
+	c.CanViewStats = from.GetCanViewStats()
+	c.Blocked = from.GetBlocked()
+	c.CanDeleteChannel = from.GetCanDeleteChannel()
+	c.Antispam = from.GetAntispam()
+	c.ParticipantsHidden = from.GetParticipantsHidden()
+	c.TranslationsDisabled = from.GetTranslationsDisabled()
+	c.StoriesPinnedAvailable = from.GetStoriesPinnedAvailable()
+	c.ViewForumAsMessages = from.GetViewForumAsMessages()
+	c.RestrictedSponsored = from.GetRestrictedSponsored()
+	c.CanViewRevenue = from.GetCanViewRevenue()
+	c.PaidMediaAllowed = from.GetPaidMediaAllowed()
+	c.CanViewStarsRevenue = from.GetCanViewStarsRevenue()
+	c.PaidReactionsAvailable = from.GetPaidReactionsAvailable()
+	c.ID = from.GetID()
+	c.About = from.GetAbout()
+	if val, ok := from.GetParticipantsCount(); ok {
+		c.ParticipantsCount = val
+	}
+
+	if val, ok := from.GetAdminsCount(); ok {
+		c.AdminsCount = val
+	}
+
+	if val, ok := from.GetKickedCount(); ok {
+		c.KickedCount = val
+	}
+
+	if val, ok := from.GetBannedCount(); ok {
+		c.BannedCount = val
+	}
+
+	if val, ok := from.GetOnlineCount(); ok {
+		c.OnlineCount = val
+	}
+
+	c.ReadInboxMaxID = from.GetReadInboxMaxID()
+	c.ReadOutboxMaxID = from.GetReadOutboxMaxID()
+	c.UnreadCount = from.GetUnreadCount()
+	c.ChatPhoto = from.GetChatPhoto()
+	c.NotifySettings = from.GetNotifySettings()
+	if val, ok := from.GetExportedInvite(); ok {
+		c.ExportedInvite = val
+	}
+
+	c.BotInfo = from.GetBotInfo()
+	if val, ok := from.GetMigratedFromChatID(); ok {
+		c.MigratedFromChatID = val
+	}
+
+	if val, ok := from.GetMigratedFromMaxID(); ok {
+		c.MigratedFromMaxID = val
+	}
+
+	if val, ok := from.GetPinnedMsgID(); ok {
+		c.PinnedMsgID = val
+	}
+
+	if val, ok := from.GetStickerset(); ok {
+		c.Stickerset = val
+	}
+
+	if val, ok := from.GetAvailableMinID(); ok {
+		c.AvailableMinID = val
+	}
+
+	if val, ok := from.GetFolderID(); ok {
+		c.FolderID = val
+	}
+
+	if val, ok := from.GetLinkedChatID(); ok {
+		c.LinkedChatID = val
+	}
+
+	if val, ok := from.GetLocation(); ok {
+		c.Location = val
+	}
+
+	if val, ok := from.GetSlowmodeSeconds(); ok {
+		c.SlowmodeSeconds = val
+	}
+
+	if val, ok := from.GetSlowmodeNextSendDate(); ok {
+		c.SlowmodeNextSendDate = val
+	}
+
+	if val, ok := from.GetStatsDC(); ok {
+		c.StatsDC = val
+	}
+
+	c.Pts = from.GetPts()
+	if val, ok := from.GetCall(); ok {
+		c.Call = val
+	}
+
+	if val, ok := from.GetTTLPeriod(); ok {
+		c.TTLPeriod = val
+	}
+
+	if val, ok := from.GetPendingSuggestions(); ok {
+		c.PendingSuggestions = val
+	}
+
+	if val, ok := from.GetGroupcallDefaultJoinAs(); ok {
+		c.GroupcallDefaultJoinAs = val
+	}
+
+	if val, ok := from.GetThemeEmoticon(); ok {
+		c.ThemeEmoticon = val
+	}
+
+	if val, ok := from.GetRequestsPending(); ok {
+		c.RequestsPending = val
+	}
+
+	if val, ok := from.GetRecentRequesters(); ok {
+		c.RecentRequesters = val
+	}
+
+	if val, ok := from.GetDefaultSendAs(); ok {
+		c.DefaultSendAs = val
+	}
+
+	if val, ok := from.GetAvailableReactions(); ok {
+		c.AvailableReactions = val
+	}
+
+	if val, ok := from.GetReactionsLimit(); ok {
+		c.ReactionsLimit = val
+	}
+
+	if val, ok := from.GetStories(); ok {
+		c.Stories = val
+	}
+
+	if val, ok := from.GetWallpaper(); ok {
+		c.Wallpaper = val
+	}
+
+	if val, ok := from.GetBoostsApplied(); ok {
+		c.BoostsApplied = val
+	}
+
+	if val, ok := from.GetBoostsUnrestrict(); ok {
+		c.BoostsUnrestrict = val
+	}
+
+	if val, ok := from.GetEmojiset(); ok {
+		c.Emojiset = val
+	}
+
 }
 
 // TypeID returns type id in TL schema.
@@ -3400,6 +3871,8 @@ const ChatFullClassName = "ChatFull"
 
 // ChatFullClass represents ChatFull generic type.
 //
+// See https://core.telegram.org/type/ChatFull for reference.
+//
 // Constructors:
 //   - [ChatFull]
 //   - [ChannelFull]
@@ -3433,39 +3906,80 @@ type ChatFullClass interface {
 	// Zero returns true if current object has a zero value.
 	Zero() bool
 
-	// CanSetUsername field of ChatFull.
+	// Can we change the username of this chat
 	GetCanSetUsername() (value bool)
-	// HasScheduled field of ChatFull.
+
+	// Whether scheduled messages¹ are available
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/scheduled-messages
 	GetHasScheduled() (value bool)
-	// TranslationsDisabled field of ChatFull.
+
+	// Whether the real-time chat translation popup¹ should be hidden.
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/translation
 	GetTranslationsDisabled() (value bool)
-	// ID field of ChatFull.
+
+	// ID of the chat
 	GetID() (value int64)
-	// About field of ChatFull.
+
+	// About string for this chat
 	GetAbout() (value string)
-	// NotifySettings field of ChatFull.
+
+	// Notification settings
 	GetNotifySettings() (value PeerNotifySettings)
-	// ExportedInvite field of ChatFull.
+
+	// Chat invite
 	GetExportedInvite() (value ExportedChatInviteClass, ok bool)
-	// PinnedMsgID field of ChatFull.
+
+	// Message ID of the last pinned message¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/pin
 	GetPinnedMsgID() (value int, ok bool)
-	// FolderID field of ChatFull.
+
+	// Peer folder ID, for more info click here¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/folders#peer-folders
 	GetFolderID() (value int, ok bool)
-	// Call field of ChatFull.
+
+	// Group call information
 	GetCall() (value InputGroupCall, ok bool)
-	// TTLPeriod field of ChatFull.
+
+	// Time-To-Live of messages sent by the current user to this chat
 	GetTTLPeriod() (value int, ok bool)
-	// GroupcallDefaultJoinAs field of ChatFull.
+
+	// When using phone.getGroupCallJoinAs¹ to get a list of peers that can be used to join
+	// a group call, this field indicates the peer that should be selected by default.
+	//
+	// Links:
+	//  1) https://core.telegram.org/method/phone.getGroupCallJoinAs
 	GetGroupcallDefaultJoinAs() (value PeerClass, ok bool)
-	// ThemeEmoticon field of ChatFull.
+
+	// Emoji representing a specific chat theme
 	GetThemeEmoticon() (value string, ok bool)
-	// RequestsPending field of ChatFull.
+
+	// Pending join requests »¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/invites#join-requests
 	GetRequestsPending() (value int, ok bool)
-	// RecentRequesters field of ChatFull.
+
+	// IDs of users who requested to join recently
 	GetRecentRequesters() (value []int64, ok bool)
-	// AvailableReactions field of ChatFull.
+	// Allowed message reactions »¹
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/reactions
 	GetAvailableReactions() (value ChatReactionsClass, ok bool)
-	// ReactionsLimit field of ChatFull.
+
+	// This flag may be used to impose a custom limit of unique reactions (i.e. a
+	// customizable version of appConfig.reactions_uniq_max¹).
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/config#reactions-uniq-max
 	GetReactionsLimit() (value int, ok bool)
 }
 

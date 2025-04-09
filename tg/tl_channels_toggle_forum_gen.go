@@ -32,10 +32,16 @@ var (
 )
 
 // ChannelsToggleForumRequest represents TL type `channels.toggleForum#a4298b29`.
+// Enable or disable forum functionality¹ in a supergroup.
+//
+// Links:
+//  1. https://core.telegram.org/api/forum
+//
+// See https://core.telegram.org/method/channels.toggleForum for reference.
 type ChannelsToggleForumRequest struct {
-	// Channel field of ChannelsToggleForumRequest.
+	// Supergroup ID
 	Channel InputChannelClass
-	// Enabled field of ChannelsToggleForumRequest.
+	// Enable or disable forum functionality
 	Enabled bool
 }
 
@@ -71,6 +77,15 @@ func (t *ChannelsToggleForumRequest) String() string {
 	}
 	type Alias ChannelsToggleForumRequest
 	return fmt.Sprintf("ChannelsToggleForumRequest%+v", Alias(*t))
+}
+
+// FillFrom fills ChannelsToggleForumRequest from given interface.
+func (t *ChannelsToggleForumRequest) FillFrom(from interface {
+	GetChannel() (value InputChannelClass)
+	GetEnabled() (value bool)
+}) {
+	t.Channel = from.GetChannel()
+	t.Enabled = from.GetEnabled()
 }
 
 // TypeID returns type id in TL schema.
@@ -181,7 +196,24 @@ func (t *ChannelsToggleForumRequest) GetEnabled() (value bool) {
 	return t.Enabled
 }
 
+// GetChannelAsNotEmpty returns mapped value of Channel field.
+func (t *ChannelsToggleForumRequest) GetChannelAsNotEmpty() (NotEmptyInputChannel, bool) {
+	return t.Channel.AsNotEmpty()
+}
+
 // ChannelsToggleForum invokes method channels.toggleForum#a4298b29 returning error if any.
+// Enable or disable forum functionality¹ in a supergroup.
+//
+// Links:
+//  1. https://core.telegram.org/api/forum
+//
+// Possible errors:
+//
+//	400 CHANNEL_INVALID: The provided channel is invalid.
+//	400 CHAT_DISCUSSION_UNALLOWED: You can't enable forum topics in a discussion group linked to a channel.
+//	400 CHAT_NOT_MODIFIED: No changes were made to chat information because the new information you passed is identical to the current information.
+//
+// See https://core.telegram.org/method/channels.toggleForum for reference.
 func (c *Client) ChannelsToggleForum(ctx context.Context, request *ChannelsToggleForumRequest) (UpdatesClass, error) {
 	var result UpdatesBox
 
