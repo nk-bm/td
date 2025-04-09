@@ -31,27 +31,18 @@ var (
 	_ = tdjson.Encoder{}
 )
 
-// MessagesReportSponsoredMessageRequest represents TL type `messages.reportSponsoredMessage#12cbf0c4`.
-// Report a sponsored message »¹, see here »² for more info on the full flow.
-//
-// Links:
-//  1. https://core.telegram.org/api/sponsored-messages
-//  2. https://core.telegram.org/api/sponsored-messages#reporting-sponsored-messages
-//
-// See https://core.telegram.org/method/messages.reportSponsoredMessage for reference.
+// MessagesReportSponsoredMessageRequest represents TL type `messages.reportSponsoredMessage#1af3dbb8`.
 type MessagesReportSponsoredMessageRequest struct {
-	// The ad's unique ID.
+	// Peer field of MessagesReportSponsoredMessageRequest.
+	Peer InputPeerClass
+	// RandomID field of MessagesReportSponsoredMessageRequest.
 	RandomID []byte
-	// Chosen report option, initially an empty string, see here »¹ for more info on the
-	// full flow.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/sponsored-messages#reporting-sponsored-messages
+	// Option field of MessagesReportSponsoredMessageRequest.
 	Option []byte
 }
 
 // MessagesReportSponsoredMessageRequestTypeID is TL type id of MessagesReportSponsoredMessageRequest.
-const MessagesReportSponsoredMessageRequestTypeID = 0x12cbf0c4
+const MessagesReportSponsoredMessageRequestTypeID = 0x1af3dbb8
 
 // Ensuring interfaces in compile-time for MessagesReportSponsoredMessageRequest.
 var (
@@ -64,6 +55,9 @@ var (
 func (r *MessagesReportSponsoredMessageRequest) Zero() bool {
 	if r == nil {
 		return true
+	}
+	if !(r.Peer == nil) {
+		return false
 	}
 	if !(r.RandomID == nil) {
 		return false
@@ -82,15 +76,6 @@ func (r *MessagesReportSponsoredMessageRequest) String() string {
 	}
 	type Alias MessagesReportSponsoredMessageRequest
 	return fmt.Sprintf("MessagesReportSponsoredMessageRequest%+v", Alias(*r))
-}
-
-// FillFrom fills MessagesReportSponsoredMessageRequest from given interface.
-func (r *MessagesReportSponsoredMessageRequest) FillFrom(from interface {
-	GetRandomID() (value []byte)
-	GetOption() (value []byte)
-}) {
-	r.RandomID = from.GetRandomID()
-	r.Option = from.GetOption()
 }
 
 // TypeID returns type id in TL schema.
@@ -117,6 +102,10 @@ func (r *MessagesReportSponsoredMessageRequest) TypeInfo() tdp.Type {
 	}
 	typ.Fields = []tdp.Field{
 		{
+			Name:       "Peer",
+			SchemaName: "peer",
+		},
+		{
 			Name:       "RandomID",
 			SchemaName: "random_id",
 		},
@@ -131,7 +120,7 @@ func (r *MessagesReportSponsoredMessageRequest) TypeInfo() tdp.Type {
 // Encode implements bin.Encoder.
 func (r *MessagesReportSponsoredMessageRequest) Encode(b *bin.Buffer) error {
 	if r == nil {
-		return fmt.Errorf("can't encode messages.reportSponsoredMessage#12cbf0c4 as nil")
+		return fmt.Errorf("can't encode messages.reportSponsoredMessage#1af3dbb8 as nil")
 	}
 	b.PutID(MessagesReportSponsoredMessageRequestTypeID)
 	return r.EncodeBare(b)
@@ -140,7 +129,13 @@ func (r *MessagesReportSponsoredMessageRequest) Encode(b *bin.Buffer) error {
 // EncodeBare implements bin.BareEncoder.
 func (r *MessagesReportSponsoredMessageRequest) EncodeBare(b *bin.Buffer) error {
 	if r == nil {
-		return fmt.Errorf("can't encode messages.reportSponsoredMessage#12cbf0c4 as nil")
+		return fmt.Errorf("can't encode messages.reportSponsoredMessage#1af3dbb8 as nil")
+	}
+	if r.Peer == nil {
+		return fmt.Errorf("unable to encode messages.reportSponsoredMessage#1af3dbb8: field peer is nil")
+	}
+	if err := r.Peer.Encode(b); err != nil {
+		return fmt.Errorf("unable to encode messages.reportSponsoredMessage#1af3dbb8: field peer: %w", err)
 	}
 	b.PutBytes(r.RandomID)
 	b.PutBytes(r.Option)
@@ -150,10 +145,10 @@ func (r *MessagesReportSponsoredMessageRequest) EncodeBare(b *bin.Buffer) error 
 // Decode implements bin.Decoder.
 func (r *MessagesReportSponsoredMessageRequest) Decode(b *bin.Buffer) error {
 	if r == nil {
-		return fmt.Errorf("can't decode messages.reportSponsoredMessage#12cbf0c4 to nil")
+		return fmt.Errorf("can't decode messages.reportSponsoredMessage#1af3dbb8 to nil")
 	}
 	if err := b.ConsumeID(MessagesReportSponsoredMessageRequestTypeID); err != nil {
-		return fmt.Errorf("unable to decode messages.reportSponsoredMessage#12cbf0c4: %w", err)
+		return fmt.Errorf("unable to decode messages.reportSponsoredMessage#1af3dbb8: %w", err)
 	}
 	return r.DecodeBare(b)
 }
@@ -161,23 +156,38 @@ func (r *MessagesReportSponsoredMessageRequest) Decode(b *bin.Buffer) error {
 // DecodeBare implements bin.BareDecoder.
 func (r *MessagesReportSponsoredMessageRequest) DecodeBare(b *bin.Buffer) error {
 	if r == nil {
-		return fmt.Errorf("can't decode messages.reportSponsoredMessage#12cbf0c4 to nil")
+		return fmt.Errorf("can't decode messages.reportSponsoredMessage#1af3dbb8 to nil")
+	}
+	{
+		value, err := DecodeInputPeer(b)
+		if err != nil {
+			return fmt.Errorf("unable to decode messages.reportSponsoredMessage#1af3dbb8: field peer: %w", err)
+		}
+		r.Peer = value
 	}
 	{
 		value, err := b.Bytes()
 		if err != nil {
-			return fmt.Errorf("unable to decode messages.reportSponsoredMessage#12cbf0c4: field random_id: %w", err)
+			return fmt.Errorf("unable to decode messages.reportSponsoredMessage#1af3dbb8: field random_id: %w", err)
 		}
 		r.RandomID = value
 	}
 	{
 		value, err := b.Bytes()
 		if err != nil {
-			return fmt.Errorf("unable to decode messages.reportSponsoredMessage#12cbf0c4: field option: %w", err)
+			return fmt.Errorf("unable to decode messages.reportSponsoredMessage#1af3dbb8: field option: %w", err)
 		}
 		r.Option = value
 	}
 	return nil
+}
+
+// GetPeer returns value of Peer field.
+func (r *MessagesReportSponsoredMessageRequest) GetPeer() (value InputPeerClass) {
+	if r == nil {
+		return
+	}
+	return r.Peer
 }
 
 // GetRandomID returns value of RandomID field.
@@ -196,14 +206,7 @@ func (r *MessagesReportSponsoredMessageRequest) GetOption() (value []byte) {
 	return r.Option
 }
 
-// MessagesReportSponsoredMessage invokes method messages.reportSponsoredMessage#12cbf0c4 returning error if any.
-// Report a sponsored message »¹, see here »² for more info on the full flow.
-//
-// Links:
-//  1. https://core.telegram.org/api/sponsored-messages
-//  2. https://core.telegram.org/api/sponsored-messages#reporting-sponsored-messages
-//
-// See https://core.telegram.org/method/messages.reportSponsoredMessage for reference.
+// MessagesReportSponsoredMessage invokes method messages.reportSponsoredMessage#1af3dbb8 returning error if any.
 func (c *Client) MessagesReportSponsoredMessage(ctx context.Context, request *MessagesReportSponsoredMessageRequest) (ChannelsSponsoredMessageReportResultClass, error) {
 	var result ChannelsSponsoredMessageReportResultBox
 

@@ -31,34 +31,22 @@ var (
 	_ = tdjson.Encoder{}
 )
 
-// AccountUpdateConnectedBotRequest represents TL type `account.updateConnectedBot#66a08c7e`.
-// Connect a business bot »¹ to the current account, or to change the current
-// connection settings.
-//
-// Links:
-//  1. https://core.telegram.org/api/business#connected-bots
-//
-// See https://core.telegram.org/method/account.updateConnectedBot for reference.
+// AccountUpdateConnectedBotRequest represents TL type `account.updateConnectedBot#43d8521d`.
 type AccountUpdateConnectedBotRequest struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of AccountUpdateConnectedBotRequest.
 	Flags bin.Fields
-	// Whether to fully disconnect the bot from the current account.
+	// CanReply field of AccountUpdateConnectedBotRequest.
+	CanReply bool
+	// Deleted field of AccountUpdateConnectedBotRequest.
 	Deleted bool
-	// Rights field of AccountUpdateConnectedBotRequest.
-	//
-	// Use SetRights and GetRights helpers.
-	Rights BusinessBotRights
-	// The bot to connect or disconnect
+	// Bot field of AccountUpdateConnectedBotRequest.
 	Bot InputUserClass
-	// Configuration for the business connection
+	// Recipients field of AccountUpdateConnectedBotRequest.
 	Recipients InputBusinessBotRecipients
 }
 
 // AccountUpdateConnectedBotRequestTypeID is TL type id of AccountUpdateConnectedBotRequest.
-const AccountUpdateConnectedBotRequestTypeID = 0x66a08c7e
+const AccountUpdateConnectedBotRequestTypeID = 0x43d8521d
 
 // Ensuring interfaces in compile-time for AccountUpdateConnectedBotRequest.
 var (
@@ -75,10 +63,10 @@ func (u *AccountUpdateConnectedBotRequest) Zero() bool {
 	if !(u.Flags.Zero()) {
 		return false
 	}
-	if !(u.Deleted == false) {
+	if !(u.CanReply == false) {
 		return false
 	}
-	if !(u.Rights.Zero()) {
+	if !(u.Deleted == false) {
 		return false
 	}
 	if !(u.Bot == nil) {
@@ -98,22 +86,6 @@ func (u *AccountUpdateConnectedBotRequest) String() string {
 	}
 	type Alias AccountUpdateConnectedBotRequest
 	return fmt.Sprintf("AccountUpdateConnectedBotRequest%+v", Alias(*u))
-}
-
-// FillFrom fills AccountUpdateConnectedBotRequest from given interface.
-func (u *AccountUpdateConnectedBotRequest) FillFrom(from interface {
-	GetDeleted() (value bool)
-	GetRights() (value BusinessBotRights, ok bool)
-	GetBot() (value InputUserClass)
-	GetRecipients() (value InputBusinessBotRecipients)
-}) {
-	u.Deleted = from.GetDeleted()
-	if val, ok := from.GetRights(); ok {
-		u.Rights = val
-	}
-
-	u.Bot = from.GetBot()
-	u.Recipients = from.GetRecipients()
 }
 
 // TypeID returns type id in TL schema.
@@ -140,14 +112,14 @@ func (u *AccountUpdateConnectedBotRequest) TypeInfo() tdp.Type {
 	}
 	typ.Fields = []tdp.Field{
 		{
+			Name:       "CanReply",
+			SchemaName: "can_reply",
+			Null:       !u.Flags.Has(0),
+		},
+		{
 			Name:       "Deleted",
 			SchemaName: "deleted",
 			Null:       !u.Flags.Has(1),
-		},
-		{
-			Name:       "Rights",
-			SchemaName: "rights",
-			Null:       !u.Flags.Has(0),
 		},
 		{
 			Name:       "Bot",
@@ -163,18 +135,18 @@ func (u *AccountUpdateConnectedBotRequest) TypeInfo() tdp.Type {
 
 // SetFlags sets flags for non-zero fields.
 func (u *AccountUpdateConnectedBotRequest) SetFlags() {
+	if !(u.CanReply == false) {
+		u.Flags.Set(0)
+	}
 	if !(u.Deleted == false) {
 		u.Flags.Set(1)
-	}
-	if !(u.Rights.Zero()) {
-		u.Flags.Set(0)
 	}
 }
 
 // Encode implements bin.Encoder.
 func (u *AccountUpdateConnectedBotRequest) Encode(b *bin.Buffer) error {
 	if u == nil {
-		return fmt.Errorf("can't encode account.updateConnectedBot#66a08c7e as nil")
+		return fmt.Errorf("can't encode account.updateConnectedBot#43d8521d as nil")
 	}
 	b.PutID(AccountUpdateConnectedBotRequestTypeID)
 	return u.EncodeBare(b)
@@ -183,25 +155,20 @@ func (u *AccountUpdateConnectedBotRequest) Encode(b *bin.Buffer) error {
 // EncodeBare implements bin.BareEncoder.
 func (u *AccountUpdateConnectedBotRequest) EncodeBare(b *bin.Buffer) error {
 	if u == nil {
-		return fmt.Errorf("can't encode account.updateConnectedBot#66a08c7e as nil")
+		return fmt.Errorf("can't encode account.updateConnectedBot#43d8521d as nil")
 	}
 	u.SetFlags()
 	if err := u.Flags.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode account.updateConnectedBot#66a08c7e: field flags: %w", err)
-	}
-	if u.Flags.Has(0) {
-		if err := u.Rights.Encode(b); err != nil {
-			return fmt.Errorf("unable to encode account.updateConnectedBot#66a08c7e: field rights: %w", err)
-		}
+		return fmt.Errorf("unable to encode account.updateConnectedBot#43d8521d: field flags: %w", err)
 	}
 	if u.Bot == nil {
-		return fmt.Errorf("unable to encode account.updateConnectedBot#66a08c7e: field bot is nil")
+		return fmt.Errorf("unable to encode account.updateConnectedBot#43d8521d: field bot is nil")
 	}
 	if err := u.Bot.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode account.updateConnectedBot#66a08c7e: field bot: %w", err)
+		return fmt.Errorf("unable to encode account.updateConnectedBot#43d8521d: field bot: %w", err)
 	}
 	if err := u.Recipients.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode account.updateConnectedBot#66a08c7e: field recipients: %w", err)
+		return fmt.Errorf("unable to encode account.updateConnectedBot#43d8521d: field recipients: %w", err)
 	}
 	return nil
 }
@@ -209,10 +176,10 @@ func (u *AccountUpdateConnectedBotRequest) EncodeBare(b *bin.Buffer) error {
 // Decode implements bin.Decoder.
 func (u *AccountUpdateConnectedBotRequest) Decode(b *bin.Buffer) error {
 	if u == nil {
-		return fmt.Errorf("can't decode account.updateConnectedBot#66a08c7e to nil")
+		return fmt.Errorf("can't decode account.updateConnectedBot#43d8521d to nil")
 	}
 	if err := b.ConsumeID(AccountUpdateConnectedBotRequestTypeID); err != nil {
-		return fmt.Errorf("unable to decode account.updateConnectedBot#66a08c7e: %w", err)
+		return fmt.Errorf("unable to decode account.updateConnectedBot#43d8521d: %w", err)
 	}
 	return u.DecodeBare(b)
 }
@@ -220,32 +187,47 @@ func (u *AccountUpdateConnectedBotRequest) Decode(b *bin.Buffer) error {
 // DecodeBare implements bin.BareDecoder.
 func (u *AccountUpdateConnectedBotRequest) DecodeBare(b *bin.Buffer) error {
 	if u == nil {
-		return fmt.Errorf("can't decode account.updateConnectedBot#66a08c7e to nil")
+		return fmt.Errorf("can't decode account.updateConnectedBot#43d8521d to nil")
 	}
 	{
 		if err := u.Flags.Decode(b); err != nil {
-			return fmt.Errorf("unable to decode account.updateConnectedBot#66a08c7e: field flags: %w", err)
+			return fmt.Errorf("unable to decode account.updateConnectedBot#43d8521d: field flags: %w", err)
 		}
 	}
+	u.CanReply = u.Flags.Has(0)
 	u.Deleted = u.Flags.Has(1)
-	if u.Flags.Has(0) {
-		if err := u.Rights.Decode(b); err != nil {
-			return fmt.Errorf("unable to decode account.updateConnectedBot#66a08c7e: field rights: %w", err)
-		}
-	}
 	{
 		value, err := DecodeInputUser(b)
 		if err != nil {
-			return fmt.Errorf("unable to decode account.updateConnectedBot#66a08c7e: field bot: %w", err)
+			return fmt.Errorf("unable to decode account.updateConnectedBot#43d8521d: field bot: %w", err)
 		}
 		u.Bot = value
 	}
 	{
 		if err := u.Recipients.Decode(b); err != nil {
-			return fmt.Errorf("unable to decode account.updateConnectedBot#66a08c7e: field recipients: %w", err)
+			return fmt.Errorf("unable to decode account.updateConnectedBot#43d8521d: field recipients: %w", err)
 		}
 	}
 	return nil
+}
+
+// SetCanReply sets value of CanReply conditional field.
+func (u *AccountUpdateConnectedBotRequest) SetCanReply(value bool) {
+	if value {
+		u.Flags.Set(0)
+		u.CanReply = true
+	} else {
+		u.Flags.Unset(0)
+		u.CanReply = false
+	}
+}
+
+// GetCanReply returns value of CanReply conditional field.
+func (u *AccountUpdateConnectedBotRequest) GetCanReply() (value bool) {
+	if u == nil {
+		return
+	}
+	return u.Flags.Has(0)
 }
 
 // SetDeleted sets value of Deleted conditional field.
@@ -267,24 +249,6 @@ func (u *AccountUpdateConnectedBotRequest) GetDeleted() (value bool) {
 	return u.Flags.Has(1)
 }
 
-// SetRights sets value of Rights conditional field.
-func (u *AccountUpdateConnectedBotRequest) SetRights(value BusinessBotRights) {
-	u.Flags.Set(0)
-	u.Rights = value
-}
-
-// GetRights returns value of Rights conditional field and
-// boolean which is true if field was set.
-func (u *AccountUpdateConnectedBotRequest) GetRights() (value BusinessBotRights, ok bool) {
-	if u == nil {
-		return
-	}
-	if !u.Flags.Has(0) {
-		return value, false
-	}
-	return u.Rights, true
-}
-
 // GetBot returns value of Bot field.
 func (u *AccountUpdateConnectedBotRequest) GetBot() (value InputUserClass) {
 	if u == nil {
@@ -301,20 +265,7 @@ func (u *AccountUpdateConnectedBotRequest) GetRecipients() (value InputBusinessB
 	return u.Recipients
 }
 
-// AccountUpdateConnectedBot invokes method account.updateConnectedBot#66a08c7e returning error if any.
-// Connect a business bot »¹ to the current account, or to change the current
-// connection settings.
-//
-// Links:
-//  1. https://core.telegram.org/api/business#connected-bots
-//
-// Possible errors:
-//
-//	400 BOT_BUSINESS_MISSING: The specified bot is not a business bot (the user.bot_business flag is not set).
-//	400 BUSINESS_RECIPIENTS_EMPTY: You didn't set any flag in inputBusinessBotRecipients, thus the bot cannot work with any peer.
-//	403 PREMIUM_ACCOUNT_REQUIRED: A premium account is required to execute this action.
-//
-// See https://core.telegram.org/method/account.updateConnectedBot for reference.
+// AccountUpdateConnectedBot invokes method account.updateConnectedBot#43d8521d returning error if any.
 func (c *Client) AccountUpdateConnectedBot(ctx context.Context, request *AccountUpdateConnectedBotRequest) (UpdatesClass, error) {
 	var result UpdatesBox
 

@@ -31,21 +31,14 @@ var (
 	_ = tdjson.Encoder{}
 )
 
-// ChannelsGetSendAsRequest represents TL type `channels.getSendAs#e785a43f`.
-// Obtains a list of peers that can be used to send messages in a specific group
-//
-// See https://core.telegram.org/method/channels.getSendAs for reference.
+// ChannelsGetSendAsRequest represents TL type `channels.getSendAs#dc770ee`.
 type ChannelsGetSendAsRequest struct {
-	// Flags field of ChannelsGetSendAsRequest.
-	Flags bin.Fields
-	// ForPaidReactions field of ChannelsGetSendAsRequest.
-	ForPaidReactions bool
-	// The group where we intend to send messages
+	// Peer field of ChannelsGetSendAsRequest.
 	Peer InputPeerClass
 }
 
 // ChannelsGetSendAsRequestTypeID is TL type id of ChannelsGetSendAsRequest.
-const ChannelsGetSendAsRequestTypeID = 0xe785a43f
+const ChannelsGetSendAsRequestTypeID = 0xdc770ee
 
 // Ensuring interfaces in compile-time for ChannelsGetSendAsRequest.
 var (
@@ -58,12 +51,6 @@ var (
 func (g *ChannelsGetSendAsRequest) Zero() bool {
 	if g == nil {
 		return true
-	}
-	if !(g.Flags.Zero()) {
-		return false
-	}
-	if !(g.ForPaidReactions == false) {
-		return false
 	}
 	if !(g.Peer == nil) {
 		return false
@@ -79,15 +66,6 @@ func (g *ChannelsGetSendAsRequest) String() string {
 	}
 	type Alias ChannelsGetSendAsRequest
 	return fmt.Sprintf("ChannelsGetSendAsRequest%+v", Alias(*g))
-}
-
-// FillFrom fills ChannelsGetSendAsRequest from given interface.
-func (g *ChannelsGetSendAsRequest) FillFrom(from interface {
-	GetForPaidReactions() (value bool)
-	GetPeer() (value InputPeerClass)
-}) {
-	g.ForPaidReactions = from.GetForPaidReactions()
-	g.Peer = from.GetPeer()
 }
 
 // TypeID returns type id in TL schema.
@@ -114,11 +92,6 @@ func (g *ChannelsGetSendAsRequest) TypeInfo() tdp.Type {
 	}
 	typ.Fields = []tdp.Field{
 		{
-			Name:       "ForPaidReactions",
-			SchemaName: "for_paid_reactions",
-			Null:       !g.Flags.Has(0),
-		},
-		{
 			Name:       "Peer",
 			SchemaName: "peer",
 		},
@@ -126,17 +99,10 @@ func (g *ChannelsGetSendAsRequest) TypeInfo() tdp.Type {
 	return typ
 }
 
-// SetFlags sets flags for non-zero fields.
-func (g *ChannelsGetSendAsRequest) SetFlags() {
-	if !(g.ForPaidReactions == false) {
-		g.Flags.Set(0)
-	}
-}
-
 // Encode implements bin.Encoder.
 func (g *ChannelsGetSendAsRequest) Encode(b *bin.Buffer) error {
 	if g == nil {
-		return fmt.Errorf("can't encode channels.getSendAs#e785a43f as nil")
+		return fmt.Errorf("can't encode channels.getSendAs#dc770ee as nil")
 	}
 	b.PutID(ChannelsGetSendAsRequestTypeID)
 	return g.EncodeBare(b)
@@ -145,17 +111,13 @@ func (g *ChannelsGetSendAsRequest) Encode(b *bin.Buffer) error {
 // EncodeBare implements bin.BareEncoder.
 func (g *ChannelsGetSendAsRequest) EncodeBare(b *bin.Buffer) error {
 	if g == nil {
-		return fmt.Errorf("can't encode channels.getSendAs#e785a43f as nil")
-	}
-	g.SetFlags()
-	if err := g.Flags.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode channels.getSendAs#e785a43f: field flags: %w", err)
+		return fmt.Errorf("can't encode channels.getSendAs#dc770ee as nil")
 	}
 	if g.Peer == nil {
-		return fmt.Errorf("unable to encode channels.getSendAs#e785a43f: field peer is nil")
+		return fmt.Errorf("unable to encode channels.getSendAs#dc770ee: field peer is nil")
 	}
 	if err := g.Peer.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode channels.getSendAs#e785a43f: field peer: %w", err)
+		return fmt.Errorf("unable to encode channels.getSendAs#dc770ee: field peer: %w", err)
 	}
 	return nil
 }
@@ -163,10 +125,10 @@ func (g *ChannelsGetSendAsRequest) EncodeBare(b *bin.Buffer) error {
 // Decode implements bin.Decoder.
 func (g *ChannelsGetSendAsRequest) Decode(b *bin.Buffer) error {
 	if g == nil {
-		return fmt.Errorf("can't decode channels.getSendAs#e785a43f to nil")
+		return fmt.Errorf("can't decode channels.getSendAs#dc770ee to nil")
 	}
 	if err := b.ConsumeID(ChannelsGetSendAsRequestTypeID); err != nil {
-		return fmt.Errorf("unable to decode channels.getSendAs#e785a43f: %w", err)
+		return fmt.Errorf("unable to decode channels.getSendAs#dc770ee: %w", err)
 	}
 	return g.DecodeBare(b)
 }
@@ -174,41 +136,16 @@ func (g *ChannelsGetSendAsRequest) Decode(b *bin.Buffer) error {
 // DecodeBare implements bin.BareDecoder.
 func (g *ChannelsGetSendAsRequest) DecodeBare(b *bin.Buffer) error {
 	if g == nil {
-		return fmt.Errorf("can't decode channels.getSendAs#e785a43f to nil")
+		return fmt.Errorf("can't decode channels.getSendAs#dc770ee to nil")
 	}
-	{
-		if err := g.Flags.Decode(b); err != nil {
-			return fmt.Errorf("unable to decode channels.getSendAs#e785a43f: field flags: %w", err)
-		}
-	}
-	g.ForPaidReactions = g.Flags.Has(0)
 	{
 		value, err := DecodeInputPeer(b)
 		if err != nil {
-			return fmt.Errorf("unable to decode channels.getSendAs#e785a43f: field peer: %w", err)
+			return fmt.Errorf("unable to decode channels.getSendAs#dc770ee: field peer: %w", err)
 		}
 		g.Peer = value
 	}
 	return nil
-}
-
-// SetForPaidReactions sets value of ForPaidReactions conditional field.
-func (g *ChannelsGetSendAsRequest) SetForPaidReactions(value bool) {
-	if value {
-		g.Flags.Set(0)
-		g.ForPaidReactions = true
-	} else {
-		g.Flags.Unset(0)
-		g.ForPaidReactions = false
-	}
-}
-
-// GetForPaidReactions returns value of ForPaidReactions conditional field.
-func (g *ChannelsGetSendAsRequest) GetForPaidReactions() (value bool) {
-	if g == nil {
-		return
-	}
-	return g.Flags.Has(0)
 }
 
 // GetPeer returns value of Peer field.
@@ -219,20 +156,13 @@ func (g *ChannelsGetSendAsRequest) GetPeer() (value InputPeerClass) {
 	return g.Peer
 }
 
-// ChannelsGetSendAs invokes method channels.getSendAs#e785a43f returning error if any.
-// Obtains a list of peers that can be used to send messages in a specific group
-//
-// Possible errors:
-//
-//	400 CHANNEL_INVALID: The provided channel is invalid.
-//	400 CHANNEL_PRIVATE: You haven't joined this channel/supergroup.
-//	400 CHAT_ID_INVALID: The provided chat id is invalid.
-//	400 PEER_ID_INVALID: The provided peer id is invalid.
-//
-// See https://core.telegram.org/method/channels.getSendAs for reference.
-func (c *Client) ChannelsGetSendAs(ctx context.Context, request *ChannelsGetSendAsRequest) (*ChannelsSendAsPeers, error) {
+// ChannelsGetSendAs invokes method channels.getSendAs#dc770ee returning error if any.
+func (c *Client) ChannelsGetSendAs(ctx context.Context, peer InputPeerClass) (*ChannelsSendAsPeers, error) {
 	var result ChannelsSendAsPeers
 
+	request := &ChannelsGetSendAsRequest{
+		Peer: peer,
+	}
 	if err := c.rpc.Invoke(ctx, request, &result); err != nil {
 		return nil, err
 	}

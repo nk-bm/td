@@ -32,9 +32,6 @@ var (
 )
 
 // MessagesGetDialogUnreadMarksRequest represents TL type `messages.getDialogUnreadMarks#22e24e22`.
-// Get dialogs manually marked as unread
-//
-// See https://core.telegram.org/method/messages.getDialogUnreadMarks for reference.
 type MessagesGetDialogUnreadMarksRequest struct {
 }
 
@@ -129,9 +126,6 @@ func (g *MessagesGetDialogUnreadMarksRequest) DecodeBare(b *bin.Buffer) error {
 }
 
 // MessagesGetDialogUnreadMarks invokes method messages.getDialogUnreadMarks#22e24e22 returning error if any.
-// Get dialogs manually marked as unread
-//
-// See https://core.telegram.org/method/messages.getDialogUnreadMarks for reference.
 func (c *Client) MessagesGetDialogUnreadMarks(ctx context.Context) ([]DialogPeerClass, error) {
 	var result DialogPeerClassVector
 

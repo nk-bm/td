@@ -31,37 +31,24 @@ var (
 	_ = tdjson.Encoder{}
 )
 
-// PhoneRequestCallRequest represents TL type `phone.requestCall#a6c4600c`.
-// Start a telegram phone call
-//
-// See https://core.telegram.org/method/phone.requestCall for reference.
+// PhoneRequestCallRequest represents TL type `phone.requestCall#42ff96ed`.
 type PhoneRequestCallRequest struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of PhoneRequestCallRequest.
 	Flags bin.Fields
-	// Whether to start a video call
+	// Video field of PhoneRequestCallRequest.
 	Video bool
-	// Destination of the phone call
+	// UserID field of PhoneRequestCallRequest.
 	UserID InputUserClass
-	// ConferenceCall field of PhoneRequestCallRequest.
-	//
-	// Use SetConferenceCall and GetConferenceCall helpers.
-	ConferenceCall InputGroupCall
-	// Random ID to avoid resending the same object
+	// RandomID field of PhoneRequestCallRequest.
 	RandomID int
-	// Parameter for E2E encryption key exchange »¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/end-to-end/voice-calls
+	// GAHash field of PhoneRequestCallRequest.
 	GAHash []byte
-	// Phone call settings
+	// Protocol field of PhoneRequestCallRequest.
 	Protocol PhoneCallProtocol
 }
 
 // PhoneRequestCallRequestTypeID is TL type id of PhoneRequestCallRequest.
-const PhoneRequestCallRequestTypeID = 0xa6c4600c
+const PhoneRequestCallRequestTypeID = 0x42ff96ed
 
 // Ensuring interfaces in compile-time for PhoneRequestCallRequest.
 var (
@@ -84,9 +71,6 @@ func (r *PhoneRequestCallRequest) Zero() bool {
 	if !(r.UserID == nil) {
 		return false
 	}
-	if !(r.ConferenceCall.Zero()) {
-		return false
-	}
 	if !(r.RandomID == 0) {
 		return false
 	}
@@ -107,26 +91,6 @@ func (r *PhoneRequestCallRequest) String() string {
 	}
 	type Alias PhoneRequestCallRequest
 	return fmt.Sprintf("PhoneRequestCallRequest%+v", Alias(*r))
-}
-
-// FillFrom fills PhoneRequestCallRequest from given interface.
-func (r *PhoneRequestCallRequest) FillFrom(from interface {
-	GetVideo() (value bool)
-	GetUserID() (value InputUserClass)
-	GetConferenceCall() (value InputGroupCall, ok bool)
-	GetRandomID() (value int)
-	GetGAHash() (value []byte)
-	GetProtocol() (value PhoneCallProtocol)
-}) {
-	r.Video = from.GetVideo()
-	r.UserID = from.GetUserID()
-	if val, ok := from.GetConferenceCall(); ok {
-		r.ConferenceCall = val
-	}
-
-	r.RandomID = from.GetRandomID()
-	r.GAHash = from.GetGAHash()
-	r.Protocol = from.GetProtocol()
 }
 
 // TypeID returns type id in TL schema.
@@ -162,11 +126,6 @@ func (r *PhoneRequestCallRequest) TypeInfo() tdp.Type {
 			SchemaName: "user_id",
 		},
 		{
-			Name:       "ConferenceCall",
-			SchemaName: "conference_call",
-			Null:       !r.Flags.Has(1),
-		},
-		{
 			Name:       "RandomID",
 			SchemaName: "random_id",
 		},
@@ -187,15 +146,12 @@ func (r *PhoneRequestCallRequest) SetFlags() {
 	if !(r.Video == false) {
 		r.Flags.Set(0)
 	}
-	if !(r.ConferenceCall.Zero()) {
-		r.Flags.Set(1)
-	}
 }
 
 // Encode implements bin.Encoder.
 func (r *PhoneRequestCallRequest) Encode(b *bin.Buffer) error {
 	if r == nil {
-		return fmt.Errorf("can't encode phone.requestCall#a6c4600c as nil")
+		return fmt.Errorf("can't encode phone.requestCall#42ff96ed as nil")
 	}
 	b.PutID(PhoneRequestCallRequestTypeID)
 	return r.EncodeBare(b)
@@ -204,27 +160,22 @@ func (r *PhoneRequestCallRequest) Encode(b *bin.Buffer) error {
 // EncodeBare implements bin.BareEncoder.
 func (r *PhoneRequestCallRequest) EncodeBare(b *bin.Buffer) error {
 	if r == nil {
-		return fmt.Errorf("can't encode phone.requestCall#a6c4600c as nil")
+		return fmt.Errorf("can't encode phone.requestCall#42ff96ed as nil")
 	}
 	r.SetFlags()
 	if err := r.Flags.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode phone.requestCall#a6c4600c: field flags: %w", err)
+		return fmt.Errorf("unable to encode phone.requestCall#42ff96ed: field flags: %w", err)
 	}
 	if r.UserID == nil {
-		return fmt.Errorf("unable to encode phone.requestCall#a6c4600c: field user_id is nil")
+		return fmt.Errorf("unable to encode phone.requestCall#42ff96ed: field user_id is nil")
 	}
 	if err := r.UserID.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode phone.requestCall#a6c4600c: field user_id: %w", err)
-	}
-	if r.Flags.Has(1) {
-		if err := r.ConferenceCall.Encode(b); err != nil {
-			return fmt.Errorf("unable to encode phone.requestCall#a6c4600c: field conference_call: %w", err)
-		}
+		return fmt.Errorf("unable to encode phone.requestCall#42ff96ed: field user_id: %w", err)
 	}
 	b.PutInt(r.RandomID)
 	b.PutBytes(r.GAHash)
 	if err := r.Protocol.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode phone.requestCall#a6c4600c: field protocol: %w", err)
+		return fmt.Errorf("unable to encode phone.requestCall#42ff96ed: field protocol: %w", err)
 	}
 	return nil
 }
@@ -232,10 +183,10 @@ func (r *PhoneRequestCallRequest) EncodeBare(b *bin.Buffer) error {
 // Decode implements bin.Decoder.
 func (r *PhoneRequestCallRequest) Decode(b *bin.Buffer) error {
 	if r == nil {
-		return fmt.Errorf("can't decode phone.requestCall#a6c4600c to nil")
+		return fmt.Errorf("can't decode phone.requestCall#42ff96ed to nil")
 	}
 	if err := b.ConsumeID(PhoneRequestCallRequestTypeID); err != nil {
-		return fmt.Errorf("unable to decode phone.requestCall#a6c4600c: %w", err)
+		return fmt.Errorf("unable to decode phone.requestCall#42ff96ed: %w", err)
 	}
 	return r.DecodeBare(b)
 }
@@ -243,43 +194,38 @@ func (r *PhoneRequestCallRequest) Decode(b *bin.Buffer) error {
 // DecodeBare implements bin.BareDecoder.
 func (r *PhoneRequestCallRequest) DecodeBare(b *bin.Buffer) error {
 	if r == nil {
-		return fmt.Errorf("can't decode phone.requestCall#a6c4600c to nil")
+		return fmt.Errorf("can't decode phone.requestCall#42ff96ed to nil")
 	}
 	{
 		if err := r.Flags.Decode(b); err != nil {
-			return fmt.Errorf("unable to decode phone.requestCall#a6c4600c: field flags: %w", err)
+			return fmt.Errorf("unable to decode phone.requestCall#42ff96ed: field flags: %w", err)
 		}
 	}
 	r.Video = r.Flags.Has(0)
 	{
 		value, err := DecodeInputUser(b)
 		if err != nil {
-			return fmt.Errorf("unable to decode phone.requestCall#a6c4600c: field user_id: %w", err)
+			return fmt.Errorf("unable to decode phone.requestCall#42ff96ed: field user_id: %w", err)
 		}
 		r.UserID = value
-	}
-	if r.Flags.Has(1) {
-		if err := r.ConferenceCall.Decode(b); err != nil {
-			return fmt.Errorf("unable to decode phone.requestCall#a6c4600c: field conference_call: %w", err)
-		}
 	}
 	{
 		value, err := b.Int()
 		if err != nil {
-			return fmt.Errorf("unable to decode phone.requestCall#a6c4600c: field random_id: %w", err)
+			return fmt.Errorf("unable to decode phone.requestCall#42ff96ed: field random_id: %w", err)
 		}
 		r.RandomID = value
 	}
 	{
 		value, err := b.Bytes()
 		if err != nil {
-			return fmt.Errorf("unable to decode phone.requestCall#a6c4600c: field g_a_hash: %w", err)
+			return fmt.Errorf("unable to decode phone.requestCall#42ff96ed: field g_a_hash: %w", err)
 		}
 		r.GAHash = value
 	}
 	{
 		if err := r.Protocol.Decode(b); err != nil {
-			return fmt.Errorf("unable to decode phone.requestCall#a6c4600c: field protocol: %w", err)
+			return fmt.Errorf("unable to decode phone.requestCall#42ff96ed: field protocol: %w", err)
 		}
 	}
 	return nil
@@ -312,24 +258,6 @@ func (r *PhoneRequestCallRequest) GetUserID() (value InputUserClass) {
 	return r.UserID
 }
 
-// SetConferenceCall sets value of ConferenceCall conditional field.
-func (r *PhoneRequestCallRequest) SetConferenceCall(value InputGroupCall) {
-	r.Flags.Set(1)
-	r.ConferenceCall = value
-}
-
-// GetConferenceCall returns value of ConferenceCall conditional field and
-// boolean which is true if field was set.
-func (r *PhoneRequestCallRequest) GetConferenceCall() (value InputGroupCall, ok bool) {
-	if r == nil {
-		return
-	}
-	if !r.Flags.Has(1) {
-		return value, false
-	}
-	return r.ConferenceCall, true
-}
-
 // GetRandomID returns value of RandomID field.
 func (r *PhoneRequestCallRequest) GetRandomID() (value int) {
 	if r == nil {
@@ -354,19 +282,7 @@ func (r *PhoneRequestCallRequest) GetProtocol() (value PhoneCallProtocol) {
 	return r.Protocol
 }
 
-// PhoneRequestCall invokes method phone.requestCall#a6c4600c returning error if any.
-// Start a telegram phone call
-//
-// Possible errors:
-//
-//	400 CALL_PROTOCOL_FLAGS_INVALID: Call protocol flags invalid.
-//	400 INPUT_USER_DEACTIVATED: The specified user was deleted.
-//	400 PARTICIPANT_VERSION_OUTDATED: The other participant does not use an up to date telegram client with support for calls.
-//	400 USER_ID_INVALID: The provided user ID is invalid.
-//	403 USER_IS_BLOCKED: You were blocked by this user.
-//	403 USER_PRIVACY_RESTRICTED: The user's privacy settings do not allow you to do this.
-//
-// See https://core.telegram.org/method/phone.requestCall for reference.
+// PhoneRequestCall invokes method phone.requestCall#42ff96ed returning error if any.
 func (c *Client) PhoneRequestCall(ctx context.Context, request *PhoneRequestCallRequest) (*PhonePhoneCall, error) {
 	var result PhonePhoneCall
 

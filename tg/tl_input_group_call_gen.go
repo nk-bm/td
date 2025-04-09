@@ -32,13 +32,10 @@ var (
 )
 
 // InputGroupCall represents TL type `inputGroupCall#d8aa840f`.
-// Points to a specific group call
-//
-// See https://core.telegram.org/constructor/inputGroupCall for reference.
 type InputGroupCall struct {
-	// Group call ID
+	// ID field of InputGroupCall.
 	ID int64
-	// Group call access hash
+	// AccessHash field of InputGroupCall.
 	AccessHash int64
 }
 
@@ -74,15 +71,6 @@ func (i *InputGroupCall) String() string {
 	}
 	type Alias InputGroupCall
 	return fmt.Sprintf("InputGroupCall%+v", Alias(*i))
-}
-
-// FillFrom fills InputGroupCall from given interface.
-func (i *InputGroupCall) FillFrom(from interface {
-	GetID() (value int64)
-	GetAccessHash() (value int64)
-}) {
-	i.ID = from.GetID()
-	i.AccessHash = from.GetAccessHash()
 }
 
 // TypeID returns type id in TL schema.

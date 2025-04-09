@@ -31,42 +31,28 @@ var (
 	_ = tdjson.Encoder{}
 )
 
-// PhoneJoinGroupCallRequest represents TL type `phone.joinGroupCall#d61e1df3`.
-// Join a group call
-//
-// See https://core.telegram.org/method/phone.joinGroupCall for reference.
+// PhoneJoinGroupCallRequest represents TL type `phone.joinGroupCall#b132ff7b`.
 type PhoneJoinGroupCallRequest struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of PhoneJoinGroupCallRequest.
 	Flags bin.Fields
-	// If set, the user will be muted by default upon joining.
+	// Muted field of PhoneJoinGroupCallRequest.
 	Muted bool
-	// If set, the user's video will be disabled by default upon joining.
+	// VideoStopped field of PhoneJoinGroupCallRequest.
 	VideoStopped bool
-	// The group call
+	// Call field of PhoneJoinGroupCallRequest.
 	Call InputGroupCall
-	// Join the group call, presenting yourself as the specified user/channel
+	// JoinAs field of PhoneJoinGroupCallRequest.
 	JoinAs InputPeerClass
-	// The invitation hash from the invite link »¹, if provided allows speaking in a
-	// livestream or muted group chat.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/links#video-chat-livestream-links
+	// InviteHash field of PhoneJoinGroupCallRequest.
 	//
 	// Use SetInviteHash and GetInviteHash helpers.
 	InviteHash string
-	// KeyFingerprint field of PhoneJoinGroupCallRequest.
-	//
-	// Use SetKeyFingerprint and GetKeyFingerprint helpers.
-	KeyFingerprint int64
-	// WebRTC parameters
+	// Params field of PhoneJoinGroupCallRequest.
 	Params DataJSON
 }
 
 // PhoneJoinGroupCallRequestTypeID is TL type id of PhoneJoinGroupCallRequest.
-const PhoneJoinGroupCallRequestTypeID = 0xd61e1df3
+const PhoneJoinGroupCallRequestTypeID = 0xb132ff7b
 
 // Ensuring interfaces in compile-time for PhoneJoinGroupCallRequest.
 var (
@@ -98,9 +84,6 @@ func (j *PhoneJoinGroupCallRequest) Zero() bool {
 	if !(j.InviteHash == "") {
 		return false
 	}
-	if !(j.KeyFingerprint == 0) {
-		return false
-	}
 	if !(j.Params.Zero()) {
 		return false
 	}
@@ -115,31 +98,6 @@ func (j *PhoneJoinGroupCallRequest) String() string {
 	}
 	type Alias PhoneJoinGroupCallRequest
 	return fmt.Sprintf("PhoneJoinGroupCallRequest%+v", Alias(*j))
-}
-
-// FillFrom fills PhoneJoinGroupCallRequest from given interface.
-func (j *PhoneJoinGroupCallRequest) FillFrom(from interface {
-	GetMuted() (value bool)
-	GetVideoStopped() (value bool)
-	GetCall() (value InputGroupCall)
-	GetJoinAs() (value InputPeerClass)
-	GetInviteHash() (value string, ok bool)
-	GetKeyFingerprint() (value int64, ok bool)
-	GetParams() (value DataJSON)
-}) {
-	j.Muted = from.GetMuted()
-	j.VideoStopped = from.GetVideoStopped()
-	j.Call = from.GetCall()
-	j.JoinAs = from.GetJoinAs()
-	if val, ok := from.GetInviteHash(); ok {
-		j.InviteHash = val
-	}
-
-	if val, ok := from.GetKeyFingerprint(); ok {
-		j.KeyFingerprint = val
-	}
-
-	j.Params = from.GetParams()
 }
 
 // TypeID returns type id in TL schema.
@@ -189,11 +147,6 @@ func (j *PhoneJoinGroupCallRequest) TypeInfo() tdp.Type {
 			Null:       !j.Flags.Has(1),
 		},
 		{
-			Name:       "KeyFingerprint",
-			SchemaName: "key_fingerprint",
-			Null:       !j.Flags.Has(3),
-		},
-		{
 			Name:       "Params",
 			SchemaName: "params",
 		},
@@ -212,15 +165,12 @@ func (j *PhoneJoinGroupCallRequest) SetFlags() {
 	if !(j.InviteHash == "") {
 		j.Flags.Set(1)
 	}
-	if !(j.KeyFingerprint == 0) {
-		j.Flags.Set(3)
-	}
 }
 
 // Encode implements bin.Encoder.
 func (j *PhoneJoinGroupCallRequest) Encode(b *bin.Buffer) error {
 	if j == nil {
-		return fmt.Errorf("can't encode phone.joinGroupCall#d61e1df3 as nil")
+		return fmt.Errorf("can't encode phone.joinGroupCall#b132ff7b as nil")
 	}
 	b.PutID(PhoneJoinGroupCallRequestTypeID)
 	return j.EncodeBare(b)
@@ -229,29 +179,26 @@ func (j *PhoneJoinGroupCallRequest) Encode(b *bin.Buffer) error {
 // EncodeBare implements bin.BareEncoder.
 func (j *PhoneJoinGroupCallRequest) EncodeBare(b *bin.Buffer) error {
 	if j == nil {
-		return fmt.Errorf("can't encode phone.joinGroupCall#d61e1df3 as nil")
+		return fmt.Errorf("can't encode phone.joinGroupCall#b132ff7b as nil")
 	}
 	j.SetFlags()
 	if err := j.Flags.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode phone.joinGroupCall#d61e1df3: field flags: %w", err)
+		return fmt.Errorf("unable to encode phone.joinGroupCall#b132ff7b: field flags: %w", err)
 	}
 	if err := j.Call.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode phone.joinGroupCall#d61e1df3: field call: %w", err)
+		return fmt.Errorf("unable to encode phone.joinGroupCall#b132ff7b: field call: %w", err)
 	}
 	if j.JoinAs == nil {
-		return fmt.Errorf("unable to encode phone.joinGroupCall#d61e1df3: field join_as is nil")
+		return fmt.Errorf("unable to encode phone.joinGroupCall#b132ff7b: field join_as is nil")
 	}
 	if err := j.JoinAs.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode phone.joinGroupCall#d61e1df3: field join_as: %w", err)
+		return fmt.Errorf("unable to encode phone.joinGroupCall#b132ff7b: field join_as: %w", err)
 	}
 	if j.Flags.Has(1) {
 		b.PutString(j.InviteHash)
 	}
-	if j.Flags.Has(3) {
-		b.PutLong(j.KeyFingerprint)
-	}
 	if err := j.Params.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode phone.joinGroupCall#d61e1df3: field params: %w", err)
+		return fmt.Errorf("unable to encode phone.joinGroupCall#b132ff7b: field params: %w", err)
 	}
 	return nil
 }
@@ -259,10 +206,10 @@ func (j *PhoneJoinGroupCallRequest) EncodeBare(b *bin.Buffer) error {
 // Decode implements bin.Decoder.
 func (j *PhoneJoinGroupCallRequest) Decode(b *bin.Buffer) error {
 	if j == nil {
-		return fmt.Errorf("can't decode phone.joinGroupCall#d61e1df3 to nil")
+		return fmt.Errorf("can't decode phone.joinGroupCall#b132ff7b to nil")
 	}
 	if err := b.ConsumeID(PhoneJoinGroupCallRequestTypeID); err != nil {
-		return fmt.Errorf("unable to decode phone.joinGroupCall#d61e1df3: %w", err)
+		return fmt.Errorf("unable to decode phone.joinGroupCall#b132ff7b: %w", err)
 	}
 	return j.DecodeBare(b)
 }
@@ -270,44 +217,37 @@ func (j *PhoneJoinGroupCallRequest) Decode(b *bin.Buffer) error {
 // DecodeBare implements bin.BareDecoder.
 func (j *PhoneJoinGroupCallRequest) DecodeBare(b *bin.Buffer) error {
 	if j == nil {
-		return fmt.Errorf("can't decode phone.joinGroupCall#d61e1df3 to nil")
+		return fmt.Errorf("can't decode phone.joinGroupCall#b132ff7b to nil")
 	}
 	{
 		if err := j.Flags.Decode(b); err != nil {
-			return fmt.Errorf("unable to decode phone.joinGroupCall#d61e1df3: field flags: %w", err)
+			return fmt.Errorf("unable to decode phone.joinGroupCall#b132ff7b: field flags: %w", err)
 		}
 	}
 	j.Muted = j.Flags.Has(0)
 	j.VideoStopped = j.Flags.Has(2)
 	{
 		if err := j.Call.Decode(b); err != nil {
-			return fmt.Errorf("unable to decode phone.joinGroupCall#d61e1df3: field call: %w", err)
+			return fmt.Errorf("unable to decode phone.joinGroupCall#b132ff7b: field call: %w", err)
 		}
 	}
 	{
 		value, err := DecodeInputPeer(b)
 		if err != nil {
-			return fmt.Errorf("unable to decode phone.joinGroupCall#d61e1df3: field join_as: %w", err)
+			return fmt.Errorf("unable to decode phone.joinGroupCall#b132ff7b: field join_as: %w", err)
 		}
 		j.JoinAs = value
 	}
 	if j.Flags.Has(1) {
 		value, err := b.String()
 		if err != nil {
-			return fmt.Errorf("unable to decode phone.joinGroupCall#d61e1df3: field invite_hash: %w", err)
+			return fmt.Errorf("unable to decode phone.joinGroupCall#b132ff7b: field invite_hash: %w", err)
 		}
 		j.InviteHash = value
 	}
-	if j.Flags.Has(3) {
-		value, err := b.Long()
-		if err != nil {
-			return fmt.Errorf("unable to decode phone.joinGroupCall#d61e1df3: field key_fingerprint: %w", err)
-		}
-		j.KeyFingerprint = value
-	}
 	{
 		if err := j.Params.Decode(b); err != nil {
-			return fmt.Errorf("unable to decode phone.joinGroupCall#d61e1df3: field params: %w", err)
+			return fmt.Errorf("unable to decode phone.joinGroupCall#b132ff7b: field params: %w", err)
 		}
 	}
 	return nil
@@ -385,24 +325,6 @@ func (j *PhoneJoinGroupCallRequest) GetInviteHash() (value string, ok bool) {
 	return j.InviteHash, true
 }
 
-// SetKeyFingerprint sets value of KeyFingerprint conditional field.
-func (j *PhoneJoinGroupCallRequest) SetKeyFingerprint(value int64) {
-	j.Flags.Set(3)
-	j.KeyFingerprint = value
-}
-
-// GetKeyFingerprint returns value of KeyFingerprint conditional field and
-// boolean which is true if field was set.
-func (j *PhoneJoinGroupCallRequest) GetKeyFingerprint() (value int64, ok bool) {
-	if j == nil {
-		return
-	}
-	if !j.Flags.Has(3) {
-		return value, false
-	}
-	return j.KeyFingerprint, true
-}
-
 // GetParams returns value of Params field.
 func (j *PhoneJoinGroupCallRequest) GetParams() (value DataJSON) {
 	if j == nil {
@@ -411,18 +333,7 @@ func (j *PhoneJoinGroupCallRequest) GetParams() (value DataJSON) {
 	return j.Params
 }
 
-// PhoneJoinGroupCall invokes method phone.joinGroupCall#d61e1df3 returning error if any.
-// Join a group call
-//
-// Possible errors:
-//
-//	400 DATA_JSON_INVALID: The provided JSON data is invalid.
-//	403 GROUPCALL_FORBIDDEN: The group call has already ended.
-//	400 GROUPCALL_INVALID: The specified group call is invalid.
-//	400 GROUPCALL_SSRC_DUPLICATE_MUCH: The app needs to retry joining the group call with a new SSRC value.
-//	400 JOIN_AS_PEER_INVALID: The specified peer cannot be used to join a group call.
-//
-// See https://core.telegram.org/method/phone.joinGroupCall for reference.
+// PhoneJoinGroupCall invokes method phone.joinGroupCall#b132ff7b returning error if any.
 func (c *Client) PhoneJoinGroupCall(ctx context.Context, request *PhoneJoinGroupCallRequest) (UpdatesClass, error) {
 	var result UpdatesBox
 

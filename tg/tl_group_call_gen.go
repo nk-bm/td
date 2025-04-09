@@ -32,15 +32,12 @@ var (
 )
 
 // GroupCallDiscarded represents TL type `groupCallDiscarded#7780bcb4`.
-// An ended group call
-//
-// See https://core.telegram.org/constructor/groupCallDiscarded for reference.
 type GroupCallDiscarded struct {
-	// Group call ID
+	// ID field of GroupCallDiscarded.
 	ID int64
-	// Group call access hash
+	// AccessHash field of GroupCallDiscarded.
 	AccessHash int64
-	// Group call duration
+	// Duration field of GroupCallDiscarded.
 	Duration int
 }
 
@@ -84,17 +81,6 @@ func (g *GroupCallDiscarded) String() string {
 	}
 	type Alias GroupCallDiscarded
 	return fmt.Sprintf("GroupCallDiscarded%+v", Alias(*g))
-}
-
-// FillFrom fills GroupCallDiscarded from given interface.
-func (g *GroupCallDiscarded) FillFrom(from interface {
-	GetID() (value int64)
-	GetAccessHash() (value int64)
-	GetDuration() (value int)
-}) {
-	g.ID = from.GetID()
-	g.AccessHash = from.GetAccessHash()
-	g.Duration = from.GetDuration()
 }
 
 // TypeID returns type id in TL schema.
@@ -220,80 +206,60 @@ func (g *GroupCallDiscarded) GetDuration() (value int) {
 	return g.Duration
 }
 
-// GroupCall represents TL type `groupCall#cdf8d3e3`.
-// Info about a group call or livestream
-//
-// See https://core.telegram.org/constructor/groupCall for reference.
+// GroupCall represents TL type `groupCall#d597650c`.
 type GroupCall struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of GroupCall.
 	Flags bin.Fields
-	// Whether the user should be muted upon joining the call
+	// JoinMuted field of GroupCall.
 	JoinMuted bool
-	// Whether the current user can change the value of the join_muted flag using phone
-	// toggleGroupCallSettings¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/method/phone.toggleGroupCallSettings
+	// CanChangeJoinMuted field of GroupCall.
 	CanChangeJoinMuted bool
-	// Specifies the ordering to use when locally sorting by date and displaying in the UI
-	// group call participants.
+	// JoinDateAsc field of GroupCall.
 	JoinDateAsc bool
-	// Whether we subscribed to the scheduled call
+	// ScheduleStartSubscribed field of GroupCall.
 	ScheduleStartSubscribed bool
-	// Whether you can start streaming video into the call
+	// CanStartVideo field of GroupCall.
 	CanStartVideo bool
-	// Whether the group call is currently being recorded
+	// RecordVideoActive field of GroupCall.
 	RecordVideoActive bool
-	// Whether RTMP streams are allowed
+	// RtmpStream field of GroupCall.
 	RtmpStream bool
-	// Whether the listeners list is hidden and cannot be fetched using phone
-	// getGroupParticipants¹. The phone.groupParticipants.count and groupCall
-	// participants_count counters will still include listeners.
-	//
-	// Links:
-	//  1) https://core.telegram.org/method/phone.getGroupParticipants
+	// ListenersHidden field of GroupCall.
 	ListenersHidden bool
-	// Group call ID
+	// ID field of GroupCall.
 	ID int64
-	// Group call access hash
+	// AccessHash field of GroupCall.
 	AccessHash int64
-	// Participant count
+	// ParticipantsCount field of GroupCall.
 	ParticipantsCount int
-	// Group call title
+	// Title field of GroupCall.
 	//
 	// Use SetTitle and GetTitle helpers.
 	Title string
-	// DC ID to be used for livestream chunks
+	// StreamDCID field of GroupCall.
 	//
 	// Use SetStreamDCID and GetStreamDCID helpers.
 	StreamDCID int
-	// When was the recording started
+	// RecordStartDate field of GroupCall.
 	//
 	// Use SetRecordStartDate and GetRecordStartDate helpers.
 	RecordStartDate int
-	// When is the call scheduled to start
+	// ScheduleDate field of GroupCall.
 	//
 	// Use SetScheduleDate and GetScheduleDate helpers.
 	ScheduleDate int
-	// Number of people currently streaming video into the call
+	// UnmutedVideoCount field of GroupCall.
 	//
 	// Use SetUnmutedVideoCount and GetUnmutedVideoCount helpers.
 	UnmutedVideoCount int
-	// Maximum number of people allowed to stream video into the call
+	// UnmutedVideoLimit field of GroupCall.
 	UnmutedVideoLimit int
-	// Version
+	// Version field of GroupCall.
 	Version int
-	// ConferenceFromCall field of GroupCall.
-	//
-	// Use SetConferenceFromCall and GetConferenceFromCall helpers.
-	ConferenceFromCall int64
 }
 
 // GroupCallTypeID is TL type id of GroupCall.
-const GroupCallTypeID = 0xcdf8d3e3
+const GroupCallTypeID = 0xd597650c
 
 // construct implements constructor of GroupCallClass.
 func (g GroupCall) construct() GroupCallClass { return &g }
@@ -369,9 +335,6 @@ func (g *GroupCall) Zero() bool {
 	if !(g.Version == 0) {
 		return false
 	}
-	if !(g.ConferenceFromCall == 0) {
-		return false
-	}
 
 	return true
 }
@@ -383,67 +346,6 @@ func (g *GroupCall) String() string {
 	}
 	type Alias GroupCall
 	return fmt.Sprintf("GroupCall%+v", Alias(*g))
-}
-
-// FillFrom fills GroupCall from given interface.
-func (g *GroupCall) FillFrom(from interface {
-	GetJoinMuted() (value bool)
-	GetCanChangeJoinMuted() (value bool)
-	GetJoinDateAsc() (value bool)
-	GetScheduleStartSubscribed() (value bool)
-	GetCanStartVideo() (value bool)
-	GetRecordVideoActive() (value bool)
-	GetRtmpStream() (value bool)
-	GetListenersHidden() (value bool)
-	GetID() (value int64)
-	GetAccessHash() (value int64)
-	GetParticipantsCount() (value int)
-	GetTitle() (value string, ok bool)
-	GetStreamDCID() (value int, ok bool)
-	GetRecordStartDate() (value int, ok bool)
-	GetScheduleDate() (value int, ok bool)
-	GetUnmutedVideoCount() (value int, ok bool)
-	GetUnmutedVideoLimit() (value int)
-	GetVersion() (value int)
-	GetConferenceFromCall() (value int64, ok bool)
-}) {
-	g.JoinMuted = from.GetJoinMuted()
-	g.CanChangeJoinMuted = from.GetCanChangeJoinMuted()
-	g.JoinDateAsc = from.GetJoinDateAsc()
-	g.ScheduleStartSubscribed = from.GetScheduleStartSubscribed()
-	g.CanStartVideo = from.GetCanStartVideo()
-	g.RecordVideoActive = from.GetRecordVideoActive()
-	g.RtmpStream = from.GetRtmpStream()
-	g.ListenersHidden = from.GetListenersHidden()
-	g.ID = from.GetID()
-	g.AccessHash = from.GetAccessHash()
-	g.ParticipantsCount = from.GetParticipantsCount()
-	if val, ok := from.GetTitle(); ok {
-		g.Title = val
-	}
-
-	if val, ok := from.GetStreamDCID(); ok {
-		g.StreamDCID = val
-	}
-
-	if val, ok := from.GetRecordStartDate(); ok {
-		g.RecordStartDate = val
-	}
-
-	if val, ok := from.GetScheduleDate(); ok {
-		g.ScheduleDate = val
-	}
-
-	if val, ok := from.GetUnmutedVideoCount(); ok {
-		g.UnmutedVideoCount = val
-	}
-
-	g.UnmutedVideoLimit = from.GetUnmutedVideoLimit()
-	g.Version = from.GetVersion()
-	if val, ok := from.GetConferenceFromCall(); ok {
-		g.ConferenceFromCall = val
-	}
-
 }
 
 // TypeID returns type id in TL schema.
@@ -554,11 +456,6 @@ func (g *GroupCall) TypeInfo() tdp.Type {
 			Name:       "Version",
 			SchemaName: "version",
 		},
-		{
-			Name:       "ConferenceFromCall",
-			SchemaName: "conference_from_call",
-			Null:       !g.Flags.Has(14),
-		},
 	}
 	return typ
 }
@@ -604,15 +501,12 @@ func (g *GroupCall) SetFlags() {
 	if !(g.UnmutedVideoCount == 0) {
 		g.Flags.Set(10)
 	}
-	if !(g.ConferenceFromCall == 0) {
-		g.Flags.Set(14)
-	}
 }
 
 // Encode implements bin.Encoder.
 func (g *GroupCall) Encode(b *bin.Buffer) error {
 	if g == nil {
-		return fmt.Errorf("can't encode groupCall#cdf8d3e3 as nil")
+		return fmt.Errorf("can't encode groupCall#d597650c as nil")
 	}
 	b.PutID(GroupCallTypeID)
 	return g.EncodeBare(b)
@@ -621,11 +515,11 @@ func (g *GroupCall) Encode(b *bin.Buffer) error {
 // EncodeBare implements bin.BareEncoder.
 func (g *GroupCall) EncodeBare(b *bin.Buffer) error {
 	if g == nil {
-		return fmt.Errorf("can't encode groupCall#cdf8d3e3 as nil")
+		return fmt.Errorf("can't encode groupCall#d597650c as nil")
 	}
 	g.SetFlags()
 	if err := g.Flags.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode groupCall#cdf8d3e3: field flags: %w", err)
+		return fmt.Errorf("unable to encode groupCall#d597650c: field flags: %w", err)
 	}
 	b.PutLong(g.ID)
 	b.PutLong(g.AccessHash)
@@ -647,19 +541,16 @@ func (g *GroupCall) EncodeBare(b *bin.Buffer) error {
 	}
 	b.PutInt(g.UnmutedVideoLimit)
 	b.PutInt(g.Version)
-	if g.Flags.Has(14) {
-		b.PutLong(g.ConferenceFromCall)
-	}
 	return nil
 }
 
 // Decode implements bin.Decoder.
 func (g *GroupCall) Decode(b *bin.Buffer) error {
 	if g == nil {
-		return fmt.Errorf("can't decode groupCall#cdf8d3e3 to nil")
+		return fmt.Errorf("can't decode groupCall#d597650c to nil")
 	}
 	if err := b.ConsumeID(GroupCallTypeID); err != nil {
-		return fmt.Errorf("unable to decode groupCall#cdf8d3e3: %w", err)
+		return fmt.Errorf("unable to decode groupCall#d597650c: %w", err)
 	}
 	return g.DecodeBare(b)
 }
@@ -667,11 +558,11 @@ func (g *GroupCall) Decode(b *bin.Buffer) error {
 // DecodeBare implements bin.BareDecoder.
 func (g *GroupCall) DecodeBare(b *bin.Buffer) error {
 	if g == nil {
-		return fmt.Errorf("can't decode groupCall#cdf8d3e3 to nil")
+		return fmt.Errorf("can't decode groupCall#d597650c to nil")
 	}
 	{
 		if err := g.Flags.Decode(b); err != nil {
-			return fmt.Errorf("unable to decode groupCall#cdf8d3e3: field flags: %w", err)
+			return fmt.Errorf("unable to decode groupCall#d597650c: field flags: %w", err)
 		}
 	}
 	g.JoinMuted = g.Flags.Has(1)
@@ -685,79 +576,72 @@ func (g *GroupCall) DecodeBare(b *bin.Buffer) error {
 	{
 		value, err := b.Long()
 		if err != nil {
-			return fmt.Errorf("unable to decode groupCall#cdf8d3e3: field id: %w", err)
+			return fmt.Errorf("unable to decode groupCall#d597650c: field id: %w", err)
 		}
 		g.ID = value
 	}
 	{
 		value, err := b.Long()
 		if err != nil {
-			return fmt.Errorf("unable to decode groupCall#cdf8d3e3: field access_hash: %w", err)
+			return fmt.Errorf("unable to decode groupCall#d597650c: field access_hash: %w", err)
 		}
 		g.AccessHash = value
 	}
 	{
 		value, err := b.Int()
 		if err != nil {
-			return fmt.Errorf("unable to decode groupCall#cdf8d3e3: field participants_count: %w", err)
+			return fmt.Errorf("unable to decode groupCall#d597650c: field participants_count: %w", err)
 		}
 		g.ParticipantsCount = value
 	}
 	if g.Flags.Has(3) {
 		value, err := b.String()
 		if err != nil {
-			return fmt.Errorf("unable to decode groupCall#cdf8d3e3: field title: %w", err)
+			return fmt.Errorf("unable to decode groupCall#d597650c: field title: %w", err)
 		}
 		g.Title = value
 	}
 	if g.Flags.Has(4) {
 		value, err := b.Int()
 		if err != nil {
-			return fmt.Errorf("unable to decode groupCall#cdf8d3e3: field stream_dc_id: %w", err)
+			return fmt.Errorf("unable to decode groupCall#d597650c: field stream_dc_id: %w", err)
 		}
 		g.StreamDCID = value
 	}
 	if g.Flags.Has(5) {
 		value, err := b.Int()
 		if err != nil {
-			return fmt.Errorf("unable to decode groupCall#cdf8d3e3: field record_start_date: %w", err)
+			return fmt.Errorf("unable to decode groupCall#d597650c: field record_start_date: %w", err)
 		}
 		g.RecordStartDate = value
 	}
 	if g.Flags.Has(7) {
 		value, err := b.Int()
 		if err != nil {
-			return fmt.Errorf("unable to decode groupCall#cdf8d3e3: field schedule_date: %w", err)
+			return fmt.Errorf("unable to decode groupCall#d597650c: field schedule_date: %w", err)
 		}
 		g.ScheduleDate = value
 	}
 	if g.Flags.Has(10) {
 		value, err := b.Int()
 		if err != nil {
-			return fmt.Errorf("unable to decode groupCall#cdf8d3e3: field unmuted_video_count: %w", err)
+			return fmt.Errorf("unable to decode groupCall#d597650c: field unmuted_video_count: %w", err)
 		}
 		g.UnmutedVideoCount = value
 	}
 	{
 		value, err := b.Int()
 		if err != nil {
-			return fmt.Errorf("unable to decode groupCall#cdf8d3e3: field unmuted_video_limit: %w", err)
+			return fmt.Errorf("unable to decode groupCall#d597650c: field unmuted_video_limit: %w", err)
 		}
 		g.UnmutedVideoLimit = value
 	}
 	{
 		value, err := b.Int()
 		if err != nil {
-			return fmt.Errorf("unable to decode groupCall#cdf8d3e3: field version: %w", err)
+			return fmt.Errorf("unable to decode groupCall#d597650c: field version: %w", err)
 		}
 		g.Version = value
-	}
-	if g.Flags.Has(14) {
-		value, err := b.Long()
-		if err != nil {
-			return fmt.Errorf("unable to decode groupCall#cdf8d3e3: field conference_from_call: %w", err)
-		}
-		g.ConferenceFromCall = value
 	}
 	return nil
 }
@@ -1044,30 +928,10 @@ func (g *GroupCall) GetVersion() (value int) {
 	return g.Version
 }
 
-// SetConferenceFromCall sets value of ConferenceFromCall conditional field.
-func (g *GroupCall) SetConferenceFromCall(value int64) {
-	g.Flags.Set(14)
-	g.ConferenceFromCall = value
-}
-
-// GetConferenceFromCall returns value of ConferenceFromCall conditional field and
-// boolean which is true if field was set.
-func (g *GroupCall) GetConferenceFromCall() (value int64, ok bool) {
-	if g == nil {
-		return
-	}
-	if !g.Flags.Has(14) {
-		return value, false
-	}
-	return g.ConferenceFromCall, true
-}
-
 // GroupCallClassName is schema name of GroupCallClass.
 const GroupCallClassName = "GroupCall"
 
 // GroupCallClass represents GroupCall generic type.
-//
-// See https://core.telegram.org/type/GroupCall for reference.
 //
 // Constructors:
 //   - [GroupCallDiscarded]
@@ -1081,7 +945,7 @@ const GroupCallClassName = "GroupCall"
 //	}
 //	switch v := g.(type) {
 //	case *tg.GroupCallDiscarded: // groupCallDiscarded#7780bcb4
-//	case *tg.GroupCall: // groupCall#cdf8d3e3
+//	case *tg.GroupCall: // groupCall#d597650c
 //	default: panic(v)
 //	}
 type GroupCallClass interface {
@@ -1102,20 +966,10 @@ type GroupCallClass interface {
 	// Zero returns true if current object has a zero value.
 	Zero() bool
 
-	// Group call ID
+	// ID field of GroupCallDiscarded.
 	GetID() (value int64)
-
-	// Group call access hash
+	// AccessHash field of GroupCallDiscarded.
 	GetAccessHash() (value int64)
-}
-
-// AsInput tries to map GroupCall to InputGroupCall.
-func (g *GroupCall) AsInput() *InputGroupCall {
-	value := new(InputGroupCall)
-	value.ID = g.GetID()
-	value.AccessHash = g.GetAccessHash()
-
-	return value
 }
 
 // DecodeGroupCall implements binary de-serialization for GroupCallClass.
@@ -1133,7 +987,7 @@ func DecodeGroupCall(buf *bin.Buffer) (GroupCallClass, error) {
 		}
 		return &v, nil
 	case GroupCallTypeID:
-		// Decoding groupCall#cdf8d3e3.
+		// Decoding groupCall#d597650c.
 		v := GroupCall{}
 		if err := v.Decode(buf); err != nil {
 			return nil, fmt.Errorf("unable to decode GroupCallClass: %w", err)

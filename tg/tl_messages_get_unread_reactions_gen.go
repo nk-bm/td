@@ -32,42 +32,24 @@ var (
 )
 
 // MessagesGetUnreadReactionsRequest represents TL type `messages.getUnreadReactions#3223495b`.
-// Get unread reactions to messages you sent
-//
-// See https://core.telegram.org/method/messages.getUnreadReactions for reference.
 type MessagesGetUnreadReactionsRequest struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessagesGetUnreadReactionsRequest.
 	Flags bin.Fields
-	// Peer
+	// Peer field of MessagesGetUnreadReactionsRequest.
 	Peer InputPeerClass
-	// If set, considers only reactions to messages within the specified forum topic¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/forum#forum-topics
+	// TopMsgID field of MessagesGetUnreadReactionsRequest.
 	//
 	// Use SetTopMsgID and GetTopMsgID helpers.
 	TopMsgID int
-	// Offsets for pagination, for more info click here¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/offsets
+	// OffsetID field of MessagesGetUnreadReactionsRequest.
 	OffsetID int
-	// Offsets for pagination, for more info click here¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/offsets
+	// AddOffset field of MessagesGetUnreadReactionsRequest.
 	AddOffset int
-	// Maximum number of results to return, see pagination¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/offsets
+	// Limit field of MessagesGetUnreadReactionsRequest.
 	Limit int
-	// Only return reactions for messages up until this message ID
+	// MaxID field of MessagesGetUnreadReactionsRequest.
 	MaxID int
-	// Only return reactions for messages starting from this message ID
+	// MinID field of MessagesGetUnreadReactionsRequest.
 	MinID int
 }
 
@@ -121,28 +103,6 @@ func (g *MessagesGetUnreadReactionsRequest) String() string {
 	}
 	type Alias MessagesGetUnreadReactionsRequest
 	return fmt.Sprintf("MessagesGetUnreadReactionsRequest%+v", Alias(*g))
-}
-
-// FillFrom fills MessagesGetUnreadReactionsRequest from given interface.
-func (g *MessagesGetUnreadReactionsRequest) FillFrom(from interface {
-	GetPeer() (value InputPeerClass)
-	GetTopMsgID() (value int, ok bool)
-	GetOffsetID() (value int)
-	GetAddOffset() (value int)
-	GetLimit() (value int)
-	GetMaxID() (value int)
-	GetMinID() (value int)
-}) {
-	g.Peer = from.GetPeer()
-	if val, ok := from.GetTopMsgID(); ok {
-		g.TopMsgID = val
-	}
-
-	g.OffsetID = from.GetOffsetID()
-	g.AddOffset = from.GetAddOffset()
-	g.Limit = from.GetLimit()
-	g.MaxID = from.GetMaxID()
-	g.MinID = from.GetMinID()
 }
 
 // TypeID returns type id in TL schema.
@@ -383,13 +343,6 @@ func (g *MessagesGetUnreadReactionsRequest) GetMinID() (value int) {
 }
 
 // MessagesGetUnreadReactions invokes method messages.getUnreadReactions#3223495b returning error if any.
-// Get unread reactions to messages you sent
-//
-// Possible errors:
-//
-//	400 PEER_ID_INVALID: The provided peer id is invalid.
-//
-// See https://core.telegram.org/method/messages.getUnreadReactions for reference.
 func (c *Client) MessagesGetUnreadReactions(ctx context.Context, request *MessagesGetUnreadReactionsRequest) (MessagesMessagesClass, error) {
 	var result MessagesMessagesBox
 

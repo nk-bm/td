@@ -32,9 +32,6 @@ var (
 )
 
 // MessageActionEmpty represents TL type `messageActionEmpty#b6aef7b0`.
-// Empty constructor.
-//
-// See https://core.telegram.org/constructor/messageActionEmpty for reference.
 type MessageActionEmpty struct {
 }
 
@@ -134,13 +131,10 @@ func (m *MessageActionEmpty) DecodeBare(b *bin.Buffer) error {
 }
 
 // MessageActionChatCreate represents TL type `messageActionChatCreate#bd47cbad`.
-// Group created
-//
-// See https://core.telegram.org/constructor/messageActionChatCreate for reference.
 type MessageActionChatCreate struct {
-	// Group name
+	// Title field of MessageActionChatCreate.
 	Title string
-	// List of group members
+	// Users field of MessageActionChatCreate.
 	Users []int64
 }
 
@@ -181,15 +175,6 @@ func (m *MessageActionChatCreate) String() string {
 	}
 	type Alias MessageActionChatCreate
 	return fmt.Sprintf("MessageActionChatCreate%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionChatCreate from given interface.
-func (m *MessageActionChatCreate) FillFrom(from interface {
-	GetTitle() (value string)
-	GetUsers() (value []int64)
-}) {
-	m.Title = from.GetTitle()
-	m.Users = from.GetUsers()
 }
 
 // TypeID returns type id in TL schema.
@@ -309,11 +294,8 @@ func (m *MessageActionChatCreate) GetUsers() (value []int64) {
 }
 
 // MessageActionChatEditTitle represents TL type `messageActionChatEditTitle#b5a1ce5a`.
-// Group name changed.
-//
-// See https://core.telegram.org/constructor/messageActionChatEditTitle for reference.
 type MessageActionChatEditTitle struct {
-	// New group name
+	// Title field of MessageActionChatEditTitle.
 	Title string
 }
 
@@ -351,13 +333,6 @@ func (m *MessageActionChatEditTitle) String() string {
 	}
 	type Alias MessageActionChatEditTitle
 	return fmt.Sprintf("MessageActionChatEditTitle%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionChatEditTitle from given interface.
-func (m *MessageActionChatEditTitle) FillFrom(from interface {
-	GetTitle() (value string)
-}) {
-	m.Title = from.GetTitle()
 }
 
 // TypeID returns type id in TL schema.
@@ -444,11 +419,8 @@ func (m *MessageActionChatEditTitle) GetTitle() (value string) {
 }
 
 // MessageActionChatEditPhoto represents TL type `messageActionChatEditPhoto#7fcb13a8`.
-// Group profile changed
-//
-// See https://core.telegram.org/constructor/messageActionChatEditPhoto for reference.
 type MessageActionChatEditPhoto struct {
-	// New group profile photo
+	// Photo field of MessageActionChatEditPhoto.
 	Photo PhotoClass
 }
 
@@ -486,13 +458,6 @@ func (m *MessageActionChatEditPhoto) String() string {
 	}
 	type Alias MessageActionChatEditPhoto
 	return fmt.Sprintf("MessageActionChatEditPhoto%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionChatEditPhoto from given interface.
-func (m *MessageActionChatEditPhoto) FillFrom(from interface {
-	GetPhoto() (value PhotoClass)
-}) {
-	m.Photo = from.GetPhoto()
 }
 
 // TypeID returns type id in TL schema.
@@ -584,9 +549,6 @@ func (m *MessageActionChatEditPhoto) GetPhoto() (value PhotoClass) {
 }
 
 // MessageActionChatDeletePhoto represents TL type `messageActionChatDeletePhoto#95e3fbef`.
-// Group profile photo removed.
-//
-// See https://core.telegram.org/constructor/messageActionChatDeletePhoto for reference.
 type MessageActionChatDeletePhoto struct {
 }
 
@@ -686,11 +648,8 @@ func (m *MessageActionChatDeletePhoto) DecodeBare(b *bin.Buffer) error {
 }
 
 // MessageActionChatAddUser represents TL type `messageActionChatAddUser#15cefd00`.
-// New member in the group
-//
-// See https://core.telegram.org/constructor/messageActionChatAddUser for reference.
 type MessageActionChatAddUser struct {
-	// Users that were invited to the chat
+	// Users field of MessageActionChatAddUser.
 	Users []int64
 }
 
@@ -728,13 +687,6 @@ func (m *MessageActionChatAddUser) String() string {
 	}
 	type Alias MessageActionChatAddUser
 	return fmt.Sprintf("MessageActionChatAddUser%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionChatAddUser from given interface.
-func (m *MessageActionChatAddUser) FillFrom(from interface {
-	GetUsers() (value []int64)
-}) {
-	m.Users = from.GetUsers()
 }
 
 // TypeID returns type id in TL schema.
@@ -834,11 +786,8 @@ func (m *MessageActionChatAddUser) GetUsers() (value []int64) {
 }
 
 // MessageActionChatDeleteUser represents TL type `messageActionChatDeleteUser#a43f30cc`.
-// User left the group.
-//
-// See https://core.telegram.org/constructor/messageActionChatDeleteUser for reference.
 type MessageActionChatDeleteUser struct {
-	// Leaving user ID
+	// UserID field of MessageActionChatDeleteUser.
 	UserID int64
 }
 
@@ -876,13 +825,6 @@ func (m *MessageActionChatDeleteUser) String() string {
 	}
 	type Alias MessageActionChatDeleteUser
 	return fmt.Sprintf("MessageActionChatDeleteUser%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionChatDeleteUser from given interface.
-func (m *MessageActionChatDeleteUser) FillFrom(from interface {
-	GetUserID() (value int64)
-}) {
-	m.UserID = from.GetUserID()
 }
 
 // TypeID returns type id in TL schema.
@@ -969,11 +911,8 @@ func (m *MessageActionChatDeleteUser) GetUserID() (value int64) {
 }
 
 // MessageActionChatJoinedByLink represents TL type `messageActionChatJoinedByLink#31224c3`.
-// A user joined the chat via an invite link
-//
-// See https://core.telegram.org/constructor/messageActionChatJoinedByLink for reference.
 type MessageActionChatJoinedByLink struct {
-	// ID of the user that created the invite link
+	// InviterID field of MessageActionChatJoinedByLink.
 	InviterID int64
 }
 
@@ -1011,13 +950,6 @@ func (m *MessageActionChatJoinedByLink) String() string {
 	}
 	type Alias MessageActionChatJoinedByLink
 	return fmt.Sprintf("MessageActionChatJoinedByLink%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionChatJoinedByLink from given interface.
-func (m *MessageActionChatJoinedByLink) FillFrom(from interface {
-	GetInviterID() (value int64)
-}) {
-	m.InviterID = from.GetInviterID()
 }
 
 // TypeID returns type id in TL schema.
@@ -1104,11 +1036,8 @@ func (m *MessageActionChatJoinedByLink) GetInviterID() (value int64) {
 }
 
 // MessageActionChannelCreate represents TL type `messageActionChannelCreate#95d2ac92`.
-// The channel was created
-//
-// See https://core.telegram.org/constructor/messageActionChannelCreate for reference.
 type MessageActionChannelCreate struct {
-	// Original channel/supergroup title
+	// Title field of MessageActionChannelCreate.
 	Title string
 }
 
@@ -1146,13 +1075,6 @@ func (m *MessageActionChannelCreate) String() string {
 	}
 	type Alias MessageActionChannelCreate
 	return fmt.Sprintf("MessageActionChannelCreate%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionChannelCreate from given interface.
-func (m *MessageActionChannelCreate) FillFrom(from interface {
-	GetTitle() (value string)
-}) {
-	m.Title = from.GetTitle()
 }
 
 // TypeID returns type id in TL schema.
@@ -1239,14 +1161,8 @@ func (m *MessageActionChannelCreate) GetTitle() (value string) {
 }
 
 // MessageActionChatMigrateTo represents TL type `messageActionChatMigrateTo#e1037f92`.
-// Indicates the chat was migrated¹ to the specified supergroup
-//
-// Links:
-//  1. https://core.telegram.org/api/channel
-//
-// See https://core.telegram.org/constructor/messageActionChatMigrateTo for reference.
 type MessageActionChatMigrateTo struct {
-	// The supergroup it was migrated to
+	// ChannelID field of MessageActionChatMigrateTo.
 	ChannelID int64
 }
 
@@ -1284,13 +1200,6 @@ func (m *MessageActionChatMigrateTo) String() string {
 	}
 	type Alias MessageActionChatMigrateTo
 	return fmt.Sprintf("MessageActionChatMigrateTo%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionChatMigrateTo from given interface.
-func (m *MessageActionChatMigrateTo) FillFrom(from interface {
-	GetChannelID() (value int64)
-}) {
-	m.ChannelID = from.GetChannelID()
 }
 
 // TypeID returns type id in TL schema.
@@ -1377,16 +1286,10 @@ func (m *MessageActionChatMigrateTo) GetChannelID() (value int64) {
 }
 
 // MessageActionChannelMigrateFrom represents TL type `messageActionChannelMigrateFrom#ea3948e9`.
-// Indicates the channel was migrated¹ from the specified chat
-//
-// Links:
-//  1. https://core.telegram.org/api/channel
-//
-// See https://core.telegram.org/constructor/messageActionChannelMigrateFrom for reference.
 type MessageActionChannelMigrateFrom struct {
-	// The old chat title
+	// Title field of MessageActionChannelMigrateFrom.
 	Title string
-	// The old chat ID
+	// ChatID field of MessageActionChannelMigrateFrom.
 	ChatID int64
 }
 
@@ -1427,15 +1330,6 @@ func (m *MessageActionChannelMigrateFrom) String() string {
 	}
 	type Alias MessageActionChannelMigrateFrom
 	return fmt.Sprintf("MessageActionChannelMigrateFrom%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionChannelMigrateFrom from given interface.
-func (m *MessageActionChannelMigrateFrom) FillFrom(from interface {
-	GetTitle() (value string)
-	GetChatID() (value int64)
-}) {
-	m.Title = from.GetTitle()
-	m.ChatID = from.GetChatID()
 }
 
 // TypeID returns type id in TL schema.
@@ -1542,9 +1436,6 @@ func (m *MessageActionChannelMigrateFrom) GetChatID() (value int64) {
 }
 
 // MessageActionPinMessage represents TL type `messageActionPinMessage#94bd38ed`.
-// A message was pinned
-//
-// See https://core.telegram.org/constructor/messageActionPinMessage for reference.
 type MessageActionPinMessage struct {
 }
 
@@ -1644,9 +1535,6 @@ func (m *MessageActionPinMessage) DecodeBare(b *bin.Buffer) error {
 }
 
 // MessageActionHistoryClear represents TL type `messageActionHistoryClear#9fbab604`.
-// Chat history was cleared
-//
-// See https://core.telegram.org/constructor/messageActionHistoryClear for reference.
 type MessageActionHistoryClear struct {
 }
 
@@ -1746,13 +1634,10 @@ func (m *MessageActionHistoryClear) DecodeBare(b *bin.Buffer) error {
 }
 
 // MessageActionGameScore represents TL type `messageActionGameScore#92a72876`.
-// Someone scored in a game
-//
-// See https://core.telegram.org/constructor/messageActionGameScore for reference.
 type MessageActionGameScore struct {
-	// Game ID
+	// GameID field of MessageActionGameScore.
 	GameID int64
-	// Score
+	// Score field of MessageActionGameScore.
 	Score int
 }
 
@@ -1793,15 +1678,6 @@ func (m *MessageActionGameScore) String() string {
 	}
 	type Alias MessageActionGameScore
 	return fmt.Sprintf("MessageActionGameScore%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionGameScore from given interface.
-func (m *MessageActionGameScore) FillFrom(from interface {
-	GetGameID() (value int64)
-	GetScore() (value int)
-}) {
-	m.GameID = from.GetGameID()
-	m.Score = from.GetScore()
 }
 
 // TypeID returns type id in TL schema.
@@ -1908,49 +1784,30 @@ func (m *MessageActionGameScore) GetScore() (value int) {
 }
 
 // MessageActionPaymentSentMe represents TL type `messageActionPaymentSentMe#ffa00ccc`.
-// A user just sent a payment to me (a bot)
-//
-// See https://core.telegram.org/constructor/messageActionPaymentSentMe for reference.
 type MessageActionPaymentSentMe struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessageActionPaymentSentMe.
 	Flags bin.Fields
-	// Whether this is the first payment of a recurring payment we just subscribed to
+	// RecurringInit field of MessageActionPaymentSentMe.
 	RecurringInit bool
-	// Whether this payment is part of a recurring payment
+	// RecurringUsed field of MessageActionPaymentSentMe.
 	RecurringUsed bool
-	// Three-letter ISO 4217 currency¹ code, or XTR for Telegram Stars².
-	//
-	// Links:
-	//  1) https://core.telegram.org/bots/payments#supported-currencies
-	//  2) https://core.telegram.org/api/stars
+	// Currency field of MessageActionPaymentSentMe.
 	Currency string
-	// Price of the product in the smallest units of the currency (integer, not float/double)
-	// For example, for a price of US$ 1.45 pass amount = 145. See the exp parameter in
-	// currencies.json¹, it shows the number of digits past the decimal point for each
-	// currency (2 for the majority of currencies).
-	//
-	// Links:
-	//  1) https://core.telegram.org/bots/payments/currencies.json
+	// TotalAmount field of MessageActionPaymentSentMe.
 	TotalAmount int64
-	// Bot specified invoice payload
+	// Payload field of MessageActionPaymentSentMe.
 	Payload []byte
-	// Order info provided by the user
+	// Info field of MessageActionPaymentSentMe.
 	//
 	// Use SetInfo and GetInfo helpers.
 	Info PaymentRequestedInfo
-	// Identifier of the shipping option chosen by the user
+	// ShippingOptionID field of MessageActionPaymentSentMe.
 	//
 	// Use SetShippingOptionID and GetShippingOptionID helpers.
 	ShippingOptionID string
-	// Provider payment identifier
+	// Charge field of MessageActionPaymentSentMe.
 	Charge PaymentCharge
-	// Expiration date of the Telegram Star subscription »¹.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/stars#star-subscriptions
+	// SubscriptionUntilDate field of MessageActionPaymentSentMe.
 	//
 	// Use SetSubscriptionUntilDate and GetSubscriptionUntilDate helpers.
 	SubscriptionUntilDate int
@@ -2017,38 +1874,6 @@ func (m *MessageActionPaymentSentMe) String() string {
 	}
 	type Alias MessageActionPaymentSentMe
 	return fmt.Sprintf("MessageActionPaymentSentMe%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionPaymentSentMe from given interface.
-func (m *MessageActionPaymentSentMe) FillFrom(from interface {
-	GetRecurringInit() (value bool)
-	GetRecurringUsed() (value bool)
-	GetCurrency() (value string)
-	GetTotalAmount() (value int64)
-	GetPayload() (value []byte)
-	GetInfo() (value PaymentRequestedInfo, ok bool)
-	GetShippingOptionID() (value string, ok bool)
-	GetCharge() (value PaymentCharge)
-	GetSubscriptionUntilDate() (value int, ok bool)
-}) {
-	m.RecurringInit = from.GetRecurringInit()
-	m.RecurringUsed = from.GetRecurringUsed()
-	m.Currency = from.GetCurrency()
-	m.TotalAmount = from.GetTotalAmount()
-	m.Payload = from.GetPayload()
-	if val, ok := from.GetInfo(); ok {
-		m.Info = val
-	}
-
-	if val, ok := from.GetShippingOptionID(); ok {
-		m.ShippingOptionID = val
-	}
-
-	m.Charge = from.GetCharge()
-	if val, ok := from.GetSubscriptionUntilDate(); ok {
-		m.SubscriptionUntilDate = val
-	}
-
 }
 
 // TypeID returns type id in TL schema.
@@ -2372,46 +2197,22 @@ func (m *MessageActionPaymentSentMe) GetSubscriptionUntilDate() (value int, ok b
 }
 
 // MessageActionPaymentSent represents TL type `messageActionPaymentSent#c624b16e`.
-// A payment was sent
-//
-// See https://core.telegram.org/constructor/messageActionPaymentSent for reference.
 type MessageActionPaymentSent struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessageActionPaymentSent.
 	Flags bin.Fields
-	// Whether this is the first payment of a recurring payment we just subscribed to
+	// RecurringInit field of MessageActionPaymentSent.
 	RecurringInit bool
-	// Whether this payment is part of a recurring payment
+	// RecurringUsed field of MessageActionPaymentSent.
 	RecurringUsed bool
-	// Three-letter ISO 4217 currency¹ code, or XTR for Telegram Stars².
-	//
-	// Links:
-	//  1) https://core.telegram.org/bots/payments#supported-currencies
-	//  2) https://core.telegram.org/api/stars
+	// Currency field of MessageActionPaymentSent.
 	Currency string
-	// Price of the product in the smallest units of the currency (integer, not float/double)
-	// For example, for a price of US$ 1.45 pass amount = 145. See the exp parameter in
-	// currencies.json¹, it shows the number of digits past the decimal point for each
-	// currency (2 for the majority of currencies).
-	//
-	// Links:
-	//  1) https://core.telegram.org/bots/payments/currencies.json
+	// TotalAmount field of MessageActionPaymentSent.
 	TotalAmount int64
-	// An invoice slug taken from an invoice deep link¹ or from the premium_invoice_slug app
-	// config parameter »²
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/links#invoice-links
-	//  2) https://core.telegram.org/api/config#premium-invoice-slug
+	// InvoiceSlug field of MessageActionPaymentSent.
 	//
 	// Use SetInvoiceSlug and GetInvoiceSlug helpers.
 	InvoiceSlug string
-	// Expiration date of the Telegram Star subscription »¹.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/stars#star-subscriptions
+	// SubscriptionUntilDate field of MessageActionPaymentSent.
 	//
 	// Use SetSubscriptionUntilDate and GetSubscriptionUntilDate helpers.
 	SubscriptionUntilDate int
@@ -2469,29 +2270,6 @@ func (m *MessageActionPaymentSent) String() string {
 	}
 	type Alias MessageActionPaymentSent
 	return fmt.Sprintf("MessageActionPaymentSent%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionPaymentSent from given interface.
-func (m *MessageActionPaymentSent) FillFrom(from interface {
-	GetRecurringInit() (value bool)
-	GetRecurringUsed() (value bool)
-	GetCurrency() (value string)
-	GetTotalAmount() (value int64)
-	GetInvoiceSlug() (value string, ok bool)
-	GetSubscriptionUntilDate() (value int, ok bool)
-}) {
-	m.RecurringInit = from.GetRecurringInit()
-	m.RecurringUsed = from.GetRecurringUsed()
-	m.Currency = from.GetCurrency()
-	m.TotalAmount = from.GetTotalAmount()
-	if val, ok := from.GetInvoiceSlug(); ok {
-		m.InvoiceSlug = val
-	}
-
-	if val, ok := from.GetSubscriptionUntilDate(); ok {
-		m.SubscriptionUntilDate = val
-	}
-
 }
 
 // TypeID returns type id in TL schema.
@@ -2739,24 +2517,18 @@ func (m *MessageActionPaymentSent) GetSubscriptionUntilDate() (value int, ok boo
 }
 
 // MessageActionPhoneCall represents TL type `messageActionPhoneCall#80e11a7f`.
-// A phone call
-//
-// See https://core.telegram.org/constructor/messageActionPhoneCall for reference.
 type MessageActionPhoneCall struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessageActionPhoneCall.
 	Flags bin.Fields
-	// Is this a video call?
+	// Video field of MessageActionPhoneCall.
 	Video bool
-	// Call ID
+	// CallID field of MessageActionPhoneCall.
 	CallID int64
-	// If the call has ended, the reason why it ended
+	// Reason field of MessageActionPhoneCall.
 	//
 	// Use SetReason and GetReason helpers.
 	Reason PhoneCallDiscardReasonClass
-	// Duration of the call in seconds
+	// Duration field of MessageActionPhoneCall.
 	//
 	// Use SetDuration and GetDuration helpers.
 	Duration int
@@ -2808,25 +2580,6 @@ func (m *MessageActionPhoneCall) String() string {
 	}
 	type Alias MessageActionPhoneCall
 	return fmt.Sprintf("MessageActionPhoneCall%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionPhoneCall from given interface.
-func (m *MessageActionPhoneCall) FillFrom(from interface {
-	GetVideo() (value bool)
-	GetCallID() (value int64)
-	GetReason() (value PhoneCallDiscardReasonClass, ok bool)
-	GetDuration() (value int, ok bool)
-}) {
-	m.Video = from.GetVideo()
-	m.CallID = from.GetCallID()
-	if val, ok := from.GetReason(); ok {
-		m.Reason = val
-	}
-
-	if val, ok := from.GetDuration(); ok {
-		m.Duration = val
-	}
-
 }
 
 // TypeID returns type id in TL schema.
@@ -3031,9 +2784,6 @@ func (m *MessageActionPhoneCall) GetDuration() (value int, ok bool) {
 }
 
 // MessageActionScreenshotTaken represents TL type `messageActionScreenshotTaken#4792929b`.
-// A screenshot of the chat was taken
-//
-// See https://core.telegram.org/constructor/messageActionScreenshotTaken for reference.
 type MessageActionScreenshotTaken struct {
 }
 
@@ -3133,12 +2883,8 @@ func (m *MessageActionScreenshotTaken) DecodeBare(b *bin.Buffer) error {
 }
 
 // MessageActionCustomAction represents TL type `messageActionCustomAction#fae69f56`.
-// Custom action (most likely not supported by the current layer, an upgrade might be
-// needed)
-//
-// See https://core.telegram.org/constructor/messageActionCustomAction for reference.
 type MessageActionCustomAction struct {
-	// Action message
+	// Message field of MessageActionCustomAction.
 	Message string
 }
 
@@ -3176,13 +2922,6 @@ func (m *MessageActionCustomAction) String() string {
 	}
 	type Alias MessageActionCustomAction
 	return fmt.Sprintf("MessageActionCustomAction%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionCustomAction from given interface.
-func (m *MessageActionCustomAction) FillFrom(from interface {
-	GetMessage() (value string)
-}) {
-	m.Message = from.GetMessage()
 }
 
 // TypeID returns type id in TL schema.
@@ -3269,40 +3008,18 @@ func (m *MessageActionCustomAction) GetMessage() (value string) {
 }
 
 // MessageActionBotAllowed represents TL type `messageActionBotAllowed#c516d679`.
-// We have given the bot permission to send us direct messages.
-// The optional fields specify how did we authorize the bot to send us messages.
-//
-// See https://core.telegram.org/constructor/messageActionBotAllowed for reference.
 type MessageActionBotAllowed struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessageActionBotAllowed.
 	Flags bin.Fields
-	// We have authorized the bot to send us messages by installing the bot's attachment
-	// menu¹.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/bots/attach
+	// AttachMenu field of MessageActionBotAllowed.
 	AttachMenu bool
-	// We have allowed the bot to send us messages using bots.allowSendMessage »¹.
-	//
-	// Links:
-	//  1) https://core.telegram.org/method/bots.allowSendMessage
+	// FromRequest field of MessageActionBotAllowed.
 	FromRequest bool
-	// We have authorized the bot to send us messages by logging into a website via Telegram
-	// Login »¹; this field contains the domain name of the website on which the user has
-	// logged in.
-	//
-	// Links:
-	//  1) https://core.telegram.org/widgets/login
+	// Domain field of MessageActionBotAllowed.
 	//
 	// Use SetDomain and GetDomain helpers.
 	Domain string
-	// We have authorized the bot to send us messages by opening the specified bot mini app¹.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/bots/webapps
+	// App field of MessageActionBotAllowed.
 	//
 	// Use SetApp and GetApp helpers.
 	App BotAppClass
@@ -3354,25 +3071,6 @@ func (m *MessageActionBotAllowed) String() string {
 	}
 	type Alias MessageActionBotAllowed
 	return fmt.Sprintf("MessageActionBotAllowed%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionBotAllowed from given interface.
-func (m *MessageActionBotAllowed) FillFrom(from interface {
-	GetAttachMenu() (value bool)
-	GetFromRequest() (value bool)
-	GetDomain() (value string, ok bool)
-	GetApp() (value BotAppClass, ok bool)
-}) {
-	m.AttachMenu = from.GetAttachMenu()
-	m.FromRequest = from.GetFromRequest()
-	if val, ok := from.GetDomain(); ok {
-		m.Domain = val
-	}
-
-	if val, ok := from.GetApp(); ok {
-		m.App = val
-	}
-
 }
 
 // TypeID returns type id in TL schema.
@@ -3585,17 +3283,10 @@ func (m *MessageActionBotAllowed) GetApp() (value BotAppClass, ok bool) {
 }
 
 // MessageActionSecureValuesSentMe represents TL type `messageActionSecureValuesSentMe#1b287353`.
-// Secure telegram passport¹ values were received
-//
-// Links:
-//  1. https://core.telegram.org/passport
-//
-// See https://core.telegram.org/constructor/messageActionSecureValuesSentMe for reference.
 type MessageActionSecureValuesSentMe struct {
-	// Vector with information about documents and other Telegram Passport elements that were
-	// shared with the bot
+	// Values field of MessageActionSecureValuesSentMe.
 	Values []SecureValue
-	// Encrypted credentials required to decrypt the data
+	// Credentials field of MessageActionSecureValuesSentMe.
 	Credentials SecureCredentialsEncrypted
 }
 
@@ -3636,15 +3327,6 @@ func (m *MessageActionSecureValuesSentMe) String() string {
 	}
 	type Alias MessageActionSecureValuesSentMe
 	return fmt.Sprintf("MessageActionSecureValuesSentMe%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionSecureValuesSentMe from given interface.
-func (m *MessageActionSecureValuesSentMe) FillFrom(from interface {
-	GetValues() (value []SecureValue)
-	GetCredentials() (value SecureCredentialsEncrypted)
-}) {
-	m.Values = from.GetValues()
-	m.Credentials = from.GetCredentials()
 }
 
 // TypeID returns type id in TL schema.
@@ -3766,14 +3448,8 @@ func (m *MessageActionSecureValuesSentMe) GetCredentials() (value SecureCredenti
 }
 
 // MessageActionSecureValuesSent represents TL type `messageActionSecureValuesSent#d95c6154`.
-// Request for secure telegram passport¹ values was sent
-//
-// Links:
-//  1. https://core.telegram.org/passport
-//
-// See https://core.telegram.org/constructor/messageActionSecureValuesSent for reference.
 type MessageActionSecureValuesSent struct {
-	// Secure value types
+	// Types field of MessageActionSecureValuesSent.
 	Types []SecureValueTypeClass
 }
 
@@ -3811,13 +3487,6 @@ func (m *MessageActionSecureValuesSent) String() string {
 	}
 	type Alias MessageActionSecureValuesSent
 	return fmt.Sprintf("MessageActionSecureValuesSent%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionSecureValuesSent from given interface.
-func (m *MessageActionSecureValuesSent) FillFrom(from interface {
-	GetTypes() (value []SecureValueTypeClass)
-}) {
-	m.Types = from.GetTypes()
 }
 
 // TypeID returns type id in TL schema.
@@ -3921,15 +3590,7 @@ func (m *MessageActionSecureValuesSent) GetTypes() (value []SecureValueTypeClass
 	return m.Types
 }
 
-// MapTypes returns field Types wrapped in SecureValueTypeClassArray helper.
-func (m *MessageActionSecureValuesSent) MapTypes() (value SecureValueTypeClassArray) {
-	return SecureValueTypeClassArray(m.Types)
-}
-
 // MessageActionContactSignUp represents TL type `messageActionContactSignUp#f3f25f76`.
-// A contact just signed up to telegram
-//
-// See https://core.telegram.org/constructor/messageActionContactSignUp for reference.
 type MessageActionContactSignUp struct {
 }
 
@@ -4029,18 +3690,12 @@ func (m *MessageActionContactSignUp) DecodeBare(b *bin.Buffer) error {
 }
 
 // MessageActionGeoProximityReached represents TL type `messageActionGeoProximityReached#98e0d697`.
-// A user of the chat is now in proximity of another user
-//
-// See https://core.telegram.org/constructor/messageActionGeoProximityReached for reference.
 type MessageActionGeoProximityReached struct {
-	// The user or chat that is now in proximity of to_id
+	// FromID field of MessageActionGeoProximityReached.
 	FromID PeerClass
-	// The user or chat that subscribed to live geolocation proximity alerts¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/live-location#proximity-alert
+	// ToID field of MessageActionGeoProximityReached.
 	ToID PeerClass
-	// Distance, in meters (0-100000)
+	// Distance field of MessageActionGeoProximityReached.
 	Distance int
 }
 
@@ -4084,17 +3739,6 @@ func (m *MessageActionGeoProximityReached) String() string {
 	}
 	type Alias MessageActionGeoProximityReached
 	return fmt.Sprintf("MessageActionGeoProximityReached%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionGeoProximityReached from given interface.
-func (m *MessageActionGeoProximityReached) FillFrom(from interface {
-	GetFromID() (value PeerClass)
-	GetToID() (value PeerClass)
-	GetDistance() (value int)
-}) {
-	m.FromID = from.GetFromID()
-	m.ToID = from.GetToID()
-	m.Distance = from.GetDistance()
 }
 
 // TypeID returns type id in TL schema.
@@ -4231,18 +3875,12 @@ func (m *MessageActionGeoProximityReached) GetDistance() (value int) {
 }
 
 // MessageActionGroupCall represents TL type `messageActionGroupCall#7a0d7f42`.
-// The group call has ended
-//
-// See https://core.telegram.org/constructor/messageActionGroupCall for reference.
 type MessageActionGroupCall struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessageActionGroupCall.
 	Flags bin.Fields
-	// Group call
+	// Call field of MessageActionGroupCall.
 	Call InputGroupCall
-	// Group call duration
+	// Duration field of MessageActionGroupCall.
 	//
 	// Use SetDuration and GetDuration helpers.
 	Duration int
@@ -4288,18 +3926,6 @@ func (m *MessageActionGroupCall) String() string {
 	}
 	type Alias MessageActionGroupCall
 	return fmt.Sprintf("MessageActionGroupCall%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionGroupCall from given interface.
-func (m *MessageActionGroupCall) FillFrom(from interface {
-	GetCall() (value InputGroupCall)
-	GetDuration() (value int, ok bool)
-}) {
-	m.Call = from.GetCall()
-	if val, ok := from.GetDuration(); ok {
-		m.Duration = val
-	}
-
 }
 
 // TypeID returns type id in TL schema.
@@ -4435,13 +4061,10 @@ func (m *MessageActionGroupCall) GetDuration() (value int, ok bool) {
 }
 
 // MessageActionInviteToGroupCall represents TL type `messageActionInviteToGroupCall#502f92f7`.
-// A set of users was invited to the group call
-//
-// See https://core.telegram.org/constructor/messageActionInviteToGroupCall for reference.
 type MessageActionInviteToGroupCall struct {
-	// The group call
+	// Call field of MessageActionInviteToGroupCall.
 	Call InputGroupCall
-	// The invited users
+	// Users field of MessageActionInviteToGroupCall.
 	Users []int64
 }
 
@@ -4482,15 +4105,6 @@ func (m *MessageActionInviteToGroupCall) String() string {
 	}
 	type Alias MessageActionInviteToGroupCall
 	return fmt.Sprintf("MessageActionInviteToGroupCall%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionInviteToGroupCall from given interface.
-func (m *MessageActionInviteToGroupCall) FillFrom(from interface {
-	GetCall() (value InputGroupCall)
-	GetUsers() (value []int64)
-}) {
-	m.Call = from.GetCall()
-	m.Users = from.GetUsers()
 }
 
 // TypeID returns type id in TL schema.
@@ -4610,25 +4224,12 @@ func (m *MessageActionInviteToGroupCall) GetUsers() (value []int64) {
 }
 
 // MessageActionSetMessagesTTL represents TL type `messageActionSetMessagesTTL#3c134d7b`.
-// The Time-To-Live of messages in this chat was changed.
-//
-// See https://core.telegram.org/constructor/messageActionSetMessagesTTL for reference.
 type MessageActionSetMessagesTTL struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessageActionSetMessagesTTL.
 	Flags bin.Fields
-	// New Time-To-Live of all messages sent in this chat; if 0, autodeletion was disabled.
+	// Period field of MessageActionSetMessagesTTL.
 	Period int
-	// If set, the chat TTL setting was set not due to a manual change by one of participants
-	// but automatically because one of the participants has the default TTL settings
-	// enabled »¹. For example, when a user writes to us for the first time and we have set
-	// a default messages TTL of 1 week, this service message (with
-	// auto_setting_from=our_userid) will be emitted before our first message.
-	//
-	// Links:
-	//  1) https://core.telegram.org/method/messages.setDefaultHistoryTTL
+	// AutoSettingFrom field of MessageActionSetMessagesTTL.
 	//
 	// Use SetAutoSettingFrom and GetAutoSettingFrom helpers.
 	AutoSettingFrom int64
@@ -4674,18 +4275,6 @@ func (m *MessageActionSetMessagesTTL) String() string {
 	}
 	type Alias MessageActionSetMessagesTTL
 	return fmt.Sprintf("MessageActionSetMessagesTTL%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionSetMessagesTTL from given interface.
-func (m *MessageActionSetMessagesTTL) FillFrom(from interface {
-	GetPeriod() (value int)
-	GetAutoSettingFrom() (value int64, ok bool)
-}) {
-	m.Period = from.GetPeriod()
-	if val, ok := from.GetAutoSettingFrom(); ok {
-		m.AutoSettingFrom = val
-	}
-
 }
 
 // TypeID returns type id in TL schema.
@@ -4821,13 +4410,10 @@ func (m *MessageActionSetMessagesTTL) GetAutoSettingFrom() (value int64, ok bool
 }
 
 // MessageActionGroupCallScheduled represents TL type `messageActionGroupCallScheduled#b3a07661`.
-// A group call was scheduled
-//
-// See https://core.telegram.org/constructor/messageActionGroupCallScheduled for reference.
 type MessageActionGroupCallScheduled struct {
-	// The group call
+	// Call field of MessageActionGroupCallScheduled.
 	Call InputGroupCall
-	// When is this group call scheduled to start
+	// ScheduleDate field of MessageActionGroupCallScheduled.
 	ScheduleDate int
 }
 
@@ -4868,15 +4454,6 @@ func (m *MessageActionGroupCallScheduled) String() string {
 	}
 	type Alias MessageActionGroupCallScheduled
 	return fmt.Sprintf("MessageActionGroupCallScheduled%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionGroupCallScheduled from given interface.
-func (m *MessageActionGroupCallScheduled) FillFrom(from interface {
-	GetCall() (value InputGroupCall)
-	GetScheduleDate() (value int)
-}) {
-	m.Call = from.GetCall()
-	m.ScheduleDate = from.GetScheduleDate()
 }
 
 // TypeID returns type id in TL schema.
@@ -4983,11 +4560,8 @@ func (m *MessageActionGroupCallScheduled) GetScheduleDate() (value int) {
 }
 
 // MessageActionSetChatTheme represents TL type `messageActionSetChatTheme#aa786345`.
-// The chat theme was changed
-//
-// See https://core.telegram.org/constructor/messageActionSetChatTheme for reference.
 type MessageActionSetChatTheme struct {
-	// The emoji that identifies a chat theme
+	// Emoticon field of MessageActionSetChatTheme.
 	Emoticon string
 }
 
@@ -5025,13 +4599,6 @@ func (m *MessageActionSetChatTheme) String() string {
 	}
 	type Alias MessageActionSetChatTheme
 	return fmt.Sprintf("MessageActionSetChatTheme%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionSetChatTheme from given interface.
-func (m *MessageActionSetChatTheme) FillFrom(from interface {
-	GetEmoticon() (value string)
-}) {
-	m.Emoticon = from.GetEmoticon()
 }
 
 // TypeID returns type id in TL schema.
@@ -5118,9 +4685,6 @@ func (m *MessageActionSetChatTheme) GetEmoticon() (value string) {
 }
 
 // MessageActionChatJoinedByRequest represents TL type `messageActionChatJoinedByRequest#ebbca3cb`.
-// A user was accepted into the group by an admin
-//
-// See https://core.telegram.org/constructor/messageActionChatJoinedByRequest for reference.
 type MessageActionChatJoinedByRequest struct {
 }
 
@@ -5220,20 +4784,10 @@ func (m *MessageActionChatJoinedByRequest) DecodeBare(b *bin.Buffer) error {
 }
 
 // MessageActionWebViewDataSentMe represents TL type `messageActionWebViewDataSentMe#47dd8079`.
-// Data from an opened reply keyboard bot mini app¹ was relayed to the bot that owns it
-// (bot side service message).
-//
-// Links:
-//  1. https://core.telegram.org/api/bots/webapps
-//
-// See https://core.telegram.org/constructor/messageActionWebViewDataSentMe for reference.
 type MessageActionWebViewDataSentMe struct {
-	// Text of the keyboardButtonSimpleWebView¹ that was pressed to open the web app.
-	//
-	// Links:
-	//  1) https://core.telegram.org/constructor/keyboardButtonSimpleWebView
+	// Text field of MessageActionWebViewDataSentMe.
 	Text string
-	// Relayed data.
+	// Data field of MessageActionWebViewDataSentMe.
 	Data string
 }
 
@@ -5274,15 +4828,6 @@ func (m *MessageActionWebViewDataSentMe) String() string {
 	}
 	type Alias MessageActionWebViewDataSentMe
 	return fmt.Sprintf("MessageActionWebViewDataSentMe%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionWebViewDataSentMe from given interface.
-func (m *MessageActionWebViewDataSentMe) FillFrom(from interface {
-	GetText() (value string)
-	GetData() (value string)
-}) {
-	m.Text = from.GetText()
-	m.Data = from.GetData()
 }
 
 // TypeID returns type id in TL schema.
@@ -5389,20 +4934,8 @@ func (m *MessageActionWebViewDataSentMe) GetData() (value string) {
 }
 
 // MessageActionWebViewDataSent represents TL type `messageActionWebViewDataSent#b4c38cb5`.
-// Data from an opened reply keyboard bot mini app¹ was relayed to the bot that owns it
-// (user side service message).
-// Clients should display a service message with the text Data from the «$text» button
-// was transferred to the bot.
-//
-// Links:
-//  1. https://core.telegram.org/api/bots/webapps
-//
-// See https://core.telegram.org/constructor/messageActionWebViewDataSent for reference.
 type MessageActionWebViewDataSent struct {
-	// Text of the keyboardButtonSimpleWebView¹ that was pressed to open the web app.
-	//
-	// Links:
-	//  1) https://core.telegram.org/constructor/keyboardButtonSimpleWebView
+	// Text field of MessageActionWebViewDataSent.
 	Text string
 }
 
@@ -5440,13 +4973,6 @@ func (m *MessageActionWebViewDataSent) String() string {
 	}
 	type Alias MessageActionWebViewDataSent
 	return fmt.Sprintf("MessageActionWebViewDataSent%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionWebViewDataSent from given interface.
-func (m *MessageActionWebViewDataSent) FillFrom(from interface {
-	GetText() (value string)
-}) {
-	m.Text = from.GetText()
 }
 
 // TypeID returns type id in TL schema.
@@ -5533,40 +5059,24 @@ func (m *MessageActionWebViewDataSent) GetText() (value string) {
 }
 
 // MessageActionGiftPremium represents TL type `messageActionGiftPremium#6c6274fa`.
-// Info about a gifted Telegram Premium subscription
-//
-// See https://core.telegram.org/constructor/messageActionGiftPremium for reference.
 type MessageActionGiftPremium struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessageActionGiftPremium.
 	Flags bin.Fields
-	// Three-letter ISO 4217 currency¹ code
-	//
-	// Links:
-	//  1) https://core.telegram.org/bots/payments#supported-currencies
+	// Currency field of MessageActionGiftPremium.
 	Currency string
-	// Price of the gift in the smallest units of the currency (integer, not float/double).
-	// For example, for a price of US$ 1.45 pass amount = 145. See the exp parameter in
-	// currencies.json¹, it shows the number of digits past the decimal point for each
-	// currency (2 for the majority of currencies).
-	//
-	// Links:
-	//  1) https://core.telegram.org/bots/payments/currencies.json
+	// Amount field of MessageActionGiftPremium.
 	Amount int64
-	// Duration of the gifted Telegram Premium subscription
+	// Months field of MessageActionGiftPremium.
 	Months int
-	// If the gift was bought using a cryptocurrency, the cryptocurrency name.
+	// CryptoCurrency field of MessageActionGiftPremium.
 	//
 	// Use SetCryptoCurrency and GetCryptoCurrency helpers.
 	CryptoCurrency string
-	// If the gift was bought using a cryptocurrency, price of the gift in the smallest units
-	// of a cryptocurrency.
+	// CryptoAmount field of MessageActionGiftPremium.
 	//
 	// Use SetCryptoAmount and GetCryptoAmount helpers.
 	CryptoAmount int64
-	// Message attached with the gift
+	// Message field of MessageActionGiftPremium.
 	//
 	// Use SetMessage and GetMessage helpers.
 	Message TextWithEntities
@@ -5624,32 +5134,6 @@ func (m *MessageActionGiftPremium) String() string {
 	}
 	type Alias MessageActionGiftPremium
 	return fmt.Sprintf("MessageActionGiftPremium%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionGiftPremium from given interface.
-func (m *MessageActionGiftPremium) FillFrom(from interface {
-	GetCurrency() (value string)
-	GetAmount() (value int64)
-	GetMonths() (value int)
-	GetCryptoCurrency() (value string, ok bool)
-	GetCryptoAmount() (value int64, ok bool)
-	GetMessage() (value TextWithEntities, ok bool)
-}) {
-	m.Currency = from.GetCurrency()
-	m.Amount = from.GetAmount()
-	m.Months = from.GetMonths()
-	if val, ok := from.GetCryptoCurrency(); ok {
-		m.CryptoCurrency = val
-	}
-
-	if val, ok := from.GetCryptoAmount(); ok {
-		m.CryptoAmount = val
-	}
-
-	if val, ok := from.GetMessage(); ok {
-		m.Message = val
-	}
-
 }
 
 // TypeID returns type id in TL schema.
@@ -5897,27 +5381,14 @@ func (m *MessageActionGiftPremium) GetMessage() (value TextWithEntities, ok bool
 }
 
 // MessageActionTopicCreate represents TL type `messageActionTopicCreate#d999256`.
-// A forum topic¹ was created.
-//
-// Links:
-//  1. https://core.telegram.org/api/forum#forum-topics
-//
-// See https://core.telegram.org/constructor/messageActionTopicCreate for reference.
 type MessageActionTopicCreate struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessageActionTopicCreate.
 	Flags bin.Fields
-	// Topic name.
+	// Title field of MessageActionTopicCreate.
 	Title string
-	// If no custom emoji icon is specified, specifies the color of the fallback topic icon
-	// (RGB), one of 0x6FB9F0, 0xFFD67E, 0xCB86DB, 0x8EEE98, 0xFF93B2, or 0xFB6F5F.
+	// IconColor field of MessageActionTopicCreate.
 	IconColor int
-	// ID of the custom emoji¹ used as topic icon.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/custom-emoji
+	// IconEmojiID field of MessageActionTopicCreate.
 	//
 	// Use SetIconEmojiID and GetIconEmojiID helpers.
 	IconEmojiID int64
@@ -5966,20 +5437,6 @@ func (m *MessageActionTopicCreate) String() string {
 	}
 	type Alias MessageActionTopicCreate
 	return fmt.Sprintf("MessageActionTopicCreate%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionTopicCreate from given interface.
-func (m *MessageActionTopicCreate) FillFrom(from interface {
-	GetTitle() (value string)
-	GetIconColor() (value int)
-	GetIconEmojiID() (value int64, ok bool)
-}) {
-	m.Title = from.GetTitle()
-	m.IconColor = from.GetIconColor()
-	if val, ok := from.GetIconEmojiID(); ok {
-		m.IconEmojiID = val
-	}
-
 }
 
 // TypeID returns type id in TL schema.
@@ -6135,34 +5592,22 @@ func (m *MessageActionTopicCreate) GetIconEmojiID() (value int64, ok bool) {
 }
 
 // MessageActionTopicEdit represents TL type `messageActionTopicEdit#c0944820`.
-// Forum topic¹ information was edited.
-//
-// Links:
-//  1. https://core.telegram.org/api/forum#forum-topics
-//
-// See https://core.telegram.org/constructor/messageActionTopicEdit for reference.
 type MessageActionTopicEdit struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessageActionTopicEdit.
 	Flags bin.Fields
-	// New topic title.
+	// Title field of MessageActionTopicEdit.
 	//
 	// Use SetTitle and GetTitle helpers.
 	Title string
-	// ID of the new custom emoji¹ used as topic icon, or if it was removed.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/custom-emoji
+	// IconEmojiID field of MessageActionTopicEdit.
 	//
 	// Use SetIconEmojiID and GetIconEmojiID helpers.
 	IconEmojiID int64
-	// Whether the topic was opened or closed.
+	// Closed field of MessageActionTopicEdit.
 	//
 	// Use SetClosed and GetClosed helpers.
 	Closed bool
-	// Whether the topic was hidden or unhidden (only valid for the "General" topic, id=1).
+	// Hidden field of MessageActionTopicEdit.
 	//
 	// Use SetHidden and GetHidden helpers.
 	Hidden bool
@@ -6214,31 +5659,6 @@ func (m *MessageActionTopicEdit) String() string {
 	}
 	type Alias MessageActionTopicEdit
 	return fmt.Sprintf("MessageActionTopicEdit%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionTopicEdit from given interface.
-func (m *MessageActionTopicEdit) FillFrom(from interface {
-	GetTitle() (value string, ok bool)
-	GetIconEmojiID() (value int64, ok bool)
-	GetClosed() (value bool, ok bool)
-	GetHidden() (value bool, ok bool)
-}) {
-	if val, ok := from.GetTitle(); ok {
-		m.Title = val
-	}
-
-	if val, ok := from.GetIconEmojiID(); ok {
-		m.IconEmojiID = val
-	}
-
-	if val, ok := from.GetClosed(); ok {
-		m.Closed = val
-	}
-
-	if val, ok := from.GetHidden(); ok {
-		m.Hidden = val
-	}
-
 }
 
 // TypeID returns type id in TL schema.
@@ -6462,14 +5882,8 @@ func (m *MessageActionTopicEdit) GetHidden() (value bool, ok bool) {
 }
 
 // MessageActionSuggestProfilePhoto represents TL type `messageActionSuggestProfilePhoto#57de635e`.
-// A new profile picture was suggested using photos.uploadContactProfilePhoto¹.
-//
-// Links:
-//  1. https://core.telegram.org/method/photos.uploadContactProfilePhoto
-//
-// See https://core.telegram.org/constructor/messageActionSuggestProfilePhoto for reference.
 type MessageActionSuggestProfilePhoto struct {
-	// The photo that the user suggested we set as profile picture.
+	// Photo field of MessageActionSuggestProfilePhoto.
 	Photo PhotoClass
 }
 
@@ -6507,13 +5921,6 @@ func (m *MessageActionSuggestProfilePhoto) String() string {
 	}
 	type Alias MessageActionSuggestProfilePhoto
 	return fmt.Sprintf("MessageActionSuggestProfilePhoto%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionSuggestProfilePhoto from given interface.
-func (m *MessageActionSuggestProfilePhoto) FillFrom(from interface {
-	GetPhoto() (value PhotoClass)
-}) {
-	m.Photo = from.GetPhoto()
 }
 
 // TypeID returns type id in TL schema.
@@ -6605,20 +6012,10 @@ func (m *MessageActionSuggestProfilePhoto) GetPhoto() (value PhotoClass) {
 }
 
 // MessageActionRequestedPeer represents TL type `messageActionRequestedPeer#31518e9b`.
-// Contains info about one or more peers that the we (the user) shared with the bot after
-// clicking on a keyboardButtonRequestPeer¹ button (service message sent by the user).
-//
-// Links:
-//  1. https://core.telegram.org/constructor/keyboardButtonRequestPeer
-//
-// See https://core.telegram.org/constructor/messageActionRequestedPeer for reference.
 type MessageActionRequestedPeer struct {
-	// button_id contained in the keyboardButtonRequestPeer¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/constructor/keyboardButtonRequestPeer
+	// ButtonID field of MessageActionRequestedPeer.
 	ButtonID int
-	// The shared peers
+	// Peers field of MessageActionRequestedPeer.
 	Peers []PeerClass
 }
 
@@ -6659,15 +6056,6 @@ func (m *MessageActionRequestedPeer) String() string {
 	}
 	type Alias MessageActionRequestedPeer
 	return fmt.Sprintf("MessageActionRequestedPeer%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionRequestedPeer from given interface.
-func (m *MessageActionRequestedPeer) FillFrom(from interface {
-	GetButtonID() (value int)
-	GetPeers() (value []PeerClass)
-}) {
-	m.ButtonID = from.GetButtonID()
-	m.Peers = from.GetPeers()
 }
 
 // TypeID returns type id in TL schema.
@@ -6791,44 +6179,15 @@ func (m *MessageActionRequestedPeer) GetPeers() (value []PeerClass) {
 	return m.Peers
 }
 
-// MapPeers returns field Peers wrapped in PeerClassArray helper.
-func (m *MessageActionRequestedPeer) MapPeers() (value PeerClassArray) {
-	return PeerClassArray(m.Peers)
-}
-
 // MessageActionSetChatWallPaper represents TL type `messageActionSetChatWallPaper#5060a3f4`.
-// The wallpaper »¹ of the current chat was changed.
-//
-// Links:
-//  1. https://core.telegram.org/api/wallpapers
-//
-// See https://core.telegram.org/constructor/messageActionSetChatWallPaper for reference.
 type MessageActionSetChatWallPaper struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessageActionSetChatWallPaper.
 	Flags bin.Fields
-	// If set, indicates the user applied a wallpaper »¹ previously sent by the other user
-	// in a messageActionSetChatWallPaper² message.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/wallpapers
-	//  2) https://core.telegram.org/constructor/messageActionSetChatWallPaper
+	// Same field of MessageActionSetChatWallPaper.
 	Same bool
-	// If set, indicates the wallpaper was forcefully applied for both sides, without
-	// explicit confirmation from the other side. If the message is incoming, and we did not
-	// like the new wallpaper the other user has chosen for us, we can re-set our previous
-	// wallpaper just on our side, by invoking messages.setChatWallPaper¹, providing only
-	// the revert flag (and obviously the peer parameter).
-	//
-	// Links:
-	//  1) https://core.telegram.org/method/messages.setChatWallPaper
+	// ForBoth field of MessageActionSetChatWallPaper.
 	ForBoth bool
-	// New wallpaper¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/wallpapers
+	// Wallpaper field of MessageActionSetChatWallPaper.
 	Wallpaper WallPaperClass
 }
 
@@ -6875,17 +6234,6 @@ func (m *MessageActionSetChatWallPaper) String() string {
 	}
 	type Alias MessageActionSetChatWallPaper
 	return fmt.Sprintf("MessageActionSetChatWallPaper%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionSetChatWallPaper from given interface.
-func (m *MessageActionSetChatWallPaper) FillFrom(from interface {
-	GetSame() (value bool)
-	GetForBoth() (value bool)
-	GetWallpaper() (value WallPaperClass)
-}) {
-	m.Same = from.GetSame()
-	m.ForBoth = from.GetForBoth()
-	m.Wallpaper = from.GetWallpaper()
 }
 
 // TypeID returns type id in TL schema.
@@ -7046,76 +6394,38 @@ func (m *MessageActionSetChatWallPaper) GetWallpaper() (value WallPaperClass) {
 }
 
 // MessageActionGiftCode represents TL type `messageActionGiftCode#56d03994`.
-// Contains a Telegram Premium giftcode link¹.
-//
-// Links:
-//  1. https://core.telegram.org/api/links#premium-giftcode-links
-//
-// See https://core.telegram.org/constructor/messageActionGiftCode for reference.
 type MessageActionGiftCode struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessageActionGiftCode.
 	Flags bin.Fields
-	// If set, this gift code was received from a giveaway »¹ started by a
-	// channel/supergroup we're subscribed to.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/giveaways
+	// ViaGiveaway field of MessageActionGiftCode.
 	ViaGiveaway bool
-	// If set, the link was not redeemed¹ yet.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/links#premium-giftcode-links
+	// Unclaimed field of MessageActionGiftCode.
 	Unclaimed bool
-	// Identifier of the channel/supergroup that created the gift code either directly or
-	// through a giveaway¹: if we import this giftcode link, we will also automatically
-	// boost² this channel/supergroup.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/giveaways
-	//  2) https://core.telegram.org/api/boost
+	// BoostPeer field of MessageActionGiftCode.
 	//
 	// Use SetBoostPeer and GetBoostPeer helpers.
 	BoostPeer PeerClass
-	// Duration in months of the gifted Telegram Premium subscription¹.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/premium
+	// Months field of MessageActionGiftCode.
 	Months int
-	// Slug of the Telegram Premium giftcode link¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/links#premium-giftcode-links
+	// Slug field of MessageActionGiftCode.
 	Slug string
-	// Three-letter ISO 4217 currency¹ code
-	//
-	// Links:
-	//  1) https://core.telegram.org/bots/payments#supported-currencies
+	// Currency field of MessageActionGiftCode.
 	//
 	// Use SetCurrency and GetCurrency helpers.
 	Currency string
-	// Total price in the smallest units of the currency (integer, not float/double). For
-	// example, for a price of US$ 1.45 pass amount = 145. See the exp parameter in
-	// currencies.json¹, it shows the number of digits past the decimal point for each
-	// currency (2 for the majority of currencies).
-	//
-	// Links:
-	//  1) https://core.telegram.org/bots/payments/currencies.json
+	// Amount field of MessageActionGiftCode.
 	//
 	// Use SetAmount and GetAmount helpers.
 	Amount int64
-	// If set, the gift was made using the specified cryptocurrency.
+	// CryptoCurrency field of MessageActionGiftCode.
 	//
 	// Use SetCryptoCurrency and GetCryptoCurrency helpers.
 	CryptoCurrency string
-	// If crypto_currency is set, contains the paid amount, in the smallest units of the
-	// cryptocurrency.
+	// CryptoAmount field of MessageActionGiftCode.
 	//
 	// Use SetCryptoAmount and GetCryptoAmount helpers.
 	CryptoAmount int64
-	// Message attached with the gift
+	// Message field of MessageActionGiftCode.
 	//
 	// Use SetMessage and GetMessage helpers.
 	Message TextWithEntities
@@ -7185,49 +6495,6 @@ func (m *MessageActionGiftCode) String() string {
 	}
 	type Alias MessageActionGiftCode
 	return fmt.Sprintf("MessageActionGiftCode%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionGiftCode from given interface.
-func (m *MessageActionGiftCode) FillFrom(from interface {
-	GetViaGiveaway() (value bool)
-	GetUnclaimed() (value bool)
-	GetBoostPeer() (value PeerClass, ok bool)
-	GetMonths() (value int)
-	GetSlug() (value string)
-	GetCurrency() (value string, ok bool)
-	GetAmount() (value int64, ok bool)
-	GetCryptoCurrency() (value string, ok bool)
-	GetCryptoAmount() (value int64, ok bool)
-	GetMessage() (value TextWithEntities, ok bool)
-}) {
-	m.ViaGiveaway = from.GetViaGiveaway()
-	m.Unclaimed = from.GetUnclaimed()
-	if val, ok := from.GetBoostPeer(); ok {
-		m.BoostPeer = val
-	}
-
-	m.Months = from.GetMonths()
-	m.Slug = from.GetSlug()
-	if val, ok := from.GetCurrency(); ok {
-		m.Currency = val
-	}
-
-	if val, ok := from.GetAmount(); ok {
-		m.Amount = val
-	}
-
-	if val, ok := from.GetCryptoCurrency(); ok {
-		m.CryptoCurrency = val
-	}
-
-	if val, ok := from.GetCryptoAmount(); ok {
-		m.CryptoAmount = val
-	}
-
-	if val, ok := from.GetMessage(); ok {
-		m.Message = val
-	}
-
 }
 
 // TypeID returns type id in TL schema.
@@ -7624,22 +6891,10 @@ func (m *MessageActionGiftCode) GetMessage() (value TextWithEntities, ok bool) {
 }
 
 // MessageActionGiveawayLaunch represents TL type `messageActionGiveawayLaunch#a80f51e4`.
-// A giveaway¹ was started.
-//
-// Links:
-//  1. https://core.telegram.org/api/giveaways
-//
-// See https://core.telegram.org/constructor/messageActionGiveawayLaunch for reference.
 type MessageActionGiveawayLaunch struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessageActionGiveawayLaunch.
 	Flags bin.Fields
-	// For Telegram Star giveaways¹, the total number of Telegram Stars being given away.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/stars#star-giveaways
+	// Stars field of MessageActionGiveawayLaunch.
 	//
 	// Use SetStars and GetStars helpers.
 	Stars int64
@@ -7682,16 +6937,6 @@ func (m *MessageActionGiveawayLaunch) String() string {
 	}
 	type Alias MessageActionGiveawayLaunch
 	return fmt.Sprintf("MessageActionGiveawayLaunch%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionGiveawayLaunch from given interface.
-func (m *MessageActionGiveawayLaunch) FillFrom(from interface {
-	GetStars() (value int64, ok bool)
-}) {
-	if val, ok := from.GetStars(); ok {
-		m.Stars = val
-	}
-
 }
 
 // TypeID returns type id in TL schema.
@@ -7807,26 +7052,14 @@ func (m *MessageActionGiveawayLaunch) GetStars() (value int64, ok bool) {
 }
 
 // MessageActionGiveawayResults represents TL type `messageActionGiveawayResults#87e2f155`.
-// A giveaway¹ has ended.
-//
-// Links:
-//  1. https://core.telegram.org/api/giveaways
-//
-// See https://core.telegram.org/constructor/messageActionGiveawayResults for reference.
 type MessageActionGiveawayResults struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessageActionGiveawayResults.
 	Flags bin.Fields
-	// If set, this is a Telegram Star giveaway¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/stars#star-giveaways
+	// Stars field of MessageActionGiveawayResults.
 	Stars bool
-	// Number of winners in the giveaway
+	// WinnersCount field of MessageActionGiveawayResults.
 	WinnersCount int
-	// Number of undistributed prizes
+	// UnclaimedCount field of MessageActionGiveawayResults.
 	UnclaimedCount int
 }
 
@@ -7873,17 +7106,6 @@ func (m *MessageActionGiveawayResults) String() string {
 	}
 	type Alias MessageActionGiveawayResults
 	return fmt.Sprintf("MessageActionGiveawayResults%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionGiveawayResults from given interface.
-func (m *MessageActionGiveawayResults) FillFrom(from interface {
-	GetStars() (value bool)
-	GetWinnersCount() (value int)
-	GetUnclaimedCount() (value int)
-}) {
-	m.Stars = from.GetStars()
-	m.WinnersCount = from.GetWinnersCount()
-	m.UnclaimedCount = from.GetUnclaimedCount()
 }
 
 // TypeID returns type id in TL schema.
@@ -8031,17 +7253,8 @@ func (m *MessageActionGiveawayResults) GetUnclaimedCount() (value int) {
 }
 
 // MessageActionBoostApply represents TL type `messageActionBoostApply#cc02aa6d`.
-// Some boosts »¹ were applied to the channel or supergroup.
-//
-// Links:
-//  1. https://core.telegram.org/api/boost
-//
-// See https://core.telegram.org/constructor/messageActionBoostApply for reference.
 type MessageActionBoostApply struct {
-	// Number of applied boosts¹.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/boost
+	// Boosts field of MessageActionBoostApply.
 	Boosts int
 }
 
@@ -8079,13 +7292,6 @@ func (m *MessageActionBoostApply) String() string {
 	}
 	type Alias MessageActionBoostApply
 	return fmt.Sprintf("MessageActionBoostApply%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionBoostApply from given interface.
-func (m *MessageActionBoostApply) FillFrom(from interface {
-	GetBoosts() (value int)
-}) {
-	m.Boosts = from.GetBoosts()
 }
 
 // TypeID returns type id in TL schema.
@@ -8172,21 +7378,10 @@ func (m *MessageActionBoostApply) GetBoosts() (value int) {
 }
 
 // MessageActionRequestedPeerSentMe represents TL type `messageActionRequestedPeerSentMe#93b31848`.
-// Contains info about one or more peers that the a user shared with the me (the bot)
-// after clicking on a keyboardButtonRequestPeer¹ button (service message received by
-// the bot).
-//
-// Links:
-//  1. https://core.telegram.org/constructor/keyboardButtonRequestPeer
-//
-// See https://core.telegram.org/constructor/messageActionRequestedPeerSentMe for reference.
 type MessageActionRequestedPeerSentMe struct {
-	// button_id contained in the keyboardButtonRequestPeer¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/constructor/keyboardButtonRequestPeer
+	// ButtonID field of MessageActionRequestedPeerSentMe.
 	ButtonID int
-	// Info about the shared peers.
+	// Peers field of MessageActionRequestedPeerSentMe.
 	Peers []RequestedPeerClass
 }
 
@@ -8227,15 +7422,6 @@ func (m *MessageActionRequestedPeerSentMe) String() string {
 	}
 	type Alias MessageActionRequestedPeerSentMe
 	return fmt.Sprintf("MessageActionRequestedPeerSentMe%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionRequestedPeerSentMe from given interface.
-func (m *MessageActionRequestedPeerSentMe) FillFrom(from interface {
-	GetButtonID() (value int)
-	GetPeers() (value []RequestedPeerClass)
-}) {
-	m.ButtonID = from.GetButtonID()
-	m.Peers = from.GetPeers()
 }
 
 // TypeID returns type id in TL schema.
@@ -8359,38 +7545,21 @@ func (m *MessageActionRequestedPeerSentMe) GetPeers() (value []RequestedPeerClas
 	return m.Peers
 }
 
-// MapPeers returns field Peers wrapped in RequestedPeerClassArray helper.
-func (m *MessageActionRequestedPeerSentMe) MapPeers() (value RequestedPeerClassArray) {
-	return RequestedPeerClassArray(m.Peers)
-}
-
 // MessageActionPaymentRefunded represents TL type `messageActionPaymentRefunded#41b3e202`.
-// Describes a payment refund (service message received by both users and bots).
-//
-// See https://core.telegram.org/constructor/messageActionPaymentRefunded for reference.
 type MessageActionPaymentRefunded struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessageActionPaymentRefunded.
 	Flags bin.Fields
-	// Identifier of the peer that returned the funds.
+	// Peer field of MessageActionPaymentRefunded.
 	Peer PeerClass
-	// Currency, XTR for Telegram Stars.
+	// Currency field of MessageActionPaymentRefunded.
 	Currency string
-	// Total price in the smallest units of the currency (integer, not float/double). For
-	// example, for a price of US$ 1.45 pass amount = 145. See the exp parameter in
-	// currencies.json¹, it shows the number of digits past the decimal point for each
-	// currency (2 for the majority of currencies).
-	//
-	// Links:
-	//  1) https://core.telegram.org/bots/payments/currencies.json
+	// TotalAmount field of MessageActionPaymentRefunded.
 	TotalAmount int64
-	// Bot specified invoice payload (only received by bots).
+	// Payload field of MessageActionPaymentRefunded.
 	//
 	// Use SetPayload and GetPayload helpers.
 	Payload []byte
-	// Provider payment identifier
+	// Charge field of MessageActionPaymentRefunded.
 	Charge PaymentCharge
 }
 
@@ -8443,24 +7612,6 @@ func (m *MessageActionPaymentRefunded) String() string {
 	}
 	type Alias MessageActionPaymentRefunded
 	return fmt.Sprintf("MessageActionPaymentRefunded%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionPaymentRefunded from given interface.
-func (m *MessageActionPaymentRefunded) FillFrom(from interface {
-	GetPeer() (value PeerClass)
-	GetCurrency() (value string)
-	GetTotalAmount() (value int64)
-	GetPayload() (value []byte, ok bool)
-	GetCharge() (value PaymentCharge)
-}) {
-	m.Peer = from.GetPeer()
-	m.Currency = from.GetCurrency()
-	m.TotalAmount = from.GetTotalAmount()
-	if val, ok := from.GetPayload(); ok {
-		m.Payload = val
-	}
-
-	m.Charge = from.GetCharge()
 }
 
 // TypeID returns type id in TL schema.
@@ -8661,43 +7812,24 @@ func (m *MessageActionPaymentRefunded) GetCharge() (value PaymentCharge) {
 }
 
 // MessageActionGiftStars represents TL type `messageActionGiftStars#45d5b021`.
-// You gifted or were gifted some Telegram Stars¹.
-//
-// Links:
-//  1. https://core.telegram.org/api/stars
-//
-// See https://core.telegram.org/constructor/messageActionGiftStars for reference.
 type MessageActionGiftStars struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessageActionGiftStars.
 	Flags bin.Fields
-	// Three-letter ISO 4217 currency¹ code
-	//
-	// Links:
-	//  1) https://core.telegram.org/bots/payments#supported-currencies
+	// Currency field of MessageActionGiftStars.
 	Currency string
-	// Price of the gift in the smallest units of the currency (integer, not float/double).
-	// For example, for a price of US$ 1.45 pass amount = 145. See the exp parameter in
-	// currencies.json¹, it shows the number of digits past the decimal point for each
-	// currency (2 for the majority of currencies).
-	//
-	// Links:
-	//  1) https://core.telegram.org/bots/payments/currencies.json
+	// Amount field of MessageActionGiftStars.
 	Amount int64
-	// Amount of gifted stars
+	// Stars field of MessageActionGiftStars.
 	Stars int64
-	// If the gift was bought using a cryptocurrency, the cryptocurrency name.
+	// CryptoCurrency field of MessageActionGiftStars.
 	//
 	// Use SetCryptoCurrency and GetCryptoCurrency helpers.
 	CryptoCurrency string
-	// If the gift was bought using a cryptocurrency, price of the gift in the smallest units
-	// of a cryptocurrency.
+	// CryptoAmount field of MessageActionGiftStars.
 	//
 	// Use SetCryptoAmount and GetCryptoAmount helpers.
 	CryptoAmount int64
-	// Identifier of the transaction, only visible to the receiver of the gift.
+	// TransactionID field of MessageActionGiftStars.
 	//
 	// Use SetTransactionID and GetTransactionID helpers.
 	TransactionID string
@@ -8755,32 +7887,6 @@ func (m *MessageActionGiftStars) String() string {
 	}
 	type Alias MessageActionGiftStars
 	return fmt.Sprintf("MessageActionGiftStars%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionGiftStars from given interface.
-func (m *MessageActionGiftStars) FillFrom(from interface {
-	GetCurrency() (value string)
-	GetAmount() (value int64)
-	GetStars() (value int64)
-	GetCryptoCurrency() (value string, ok bool)
-	GetCryptoAmount() (value int64, ok bool)
-	GetTransactionID() (value string, ok bool)
-}) {
-	m.Currency = from.GetCurrency()
-	m.Amount = from.GetAmount()
-	m.Stars = from.GetStars()
-	if val, ok := from.GetCryptoCurrency(); ok {
-		m.CryptoCurrency = val
-	}
-
-	if val, ok := from.GetCryptoAmount(); ok {
-		m.CryptoAmount = val
-	}
-
-	if val, ok := from.GetTransactionID(); ok {
-		m.TransactionID = val
-	}
-
 }
 
 // TypeID returns type id in TL schema.
@@ -9028,33 +8134,18 @@ func (m *MessageActionGiftStars) GetTransactionID() (value string, ok bool) {
 }
 
 // MessageActionPrizeStars represents TL type `messageActionPrizeStars#b00c47a2`.
-// You won some Telegram Stars¹ in a Telegram Star giveaway »².
-//
-// Links:
-//  1. https://core.telegram.org/api/stars
-//  2. https://core.telegram.org/api/giveaways#star-giveaways
-//
-// See https://core.telegram.org/constructor/messageActionPrizeStars for reference.
 type MessageActionPrizeStars struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessageActionPrizeStars.
 	Flags bin.Fields
-	// If set, this indicates the reverse transaction that refunds the remaining stars to the
-	// creator of a giveaway if, when the giveaway ends, the number of members in the channel
-	// is smaller than the number of winners in the giveaway.
+	// Unclaimed field of MessageActionPrizeStars.
 	Unclaimed bool
-	// The number of Telegram Stars you won
+	// Stars field of MessageActionPrizeStars.
 	Stars int64
-	// ID of the telegram star transaction.
+	// TransactionID field of MessageActionPrizeStars.
 	TransactionID string
-	// Identifier of the peer that was automatically boosted by the winners of the giveaway.
+	// BoostPeer field of MessageActionPrizeStars.
 	BoostPeer PeerClass
-	// ID of the message containing the messageMediaGiveaway¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/constructor/messageMediaGiveaway
+	// GiveawayMsgID field of MessageActionPrizeStars.
 	GiveawayMsgID int
 }
 
@@ -9107,21 +8198,6 @@ func (m *MessageActionPrizeStars) String() string {
 	}
 	type Alias MessageActionPrizeStars
 	return fmt.Sprintf("MessageActionPrizeStars%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionPrizeStars from given interface.
-func (m *MessageActionPrizeStars) FillFrom(from interface {
-	GetUnclaimed() (value bool)
-	GetStars() (value int64)
-	GetTransactionID() (value string)
-	GetBoostPeer() (value PeerClass)
-	GetGiveawayMsgID() (value int)
-}) {
-	m.Unclaimed = from.GetUnclaimed()
-	m.Stars = from.GetStars()
-	m.TransactionID = from.GetTransactionID()
-	m.BoostPeer = from.GetBoostPeer()
-	m.GiveawayMsgID = from.GetGiveawayMsgID()
 }
 
 // TypeID returns type id in TL schema.
@@ -9313,78 +8389,30 @@ func (m *MessageActionPrizeStars) GetGiveawayMsgID() (value int) {
 	return m.GiveawayMsgID
 }
 
-// MessageActionStarGift represents TL type `messageActionStarGift#4717e8a4`.
-// You received a gift, see here »¹ for more info.
-//
-// Links:
-//  1. https://core.telegram.org/api/gifts
-//
-// See https://core.telegram.org/constructor/messageActionStarGift for reference.
+// MessageActionStarGift represents TL type `messageActionStarGift#8557637`.
 type MessageActionStarGift struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessageActionStarGift.
 	Flags bin.Fields
-	// If set, the name of the sender of the gift will be hidden if the destination user
-	// decides to display the gift on their profile
+	// NameHidden field of MessageActionStarGift.
 	NameHidden bool
-	// Whether this gift was added to the destination user's profile (may be toggled using
-	// payments.saveStarGift¹ and fetched using payments.getUserStarGifts²)
-	//
-	// Links:
-	//  1) https://core.telegram.org/method/payments.saveStarGift
-	//  2) https://core.telegram.org/method/payments.getUserStarGifts
+	// Saved field of MessageActionStarGift.
 	Saved bool
-	// Whether this gift was converted to Telegram Stars¹ and cannot be displayed on the
-	// profile anymore.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/stars
+	// Converted field of MessageActionStarGift.
 	Converted bool
-	// Upgraded field of MessageActionStarGift.
-	Upgraded bool
-	// Refunded field of MessageActionStarGift.
-	Refunded bool
-	// CanUpgrade field of MessageActionStarGift.
-	CanUpgrade bool
-	// Info about the gift
-	Gift StarGiftClass
-	// Additional message from the sender of the gift
+	// Gift field of MessageActionStarGift.
+	Gift StarGift
+	// Message field of MessageActionStarGift.
 	//
 	// Use SetMessage and GetMessage helpers.
 	Message TextWithEntities
-	// The receiver of this gift may convert it to this many Telegram Stars, instead of
-	// displaying it on their profile page.convert_stars will be equal to stars only if the
-	// gift was bought using recently bought Telegram Stars, otherwise it will be less than
-	// stars.
+	// ConvertStars field of MessageActionStarGift.
 	//
 	// Use SetConvertStars and GetConvertStars helpers.
 	ConvertStars int64
-	// UpgradeMsgID field of MessageActionStarGift.
-	//
-	// Use SetUpgradeMsgID and GetUpgradeMsgID helpers.
-	UpgradeMsgID int
-	// UpgradeStars field of MessageActionStarGift.
-	//
-	// Use SetUpgradeStars and GetUpgradeStars helpers.
-	UpgradeStars int64
-	// FromID field of MessageActionStarGift.
-	//
-	// Use SetFromID and GetFromID helpers.
-	FromID PeerClass
-	// Peer field of MessageActionStarGift.
-	//
-	// Use SetPeer and GetPeer helpers.
-	Peer PeerClass
-	// SavedID field of MessageActionStarGift.
-	//
-	// Use SetSavedID and GetSavedID helpers.
-	SavedID int64
 }
 
 // MessageActionStarGiftTypeID is TL type id of MessageActionStarGift.
-const MessageActionStarGiftTypeID = 0x4717e8a4
+const MessageActionStarGiftTypeID = 0x8557637
 
 // construct implements constructor of MessageActionClass.
 func (m MessageActionStarGift) construct() MessageActionClass { return &m }
@@ -9415,37 +8443,13 @@ func (m *MessageActionStarGift) Zero() bool {
 	if !(m.Converted == false) {
 		return false
 	}
-	if !(m.Upgraded == false) {
-		return false
-	}
-	if !(m.Refunded == false) {
-		return false
-	}
-	if !(m.CanUpgrade == false) {
-		return false
-	}
-	if !(m.Gift == nil) {
+	if !(m.Gift.Zero()) {
 		return false
 	}
 	if !(m.Message.Zero()) {
 		return false
 	}
 	if !(m.ConvertStars == 0) {
-		return false
-	}
-	if !(m.UpgradeMsgID == 0) {
-		return false
-	}
-	if !(m.UpgradeStars == 0) {
-		return false
-	}
-	if !(m.FromID == nil) {
-		return false
-	}
-	if !(m.Peer == nil) {
-		return false
-	}
-	if !(m.SavedID == 0) {
 		return false
 	}
 
@@ -9459,60 +8463,6 @@ func (m *MessageActionStarGift) String() string {
 	}
 	type Alias MessageActionStarGift
 	return fmt.Sprintf("MessageActionStarGift%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionStarGift from given interface.
-func (m *MessageActionStarGift) FillFrom(from interface {
-	GetNameHidden() (value bool)
-	GetSaved() (value bool)
-	GetConverted() (value bool)
-	GetUpgraded() (value bool)
-	GetRefunded() (value bool)
-	GetCanUpgrade() (value bool)
-	GetGift() (value StarGiftClass)
-	GetMessage() (value TextWithEntities, ok bool)
-	GetConvertStars() (value int64, ok bool)
-	GetUpgradeMsgID() (value int, ok bool)
-	GetUpgradeStars() (value int64, ok bool)
-	GetFromID() (value PeerClass, ok bool)
-	GetPeer() (value PeerClass, ok bool)
-	GetSavedID() (value int64, ok bool)
-}) {
-	m.NameHidden = from.GetNameHidden()
-	m.Saved = from.GetSaved()
-	m.Converted = from.GetConverted()
-	m.Upgraded = from.GetUpgraded()
-	m.Refunded = from.GetRefunded()
-	m.CanUpgrade = from.GetCanUpgrade()
-	m.Gift = from.GetGift()
-	if val, ok := from.GetMessage(); ok {
-		m.Message = val
-	}
-
-	if val, ok := from.GetConvertStars(); ok {
-		m.ConvertStars = val
-	}
-
-	if val, ok := from.GetUpgradeMsgID(); ok {
-		m.UpgradeMsgID = val
-	}
-
-	if val, ok := from.GetUpgradeStars(); ok {
-		m.UpgradeStars = val
-	}
-
-	if val, ok := from.GetFromID(); ok {
-		m.FromID = val
-	}
-
-	if val, ok := from.GetPeer(); ok {
-		m.Peer = val
-	}
-
-	if val, ok := from.GetSavedID(); ok {
-		m.SavedID = val
-	}
-
 }
 
 // TypeID returns type id in TL schema.
@@ -9554,21 +8504,6 @@ func (m *MessageActionStarGift) TypeInfo() tdp.Type {
 			Null:       !m.Flags.Has(3),
 		},
 		{
-			Name:       "Upgraded",
-			SchemaName: "upgraded",
-			Null:       !m.Flags.Has(5),
-		},
-		{
-			Name:       "Refunded",
-			SchemaName: "refunded",
-			Null:       !m.Flags.Has(9),
-		},
-		{
-			Name:       "CanUpgrade",
-			SchemaName: "can_upgrade",
-			Null:       !m.Flags.Has(10),
-		},
-		{
 			Name:       "Gift",
 			SchemaName: "gift",
 		},
@@ -9581,31 +8516,6 @@ func (m *MessageActionStarGift) TypeInfo() tdp.Type {
 			Name:       "ConvertStars",
 			SchemaName: "convert_stars",
 			Null:       !m.Flags.Has(4),
-		},
-		{
-			Name:       "UpgradeMsgID",
-			SchemaName: "upgrade_msg_id",
-			Null:       !m.Flags.Has(5),
-		},
-		{
-			Name:       "UpgradeStars",
-			SchemaName: "upgrade_stars",
-			Null:       !m.Flags.Has(8),
-		},
-		{
-			Name:       "FromID",
-			SchemaName: "from_id",
-			Null:       !m.Flags.Has(11),
-		},
-		{
-			Name:       "Peer",
-			SchemaName: "peer",
-			Null:       !m.Flags.Has(12),
-		},
-		{
-			Name:       "SavedID",
-			SchemaName: "saved_id",
-			Null:       !m.Flags.Has(12),
 		},
 	}
 	return typ
@@ -9622,42 +8532,18 @@ func (m *MessageActionStarGift) SetFlags() {
 	if !(m.Converted == false) {
 		m.Flags.Set(3)
 	}
-	if !(m.Upgraded == false) {
-		m.Flags.Set(5)
-	}
-	if !(m.Refunded == false) {
-		m.Flags.Set(9)
-	}
-	if !(m.CanUpgrade == false) {
-		m.Flags.Set(10)
-	}
 	if !(m.Message.Zero()) {
 		m.Flags.Set(1)
 	}
 	if !(m.ConvertStars == 0) {
 		m.Flags.Set(4)
 	}
-	if !(m.UpgradeMsgID == 0) {
-		m.Flags.Set(5)
-	}
-	if !(m.UpgradeStars == 0) {
-		m.Flags.Set(8)
-	}
-	if !(m.FromID == nil) {
-		m.Flags.Set(11)
-	}
-	if !(m.Peer == nil) {
-		m.Flags.Set(12)
-	}
-	if !(m.SavedID == 0) {
-		m.Flags.Set(12)
-	}
 }
 
 // Encode implements bin.Encoder.
 func (m *MessageActionStarGift) Encode(b *bin.Buffer) error {
 	if m == nil {
-		return fmt.Errorf("can't encode messageActionStarGift#4717e8a4 as nil")
+		return fmt.Errorf("can't encode messageActionStarGift#8557637 as nil")
 	}
 	b.PutID(MessageActionStarGiftTypeID)
 	return m.EncodeBare(b)
@@ -9666,50 +8552,22 @@ func (m *MessageActionStarGift) Encode(b *bin.Buffer) error {
 // EncodeBare implements bin.BareEncoder.
 func (m *MessageActionStarGift) EncodeBare(b *bin.Buffer) error {
 	if m == nil {
-		return fmt.Errorf("can't encode messageActionStarGift#4717e8a4 as nil")
+		return fmt.Errorf("can't encode messageActionStarGift#8557637 as nil")
 	}
 	m.SetFlags()
 	if err := m.Flags.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode messageActionStarGift#4717e8a4: field flags: %w", err)
-	}
-	if m.Gift == nil {
-		return fmt.Errorf("unable to encode messageActionStarGift#4717e8a4: field gift is nil")
+		return fmt.Errorf("unable to encode messageActionStarGift#8557637: field flags: %w", err)
 	}
 	if err := m.Gift.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode messageActionStarGift#4717e8a4: field gift: %w", err)
+		return fmt.Errorf("unable to encode messageActionStarGift#8557637: field gift: %w", err)
 	}
 	if m.Flags.Has(1) {
 		if err := m.Message.Encode(b); err != nil {
-			return fmt.Errorf("unable to encode messageActionStarGift#4717e8a4: field message: %w", err)
+			return fmt.Errorf("unable to encode messageActionStarGift#8557637: field message: %w", err)
 		}
 	}
 	if m.Flags.Has(4) {
 		b.PutLong(m.ConvertStars)
-	}
-	if m.Flags.Has(5) {
-		b.PutInt(m.UpgradeMsgID)
-	}
-	if m.Flags.Has(8) {
-		b.PutLong(m.UpgradeStars)
-	}
-	if m.Flags.Has(11) {
-		if m.FromID == nil {
-			return fmt.Errorf("unable to encode messageActionStarGift#4717e8a4: field from_id is nil")
-		}
-		if err := m.FromID.Encode(b); err != nil {
-			return fmt.Errorf("unable to encode messageActionStarGift#4717e8a4: field from_id: %w", err)
-		}
-	}
-	if m.Flags.Has(12) {
-		if m.Peer == nil {
-			return fmt.Errorf("unable to encode messageActionStarGift#4717e8a4: field peer is nil")
-		}
-		if err := m.Peer.Encode(b); err != nil {
-			return fmt.Errorf("unable to encode messageActionStarGift#4717e8a4: field peer: %w", err)
-		}
-	}
-	if m.Flags.Has(12) {
-		b.PutLong(m.SavedID)
 	}
 	return nil
 }
@@ -9717,10 +8575,10 @@ func (m *MessageActionStarGift) EncodeBare(b *bin.Buffer) error {
 // Decode implements bin.Decoder.
 func (m *MessageActionStarGift) Decode(b *bin.Buffer) error {
 	if m == nil {
-		return fmt.Errorf("can't decode messageActionStarGift#4717e8a4 to nil")
+		return fmt.Errorf("can't decode messageActionStarGift#8557637 to nil")
 	}
 	if err := b.ConsumeID(MessageActionStarGiftTypeID); err != nil {
-		return fmt.Errorf("unable to decode messageActionStarGift#4717e8a4: %w", err)
+		return fmt.Errorf("unable to decode messageActionStarGift#8557637: %w", err)
 	}
 	return m.DecodeBare(b)
 }
@@ -9728,72 +8586,32 @@ func (m *MessageActionStarGift) Decode(b *bin.Buffer) error {
 // DecodeBare implements bin.BareDecoder.
 func (m *MessageActionStarGift) DecodeBare(b *bin.Buffer) error {
 	if m == nil {
-		return fmt.Errorf("can't decode messageActionStarGift#4717e8a4 to nil")
+		return fmt.Errorf("can't decode messageActionStarGift#8557637 to nil")
 	}
 	{
 		if err := m.Flags.Decode(b); err != nil {
-			return fmt.Errorf("unable to decode messageActionStarGift#4717e8a4: field flags: %w", err)
+			return fmt.Errorf("unable to decode messageActionStarGift#8557637: field flags: %w", err)
 		}
 	}
 	m.NameHidden = m.Flags.Has(0)
 	m.Saved = m.Flags.Has(2)
 	m.Converted = m.Flags.Has(3)
-	m.Upgraded = m.Flags.Has(5)
-	m.Refunded = m.Flags.Has(9)
-	m.CanUpgrade = m.Flags.Has(10)
 	{
-		value, err := DecodeStarGift(b)
-		if err != nil {
-			return fmt.Errorf("unable to decode messageActionStarGift#4717e8a4: field gift: %w", err)
+		if err := m.Gift.Decode(b); err != nil {
+			return fmt.Errorf("unable to decode messageActionStarGift#8557637: field gift: %w", err)
 		}
-		m.Gift = value
 	}
 	if m.Flags.Has(1) {
 		if err := m.Message.Decode(b); err != nil {
-			return fmt.Errorf("unable to decode messageActionStarGift#4717e8a4: field message: %w", err)
+			return fmt.Errorf("unable to decode messageActionStarGift#8557637: field message: %w", err)
 		}
 	}
 	if m.Flags.Has(4) {
 		value, err := b.Long()
 		if err != nil {
-			return fmt.Errorf("unable to decode messageActionStarGift#4717e8a4: field convert_stars: %w", err)
+			return fmt.Errorf("unable to decode messageActionStarGift#8557637: field convert_stars: %w", err)
 		}
 		m.ConvertStars = value
-	}
-	if m.Flags.Has(5) {
-		value, err := b.Int()
-		if err != nil {
-			return fmt.Errorf("unable to decode messageActionStarGift#4717e8a4: field upgrade_msg_id: %w", err)
-		}
-		m.UpgradeMsgID = value
-	}
-	if m.Flags.Has(8) {
-		value, err := b.Long()
-		if err != nil {
-			return fmt.Errorf("unable to decode messageActionStarGift#4717e8a4: field upgrade_stars: %w", err)
-		}
-		m.UpgradeStars = value
-	}
-	if m.Flags.Has(11) {
-		value, err := DecodePeer(b)
-		if err != nil {
-			return fmt.Errorf("unable to decode messageActionStarGift#4717e8a4: field from_id: %w", err)
-		}
-		m.FromID = value
-	}
-	if m.Flags.Has(12) {
-		value, err := DecodePeer(b)
-		if err != nil {
-			return fmt.Errorf("unable to decode messageActionStarGift#4717e8a4: field peer: %w", err)
-		}
-		m.Peer = value
-	}
-	if m.Flags.Has(12) {
-		value, err := b.Long()
-		if err != nil {
-			return fmt.Errorf("unable to decode messageActionStarGift#4717e8a4: field saved_id: %w", err)
-		}
-		m.SavedID = value
 	}
 	return nil
 }
@@ -9855,65 +8673,8 @@ func (m *MessageActionStarGift) GetConverted() (value bool) {
 	return m.Flags.Has(3)
 }
 
-// SetUpgraded sets value of Upgraded conditional field.
-func (m *MessageActionStarGift) SetUpgraded(value bool) {
-	if value {
-		m.Flags.Set(5)
-		m.Upgraded = true
-	} else {
-		m.Flags.Unset(5)
-		m.Upgraded = false
-	}
-}
-
-// GetUpgraded returns value of Upgraded conditional field.
-func (m *MessageActionStarGift) GetUpgraded() (value bool) {
-	if m == nil {
-		return
-	}
-	return m.Flags.Has(5)
-}
-
-// SetRefunded sets value of Refunded conditional field.
-func (m *MessageActionStarGift) SetRefunded(value bool) {
-	if value {
-		m.Flags.Set(9)
-		m.Refunded = true
-	} else {
-		m.Flags.Unset(9)
-		m.Refunded = false
-	}
-}
-
-// GetRefunded returns value of Refunded conditional field.
-func (m *MessageActionStarGift) GetRefunded() (value bool) {
-	if m == nil {
-		return
-	}
-	return m.Flags.Has(9)
-}
-
-// SetCanUpgrade sets value of CanUpgrade conditional field.
-func (m *MessageActionStarGift) SetCanUpgrade(value bool) {
-	if value {
-		m.Flags.Set(10)
-		m.CanUpgrade = true
-	} else {
-		m.Flags.Unset(10)
-		m.CanUpgrade = false
-	}
-}
-
-// GetCanUpgrade returns value of CanUpgrade conditional field.
-func (m *MessageActionStarGift) GetCanUpgrade() (value bool) {
-	if m == nil {
-		return
-	}
-	return m.Flags.Has(10)
-}
-
 // GetGift returns value of Gift field.
-func (m *MessageActionStarGift) GetGift() (value StarGiftClass) {
+func (m *MessageActionStarGift) GetGift() (value StarGift) {
 	if m == nil {
 		return
 	}
@@ -9956,944 +8717,10 @@ func (m *MessageActionStarGift) GetConvertStars() (value int64, ok bool) {
 	return m.ConvertStars, true
 }
 
-// SetUpgradeMsgID sets value of UpgradeMsgID conditional field.
-func (m *MessageActionStarGift) SetUpgradeMsgID(value int) {
-	m.Flags.Set(5)
-	m.UpgradeMsgID = value
-}
-
-// GetUpgradeMsgID returns value of UpgradeMsgID conditional field and
-// boolean which is true if field was set.
-func (m *MessageActionStarGift) GetUpgradeMsgID() (value int, ok bool) {
-	if m == nil {
-		return
-	}
-	if !m.Flags.Has(5) {
-		return value, false
-	}
-	return m.UpgradeMsgID, true
-}
-
-// SetUpgradeStars sets value of UpgradeStars conditional field.
-func (m *MessageActionStarGift) SetUpgradeStars(value int64) {
-	m.Flags.Set(8)
-	m.UpgradeStars = value
-}
-
-// GetUpgradeStars returns value of UpgradeStars conditional field and
-// boolean which is true if field was set.
-func (m *MessageActionStarGift) GetUpgradeStars() (value int64, ok bool) {
-	if m == nil {
-		return
-	}
-	if !m.Flags.Has(8) {
-		return value, false
-	}
-	return m.UpgradeStars, true
-}
-
-// SetFromID sets value of FromID conditional field.
-func (m *MessageActionStarGift) SetFromID(value PeerClass) {
-	m.Flags.Set(11)
-	m.FromID = value
-}
-
-// GetFromID returns value of FromID conditional field and
-// boolean which is true if field was set.
-func (m *MessageActionStarGift) GetFromID() (value PeerClass, ok bool) {
-	if m == nil {
-		return
-	}
-	if !m.Flags.Has(11) {
-		return value, false
-	}
-	return m.FromID, true
-}
-
-// SetPeer sets value of Peer conditional field.
-func (m *MessageActionStarGift) SetPeer(value PeerClass) {
-	m.Flags.Set(12)
-	m.Peer = value
-}
-
-// GetPeer returns value of Peer conditional field and
-// boolean which is true if field was set.
-func (m *MessageActionStarGift) GetPeer() (value PeerClass, ok bool) {
-	if m == nil {
-		return
-	}
-	if !m.Flags.Has(12) {
-		return value, false
-	}
-	return m.Peer, true
-}
-
-// SetSavedID sets value of SavedID conditional field.
-func (m *MessageActionStarGift) SetSavedID(value int64) {
-	m.Flags.Set(12)
-	m.SavedID = value
-}
-
-// GetSavedID returns value of SavedID conditional field and
-// boolean which is true if field was set.
-func (m *MessageActionStarGift) GetSavedID() (value int64, ok bool) {
-	if m == nil {
-		return
-	}
-	if !m.Flags.Has(12) {
-		return value, false
-	}
-	return m.SavedID, true
-}
-
-// MessageActionStarGiftUnique represents TL type `messageActionStarGiftUnique#acdfcb81`.
-//
-// See https://core.telegram.org/constructor/messageActionStarGiftUnique for reference.
-type MessageActionStarGiftUnique struct {
-	// Flags field of MessageActionStarGiftUnique.
-	Flags bin.Fields
-	// Upgrade field of MessageActionStarGiftUnique.
-	Upgrade bool
-	// Transferred field of MessageActionStarGiftUnique.
-	Transferred bool
-	// Saved field of MessageActionStarGiftUnique.
-	Saved bool
-	// Refunded field of MessageActionStarGiftUnique.
-	Refunded bool
-	// Gift field of MessageActionStarGiftUnique.
-	Gift StarGiftClass
-	// CanExportAt field of MessageActionStarGiftUnique.
-	//
-	// Use SetCanExportAt and GetCanExportAt helpers.
-	CanExportAt int
-	// TransferStars field of MessageActionStarGiftUnique.
-	//
-	// Use SetTransferStars and GetTransferStars helpers.
-	TransferStars int64
-	// FromID field of MessageActionStarGiftUnique.
-	//
-	// Use SetFromID and GetFromID helpers.
-	FromID PeerClass
-	// Peer field of MessageActionStarGiftUnique.
-	//
-	// Use SetPeer and GetPeer helpers.
-	Peer PeerClass
-	// SavedID field of MessageActionStarGiftUnique.
-	//
-	// Use SetSavedID and GetSavedID helpers.
-	SavedID int64
-}
-
-// MessageActionStarGiftUniqueTypeID is TL type id of MessageActionStarGiftUnique.
-const MessageActionStarGiftUniqueTypeID = 0xacdfcb81
-
-// construct implements constructor of MessageActionClass.
-func (m MessageActionStarGiftUnique) construct() MessageActionClass { return &m }
-
-// Ensuring interfaces in compile-time for MessageActionStarGiftUnique.
-var (
-	_ bin.Encoder     = &MessageActionStarGiftUnique{}
-	_ bin.Decoder     = &MessageActionStarGiftUnique{}
-	_ bin.BareEncoder = &MessageActionStarGiftUnique{}
-	_ bin.BareDecoder = &MessageActionStarGiftUnique{}
-
-	_ MessageActionClass = &MessageActionStarGiftUnique{}
-)
-
-func (m *MessageActionStarGiftUnique) Zero() bool {
-	if m == nil {
-		return true
-	}
-	if !(m.Flags.Zero()) {
-		return false
-	}
-	if !(m.Upgrade == false) {
-		return false
-	}
-	if !(m.Transferred == false) {
-		return false
-	}
-	if !(m.Saved == false) {
-		return false
-	}
-	if !(m.Refunded == false) {
-		return false
-	}
-	if !(m.Gift == nil) {
-		return false
-	}
-	if !(m.CanExportAt == 0) {
-		return false
-	}
-	if !(m.TransferStars == 0) {
-		return false
-	}
-	if !(m.FromID == nil) {
-		return false
-	}
-	if !(m.Peer == nil) {
-		return false
-	}
-	if !(m.SavedID == 0) {
-		return false
-	}
-
-	return true
-}
-
-// String implements fmt.Stringer.
-func (m *MessageActionStarGiftUnique) String() string {
-	if m == nil {
-		return "MessageActionStarGiftUnique(nil)"
-	}
-	type Alias MessageActionStarGiftUnique
-	return fmt.Sprintf("MessageActionStarGiftUnique%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionStarGiftUnique from given interface.
-func (m *MessageActionStarGiftUnique) FillFrom(from interface {
-	GetUpgrade() (value bool)
-	GetTransferred() (value bool)
-	GetSaved() (value bool)
-	GetRefunded() (value bool)
-	GetGift() (value StarGiftClass)
-	GetCanExportAt() (value int, ok bool)
-	GetTransferStars() (value int64, ok bool)
-	GetFromID() (value PeerClass, ok bool)
-	GetPeer() (value PeerClass, ok bool)
-	GetSavedID() (value int64, ok bool)
-}) {
-	m.Upgrade = from.GetUpgrade()
-	m.Transferred = from.GetTransferred()
-	m.Saved = from.GetSaved()
-	m.Refunded = from.GetRefunded()
-	m.Gift = from.GetGift()
-	if val, ok := from.GetCanExportAt(); ok {
-		m.CanExportAt = val
-	}
-
-	if val, ok := from.GetTransferStars(); ok {
-		m.TransferStars = val
-	}
-
-	if val, ok := from.GetFromID(); ok {
-		m.FromID = val
-	}
-
-	if val, ok := from.GetPeer(); ok {
-		m.Peer = val
-	}
-
-	if val, ok := from.GetSavedID(); ok {
-		m.SavedID = val
-	}
-
-}
-
-// TypeID returns type id in TL schema.
-//
-// See https://core.telegram.org/mtproto/TL-tl#remarks.
-func (*MessageActionStarGiftUnique) TypeID() uint32 {
-	return MessageActionStarGiftUniqueTypeID
-}
-
-// TypeName returns name of type in TL schema.
-func (*MessageActionStarGiftUnique) TypeName() string {
-	return "messageActionStarGiftUnique"
-}
-
-// TypeInfo returns info about TL type.
-func (m *MessageActionStarGiftUnique) TypeInfo() tdp.Type {
-	typ := tdp.Type{
-		Name: "messageActionStarGiftUnique",
-		ID:   MessageActionStarGiftUniqueTypeID,
-	}
-	if m == nil {
-		typ.Null = true
-		return typ
-	}
-	typ.Fields = []tdp.Field{
-		{
-			Name:       "Upgrade",
-			SchemaName: "upgrade",
-			Null:       !m.Flags.Has(0),
-		},
-		{
-			Name:       "Transferred",
-			SchemaName: "transferred",
-			Null:       !m.Flags.Has(1),
-		},
-		{
-			Name:       "Saved",
-			SchemaName: "saved",
-			Null:       !m.Flags.Has(2),
-		},
-		{
-			Name:       "Refunded",
-			SchemaName: "refunded",
-			Null:       !m.Flags.Has(5),
-		},
-		{
-			Name:       "Gift",
-			SchemaName: "gift",
-		},
-		{
-			Name:       "CanExportAt",
-			SchemaName: "can_export_at",
-			Null:       !m.Flags.Has(3),
-		},
-		{
-			Name:       "TransferStars",
-			SchemaName: "transfer_stars",
-			Null:       !m.Flags.Has(4),
-		},
-		{
-			Name:       "FromID",
-			SchemaName: "from_id",
-			Null:       !m.Flags.Has(6),
-		},
-		{
-			Name:       "Peer",
-			SchemaName: "peer",
-			Null:       !m.Flags.Has(7),
-		},
-		{
-			Name:       "SavedID",
-			SchemaName: "saved_id",
-			Null:       !m.Flags.Has(7),
-		},
-	}
-	return typ
-}
-
-// SetFlags sets flags for non-zero fields.
-func (m *MessageActionStarGiftUnique) SetFlags() {
-	if !(m.Upgrade == false) {
-		m.Flags.Set(0)
-	}
-	if !(m.Transferred == false) {
-		m.Flags.Set(1)
-	}
-	if !(m.Saved == false) {
-		m.Flags.Set(2)
-	}
-	if !(m.Refunded == false) {
-		m.Flags.Set(5)
-	}
-	if !(m.CanExportAt == 0) {
-		m.Flags.Set(3)
-	}
-	if !(m.TransferStars == 0) {
-		m.Flags.Set(4)
-	}
-	if !(m.FromID == nil) {
-		m.Flags.Set(6)
-	}
-	if !(m.Peer == nil) {
-		m.Flags.Set(7)
-	}
-	if !(m.SavedID == 0) {
-		m.Flags.Set(7)
-	}
-}
-
-// Encode implements bin.Encoder.
-func (m *MessageActionStarGiftUnique) Encode(b *bin.Buffer) error {
-	if m == nil {
-		return fmt.Errorf("can't encode messageActionStarGiftUnique#acdfcb81 as nil")
-	}
-	b.PutID(MessageActionStarGiftUniqueTypeID)
-	return m.EncodeBare(b)
-}
-
-// EncodeBare implements bin.BareEncoder.
-func (m *MessageActionStarGiftUnique) EncodeBare(b *bin.Buffer) error {
-	if m == nil {
-		return fmt.Errorf("can't encode messageActionStarGiftUnique#acdfcb81 as nil")
-	}
-	m.SetFlags()
-	if err := m.Flags.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode messageActionStarGiftUnique#acdfcb81: field flags: %w", err)
-	}
-	if m.Gift == nil {
-		return fmt.Errorf("unable to encode messageActionStarGiftUnique#acdfcb81: field gift is nil")
-	}
-	if err := m.Gift.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode messageActionStarGiftUnique#acdfcb81: field gift: %w", err)
-	}
-	if m.Flags.Has(3) {
-		b.PutInt(m.CanExportAt)
-	}
-	if m.Flags.Has(4) {
-		b.PutLong(m.TransferStars)
-	}
-	if m.Flags.Has(6) {
-		if m.FromID == nil {
-			return fmt.Errorf("unable to encode messageActionStarGiftUnique#acdfcb81: field from_id is nil")
-		}
-		if err := m.FromID.Encode(b); err != nil {
-			return fmt.Errorf("unable to encode messageActionStarGiftUnique#acdfcb81: field from_id: %w", err)
-		}
-	}
-	if m.Flags.Has(7) {
-		if m.Peer == nil {
-			return fmt.Errorf("unable to encode messageActionStarGiftUnique#acdfcb81: field peer is nil")
-		}
-		if err := m.Peer.Encode(b); err != nil {
-			return fmt.Errorf("unable to encode messageActionStarGiftUnique#acdfcb81: field peer: %w", err)
-		}
-	}
-	if m.Flags.Has(7) {
-		b.PutLong(m.SavedID)
-	}
-	return nil
-}
-
-// Decode implements bin.Decoder.
-func (m *MessageActionStarGiftUnique) Decode(b *bin.Buffer) error {
-	if m == nil {
-		return fmt.Errorf("can't decode messageActionStarGiftUnique#acdfcb81 to nil")
-	}
-	if err := b.ConsumeID(MessageActionStarGiftUniqueTypeID); err != nil {
-		return fmt.Errorf("unable to decode messageActionStarGiftUnique#acdfcb81: %w", err)
-	}
-	return m.DecodeBare(b)
-}
-
-// DecodeBare implements bin.BareDecoder.
-func (m *MessageActionStarGiftUnique) DecodeBare(b *bin.Buffer) error {
-	if m == nil {
-		return fmt.Errorf("can't decode messageActionStarGiftUnique#acdfcb81 to nil")
-	}
-	{
-		if err := m.Flags.Decode(b); err != nil {
-			return fmt.Errorf("unable to decode messageActionStarGiftUnique#acdfcb81: field flags: %w", err)
-		}
-	}
-	m.Upgrade = m.Flags.Has(0)
-	m.Transferred = m.Flags.Has(1)
-	m.Saved = m.Flags.Has(2)
-	m.Refunded = m.Flags.Has(5)
-	{
-		value, err := DecodeStarGift(b)
-		if err != nil {
-			return fmt.Errorf("unable to decode messageActionStarGiftUnique#acdfcb81: field gift: %w", err)
-		}
-		m.Gift = value
-	}
-	if m.Flags.Has(3) {
-		value, err := b.Int()
-		if err != nil {
-			return fmt.Errorf("unable to decode messageActionStarGiftUnique#acdfcb81: field can_export_at: %w", err)
-		}
-		m.CanExportAt = value
-	}
-	if m.Flags.Has(4) {
-		value, err := b.Long()
-		if err != nil {
-			return fmt.Errorf("unable to decode messageActionStarGiftUnique#acdfcb81: field transfer_stars: %w", err)
-		}
-		m.TransferStars = value
-	}
-	if m.Flags.Has(6) {
-		value, err := DecodePeer(b)
-		if err != nil {
-			return fmt.Errorf("unable to decode messageActionStarGiftUnique#acdfcb81: field from_id: %w", err)
-		}
-		m.FromID = value
-	}
-	if m.Flags.Has(7) {
-		value, err := DecodePeer(b)
-		if err != nil {
-			return fmt.Errorf("unable to decode messageActionStarGiftUnique#acdfcb81: field peer: %w", err)
-		}
-		m.Peer = value
-	}
-	if m.Flags.Has(7) {
-		value, err := b.Long()
-		if err != nil {
-			return fmt.Errorf("unable to decode messageActionStarGiftUnique#acdfcb81: field saved_id: %w", err)
-		}
-		m.SavedID = value
-	}
-	return nil
-}
-
-// SetUpgrade sets value of Upgrade conditional field.
-func (m *MessageActionStarGiftUnique) SetUpgrade(value bool) {
-	if value {
-		m.Flags.Set(0)
-		m.Upgrade = true
-	} else {
-		m.Flags.Unset(0)
-		m.Upgrade = false
-	}
-}
-
-// GetUpgrade returns value of Upgrade conditional field.
-func (m *MessageActionStarGiftUnique) GetUpgrade() (value bool) {
-	if m == nil {
-		return
-	}
-	return m.Flags.Has(0)
-}
-
-// SetTransferred sets value of Transferred conditional field.
-func (m *MessageActionStarGiftUnique) SetTransferred(value bool) {
-	if value {
-		m.Flags.Set(1)
-		m.Transferred = true
-	} else {
-		m.Flags.Unset(1)
-		m.Transferred = false
-	}
-}
-
-// GetTransferred returns value of Transferred conditional field.
-func (m *MessageActionStarGiftUnique) GetTransferred() (value bool) {
-	if m == nil {
-		return
-	}
-	return m.Flags.Has(1)
-}
-
-// SetSaved sets value of Saved conditional field.
-func (m *MessageActionStarGiftUnique) SetSaved(value bool) {
-	if value {
-		m.Flags.Set(2)
-		m.Saved = true
-	} else {
-		m.Flags.Unset(2)
-		m.Saved = false
-	}
-}
-
-// GetSaved returns value of Saved conditional field.
-func (m *MessageActionStarGiftUnique) GetSaved() (value bool) {
-	if m == nil {
-		return
-	}
-	return m.Flags.Has(2)
-}
-
-// SetRefunded sets value of Refunded conditional field.
-func (m *MessageActionStarGiftUnique) SetRefunded(value bool) {
-	if value {
-		m.Flags.Set(5)
-		m.Refunded = true
-	} else {
-		m.Flags.Unset(5)
-		m.Refunded = false
-	}
-}
-
-// GetRefunded returns value of Refunded conditional field.
-func (m *MessageActionStarGiftUnique) GetRefunded() (value bool) {
-	if m == nil {
-		return
-	}
-	return m.Flags.Has(5)
-}
-
-// GetGift returns value of Gift field.
-func (m *MessageActionStarGiftUnique) GetGift() (value StarGiftClass) {
-	if m == nil {
-		return
-	}
-	return m.Gift
-}
-
-// SetCanExportAt sets value of CanExportAt conditional field.
-func (m *MessageActionStarGiftUnique) SetCanExportAt(value int) {
-	m.Flags.Set(3)
-	m.CanExportAt = value
-}
-
-// GetCanExportAt returns value of CanExportAt conditional field and
-// boolean which is true if field was set.
-func (m *MessageActionStarGiftUnique) GetCanExportAt() (value int, ok bool) {
-	if m == nil {
-		return
-	}
-	if !m.Flags.Has(3) {
-		return value, false
-	}
-	return m.CanExportAt, true
-}
-
-// SetTransferStars sets value of TransferStars conditional field.
-func (m *MessageActionStarGiftUnique) SetTransferStars(value int64) {
-	m.Flags.Set(4)
-	m.TransferStars = value
-}
-
-// GetTransferStars returns value of TransferStars conditional field and
-// boolean which is true if field was set.
-func (m *MessageActionStarGiftUnique) GetTransferStars() (value int64, ok bool) {
-	if m == nil {
-		return
-	}
-	if !m.Flags.Has(4) {
-		return value, false
-	}
-	return m.TransferStars, true
-}
-
-// SetFromID sets value of FromID conditional field.
-func (m *MessageActionStarGiftUnique) SetFromID(value PeerClass) {
-	m.Flags.Set(6)
-	m.FromID = value
-}
-
-// GetFromID returns value of FromID conditional field and
-// boolean which is true if field was set.
-func (m *MessageActionStarGiftUnique) GetFromID() (value PeerClass, ok bool) {
-	if m == nil {
-		return
-	}
-	if !m.Flags.Has(6) {
-		return value, false
-	}
-	return m.FromID, true
-}
-
-// SetPeer sets value of Peer conditional field.
-func (m *MessageActionStarGiftUnique) SetPeer(value PeerClass) {
-	m.Flags.Set(7)
-	m.Peer = value
-}
-
-// GetPeer returns value of Peer conditional field and
-// boolean which is true if field was set.
-func (m *MessageActionStarGiftUnique) GetPeer() (value PeerClass, ok bool) {
-	if m == nil {
-		return
-	}
-	if !m.Flags.Has(7) {
-		return value, false
-	}
-	return m.Peer, true
-}
-
-// SetSavedID sets value of SavedID conditional field.
-func (m *MessageActionStarGiftUnique) SetSavedID(value int64) {
-	m.Flags.Set(7)
-	m.SavedID = value
-}
-
-// GetSavedID returns value of SavedID conditional field and
-// boolean which is true if field was set.
-func (m *MessageActionStarGiftUnique) GetSavedID() (value int64, ok bool) {
-	if m == nil {
-		return
-	}
-	if !m.Flags.Has(7) {
-		return value, false
-	}
-	return m.SavedID, true
-}
-
-// MessageActionPaidMessagesRefunded represents TL type `messageActionPaidMessagesRefunded#ac1f1fcd`.
-//
-// See https://core.telegram.org/constructor/messageActionPaidMessagesRefunded for reference.
-type MessageActionPaidMessagesRefunded struct {
-	// Count field of MessageActionPaidMessagesRefunded.
-	Count int
-	// Stars field of MessageActionPaidMessagesRefunded.
-	Stars int64
-}
-
-// MessageActionPaidMessagesRefundedTypeID is TL type id of MessageActionPaidMessagesRefunded.
-const MessageActionPaidMessagesRefundedTypeID = 0xac1f1fcd
-
-// construct implements constructor of MessageActionClass.
-func (m MessageActionPaidMessagesRefunded) construct() MessageActionClass { return &m }
-
-// Ensuring interfaces in compile-time for MessageActionPaidMessagesRefunded.
-var (
-	_ bin.Encoder     = &MessageActionPaidMessagesRefunded{}
-	_ bin.Decoder     = &MessageActionPaidMessagesRefunded{}
-	_ bin.BareEncoder = &MessageActionPaidMessagesRefunded{}
-	_ bin.BareDecoder = &MessageActionPaidMessagesRefunded{}
-
-	_ MessageActionClass = &MessageActionPaidMessagesRefunded{}
-)
-
-func (m *MessageActionPaidMessagesRefunded) Zero() bool {
-	if m == nil {
-		return true
-	}
-	if !(m.Count == 0) {
-		return false
-	}
-	if !(m.Stars == 0) {
-		return false
-	}
-
-	return true
-}
-
-// String implements fmt.Stringer.
-func (m *MessageActionPaidMessagesRefunded) String() string {
-	if m == nil {
-		return "MessageActionPaidMessagesRefunded(nil)"
-	}
-	type Alias MessageActionPaidMessagesRefunded
-	return fmt.Sprintf("MessageActionPaidMessagesRefunded%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionPaidMessagesRefunded from given interface.
-func (m *MessageActionPaidMessagesRefunded) FillFrom(from interface {
-	GetCount() (value int)
-	GetStars() (value int64)
-}) {
-	m.Count = from.GetCount()
-	m.Stars = from.GetStars()
-}
-
-// TypeID returns type id in TL schema.
-//
-// See https://core.telegram.org/mtproto/TL-tl#remarks.
-func (*MessageActionPaidMessagesRefunded) TypeID() uint32 {
-	return MessageActionPaidMessagesRefundedTypeID
-}
-
-// TypeName returns name of type in TL schema.
-func (*MessageActionPaidMessagesRefunded) TypeName() string {
-	return "messageActionPaidMessagesRefunded"
-}
-
-// TypeInfo returns info about TL type.
-func (m *MessageActionPaidMessagesRefunded) TypeInfo() tdp.Type {
-	typ := tdp.Type{
-		Name: "messageActionPaidMessagesRefunded",
-		ID:   MessageActionPaidMessagesRefundedTypeID,
-	}
-	if m == nil {
-		typ.Null = true
-		return typ
-	}
-	typ.Fields = []tdp.Field{
-		{
-			Name:       "Count",
-			SchemaName: "count",
-		},
-		{
-			Name:       "Stars",
-			SchemaName: "stars",
-		},
-	}
-	return typ
-}
-
-// Encode implements bin.Encoder.
-func (m *MessageActionPaidMessagesRefunded) Encode(b *bin.Buffer) error {
-	if m == nil {
-		return fmt.Errorf("can't encode messageActionPaidMessagesRefunded#ac1f1fcd as nil")
-	}
-	b.PutID(MessageActionPaidMessagesRefundedTypeID)
-	return m.EncodeBare(b)
-}
-
-// EncodeBare implements bin.BareEncoder.
-func (m *MessageActionPaidMessagesRefunded) EncodeBare(b *bin.Buffer) error {
-	if m == nil {
-		return fmt.Errorf("can't encode messageActionPaidMessagesRefunded#ac1f1fcd as nil")
-	}
-	b.PutInt(m.Count)
-	b.PutLong(m.Stars)
-	return nil
-}
-
-// Decode implements bin.Decoder.
-func (m *MessageActionPaidMessagesRefunded) Decode(b *bin.Buffer) error {
-	if m == nil {
-		return fmt.Errorf("can't decode messageActionPaidMessagesRefunded#ac1f1fcd to nil")
-	}
-	if err := b.ConsumeID(MessageActionPaidMessagesRefundedTypeID); err != nil {
-		return fmt.Errorf("unable to decode messageActionPaidMessagesRefunded#ac1f1fcd: %w", err)
-	}
-	return m.DecodeBare(b)
-}
-
-// DecodeBare implements bin.BareDecoder.
-func (m *MessageActionPaidMessagesRefunded) DecodeBare(b *bin.Buffer) error {
-	if m == nil {
-		return fmt.Errorf("can't decode messageActionPaidMessagesRefunded#ac1f1fcd to nil")
-	}
-	{
-		value, err := b.Int()
-		if err != nil {
-			return fmt.Errorf("unable to decode messageActionPaidMessagesRefunded#ac1f1fcd: field count: %w", err)
-		}
-		m.Count = value
-	}
-	{
-		value, err := b.Long()
-		if err != nil {
-			return fmt.Errorf("unable to decode messageActionPaidMessagesRefunded#ac1f1fcd: field stars: %w", err)
-		}
-		m.Stars = value
-	}
-	return nil
-}
-
-// GetCount returns value of Count field.
-func (m *MessageActionPaidMessagesRefunded) GetCount() (value int) {
-	if m == nil {
-		return
-	}
-	return m.Count
-}
-
-// GetStars returns value of Stars field.
-func (m *MessageActionPaidMessagesRefunded) GetStars() (value int64) {
-	if m == nil {
-		return
-	}
-	return m.Stars
-}
-
-// MessageActionPaidMessagesPrice represents TL type `messageActionPaidMessagesPrice#bcd71419`.
-//
-// See https://core.telegram.org/constructor/messageActionPaidMessagesPrice for reference.
-type MessageActionPaidMessagesPrice struct {
-	// Stars field of MessageActionPaidMessagesPrice.
-	Stars int64
-}
-
-// MessageActionPaidMessagesPriceTypeID is TL type id of MessageActionPaidMessagesPrice.
-const MessageActionPaidMessagesPriceTypeID = 0xbcd71419
-
-// construct implements constructor of MessageActionClass.
-func (m MessageActionPaidMessagesPrice) construct() MessageActionClass { return &m }
-
-// Ensuring interfaces in compile-time for MessageActionPaidMessagesPrice.
-var (
-	_ bin.Encoder     = &MessageActionPaidMessagesPrice{}
-	_ bin.Decoder     = &MessageActionPaidMessagesPrice{}
-	_ bin.BareEncoder = &MessageActionPaidMessagesPrice{}
-	_ bin.BareDecoder = &MessageActionPaidMessagesPrice{}
-
-	_ MessageActionClass = &MessageActionPaidMessagesPrice{}
-)
-
-func (m *MessageActionPaidMessagesPrice) Zero() bool {
-	if m == nil {
-		return true
-	}
-	if !(m.Stars == 0) {
-		return false
-	}
-
-	return true
-}
-
-// String implements fmt.Stringer.
-func (m *MessageActionPaidMessagesPrice) String() string {
-	if m == nil {
-		return "MessageActionPaidMessagesPrice(nil)"
-	}
-	type Alias MessageActionPaidMessagesPrice
-	return fmt.Sprintf("MessageActionPaidMessagesPrice%+v", Alias(*m))
-}
-
-// FillFrom fills MessageActionPaidMessagesPrice from given interface.
-func (m *MessageActionPaidMessagesPrice) FillFrom(from interface {
-	GetStars() (value int64)
-}) {
-	m.Stars = from.GetStars()
-}
-
-// TypeID returns type id in TL schema.
-//
-// See https://core.telegram.org/mtproto/TL-tl#remarks.
-func (*MessageActionPaidMessagesPrice) TypeID() uint32 {
-	return MessageActionPaidMessagesPriceTypeID
-}
-
-// TypeName returns name of type in TL schema.
-func (*MessageActionPaidMessagesPrice) TypeName() string {
-	return "messageActionPaidMessagesPrice"
-}
-
-// TypeInfo returns info about TL type.
-func (m *MessageActionPaidMessagesPrice) TypeInfo() tdp.Type {
-	typ := tdp.Type{
-		Name: "messageActionPaidMessagesPrice",
-		ID:   MessageActionPaidMessagesPriceTypeID,
-	}
-	if m == nil {
-		typ.Null = true
-		return typ
-	}
-	typ.Fields = []tdp.Field{
-		{
-			Name:       "Stars",
-			SchemaName: "stars",
-		},
-	}
-	return typ
-}
-
-// Encode implements bin.Encoder.
-func (m *MessageActionPaidMessagesPrice) Encode(b *bin.Buffer) error {
-	if m == nil {
-		return fmt.Errorf("can't encode messageActionPaidMessagesPrice#bcd71419 as nil")
-	}
-	b.PutID(MessageActionPaidMessagesPriceTypeID)
-	return m.EncodeBare(b)
-}
-
-// EncodeBare implements bin.BareEncoder.
-func (m *MessageActionPaidMessagesPrice) EncodeBare(b *bin.Buffer) error {
-	if m == nil {
-		return fmt.Errorf("can't encode messageActionPaidMessagesPrice#bcd71419 as nil")
-	}
-	b.PutLong(m.Stars)
-	return nil
-}
-
-// Decode implements bin.Decoder.
-func (m *MessageActionPaidMessagesPrice) Decode(b *bin.Buffer) error {
-	if m == nil {
-		return fmt.Errorf("can't decode messageActionPaidMessagesPrice#bcd71419 to nil")
-	}
-	if err := b.ConsumeID(MessageActionPaidMessagesPriceTypeID); err != nil {
-		return fmt.Errorf("unable to decode messageActionPaidMessagesPrice#bcd71419: %w", err)
-	}
-	return m.DecodeBare(b)
-}
-
-// DecodeBare implements bin.BareDecoder.
-func (m *MessageActionPaidMessagesPrice) DecodeBare(b *bin.Buffer) error {
-	if m == nil {
-		return fmt.Errorf("can't decode messageActionPaidMessagesPrice#bcd71419 to nil")
-	}
-	{
-		value, err := b.Long()
-		if err != nil {
-			return fmt.Errorf("unable to decode messageActionPaidMessagesPrice#bcd71419: field stars: %w", err)
-		}
-		m.Stars = value
-	}
-	return nil
-}
-
-// GetStars returns value of Stars field.
-func (m *MessageActionPaidMessagesPrice) GetStars() (value int64) {
-	if m == nil {
-		return
-	}
-	return m.Stars
-}
-
 // MessageActionClassName is schema name of MessageActionClass.
 const MessageActionClassName = "MessageAction"
 
 // MessageActionClass represents MessageAction generic type.
-//
-// See https://core.telegram.org/type/MessageAction for reference.
 //
 // Constructors:
 //   - [MessageActionEmpty]
@@ -10943,9 +8770,6 @@ const MessageActionClassName = "MessageAction"
 //   - [MessageActionGiftStars]
 //   - [MessageActionPrizeStars]
 //   - [MessageActionStarGift]
-//   - [MessageActionStarGiftUnique]
-//   - [MessageActionPaidMessagesRefunded]
-//   - [MessageActionPaidMessagesPrice]
 //
 // Example:
 //
@@ -11000,10 +8824,7 @@ const MessageActionClassName = "MessageAction"
 //	case *tg.MessageActionPaymentRefunded: // messageActionPaymentRefunded#41b3e202
 //	case *tg.MessageActionGiftStars: // messageActionGiftStars#45d5b021
 //	case *tg.MessageActionPrizeStars: // messageActionPrizeStars#b00c47a2
-//	case *tg.MessageActionStarGift: // messageActionStarGift#4717e8a4
-//	case *tg.MessageActionStarGiftUnique: // messageActionStarGiftUnique#acdfcb81
-//	case *tg.MessageActionPaidMessagesRefunded: // messageActionPaidMessagesRefunded#ac1f1fcd
-//	case *tg.MessageActionPaidMessagesPrice: // messageActionPaidMessagesPrice#bcd71419
+//	case *tg.MessageActionStarGift: // messageActionStarGift#8557637
 //	default: panic(v)
 //	}
 type MessageActionClass interface {
@@ -11355,29 +9176,8 @@ func DecodeMessageAction(buf *bin.Buffer) (MessageActionClass, error) {
 		}
 		return &v, nil
 	case MessageActionStarGiftTypeID:
-		// Decoding messageActionStarGift#4717e8a4.
+		// Decoding messageActionStarGift#8557637.
 		v := MessageActionStarGift{}
-		if err := v.Decode(buf); err != nil {
-			return nil, fmt.Errorf("unable to decode MessageActionClass: %w", err)
-		}
-		return &v, nil
-	case MessageActionStarGiftUniqueTypeID:
-		// Decoding messageActionStarGiftUnique#acdfcb81.
-		v := MessageActionStarGiftUnique{}
-		if err := v.Decode(buf); err != nil {
-			return nil, fmt.Errorf("unable to decode MessageActionClass: %w", err)
-		}
-		return &v, nil
-	case MessageActionPaidMessagesRefundedTypeID:
-		// Decoding messageActionPaidMessagesRefunded#ac1f1fcd.
-		v := MessageActionPaidMessagesRefunded{}
-		if err := v.Decode(buf); err != nil {
-			return nil, fmt.Errorf("unable to decode MessageActionClass: %w", err)
-		}
-		return &v, nil
-	case MessageActionPaidMessagesPriceTypeID:
-		// Decoding messageActionPaidMessagesPrice#bcd71419.
-		v := MessageActionPaidMessagesPrice{}
 		if err := v.Decode(buf); err != nil {
 			return nil, fmt.Errorf("unable to decode MessageActionClass: %w", err)
 		}

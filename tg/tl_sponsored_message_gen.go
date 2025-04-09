@@ -32,66 +32,44 @@ var (
 )
 
 // SponsoredMessage represents TL type `sponsoredMessage#4d93a990`.
-// A sponsored message¹.
-//
-// Links:
-//  1. https://core.telegram.org/api/sponsored-messages
-//
-// See https://core.telegram.org/constructor/sponsoredMessage for reference.
 type SponsoredMessage struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of SponsoredMessage.
 	Flags bin.Fields
-	// Whether the message needs to be labeled as "recommended" instead of "sponsored"
+	// Recommended field of SponsoredMessage.
 	Recommended bool
-	// Whether this message can be reported as specified here »¹.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/sponsored-messages#reporting-sponsored-messages
+	// CanReport field of SponsoredMessage.
 	CanReport bool
-	// Message ID
+	// RandomID field of SponsoredMessage.
 	RandomID []byte
-	// Contains the URL to open when the user clicks on the sponsored message.
+	// URL field of SponsoredMessage.
 	URL string
-	// Contains the title of the sponsored message.
+	// Title field of SponsoredMessage.
 	Title string
-	// Sponsored message
+	// Message field of SponsoredMessage.
 	Message string
-	// Message entities for styled text¹ in message.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/entities
+	// Entities field of SponsoredMessage.
 	//
 	// Use SetEntities and GetEntities helpers.
 	Entities []MessageEntityClass
-	// If set, contains a custom profile photo bubble that should be displayed for the
-	// sponsored message, like for messages sent in groups.
+	// Photo field of SponsoredMessage.
 	//
 	// Use SetPhoto and GetPhoto helpers.
 	Photo PhotoClass
-	// If set, contains some media.
+	// Media field of SponsoredMessage.
 	//
 	// Use SetMedia and GetMedia helpers.
 	Media MessageMediaClass
-	// If set, the sponsored message should use the message accent color »¹ specified in
-	// color.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/colors
+	// Color field of SponsoredMessage.
 	//
 	// Use SetColor and GetColor helpers.
 	Color PeerColor
-	// Label of the sponsored message button.
+	// ButtonText field of SponsoredMessage.
 	ButtonText string
-	// If set, contains additional information about the sponsor to be shown along with the
-	// message.
+	// SponsorInfo field of SponsoredMessage.
 	//
 	// Use SetSponsorInfo and GetSponsorInfo helpers.
 	SponsorInfo string
-	// If set, contains additional information about the sponsored message to be shown along
-	// with the message.
+	// AdditionalInfo field of SponsoredMessage.
 	//
 	// Use SetAdditionalInfo and GetAdditionalInfo helpers.
 	AdditionalInfo string
@@ -165,55 +143,6 @@ func (s *SponsoredMessage) String() string {
 	}
 	type Alias SponsoredMessage
 	return fmt.Sprintf("SponsoredMessage%+v", Alias(*s))
-}
-
-// FillFrom fills SponsoredMessage from given interface.
-func (s *SponsoredMessage) FillFrom(from interface {
-	GetRecommended() (value bool)
-	GetCanReport() (value bool)
-	GetRandomID() (value []byte)
-	GetURL() (value string)
-	GetTitle() (value string)
-	GetMessage() (value string)
-	GetEntities() (value []MessageEntityClass, ok bool)
-	GetPhoto() (value PhotoClass, ok bool)
-	GetMedia() (value MessageMediaClass, ok bool)
-	GetColor() (value PeerColor, ok bool)
-	GetButtonText() (value string)
-	GetSponsorInfo() (value string, ok bool)
-	GetAdditionalInfo() (value string, ok bool)
-}) {
-	s.Recommended = from.GetRecommended()
-	s.CanReport = from.GetCanReport()
-	s.RandomID = from.GetRandomID()
-	s.URL = from.GetURL()
-	s.Title = from.GetTitle()
-	s.Message = from.GetMessage()
-	if val, ok := from.GetEntities(); ok {
-		s.Entities = val
-	}
-
-	if val, ok := from.GetPhoto(); ok {
-		s.Photo = val
-	}
-
-	if val, ok := from.GetMedia(); ok {
-		s.Media = val
-	}
-
-	if val, ok := from.GetColor(); ok {
-		s.Color = val
-	}
-
-	s.ButtonText = from.GetButtonText()
-	if val, ok := from.GetSponsorInfo(); ok {
-		s.SponsorInfo = val
-	}
-
-	if val, ok := from.GetAdditionalInfo(); ok {
-		s.AdditionalInfo = val
-	}
-
 }
 
 // TypeID returns type id in TL schema.
@@ -690,21 +619,4 @@ func (s *SponsoredMessage) GetAdditionalInfo() (value string, ok bool) {
 		return value, false
 	}
 	return s.AdditionalInfo, true
-}
-
-// MapEntities returns field Entities wrapped in MessageEntityClassArray helper.
-func (s *SponsoredMessage) MapEntities() (value MessageEntityClassArray, ok bool) {
-	if !s.Flags.Has(1) {
-		return value, false
-	}
-	return MessageEntityClassArray(s.Entities), true
-}
-
-// GetPhotoAsNotEmpty returns mapped value of Photo conditional field and
-// boolean which is true if field was set.
-func (s *SponsoredMessage) GetPhotoAsNotEmpty() (*Photo, bool) {
-	if value, ok := s.GetPhoto(); ok {
-		return value.AsNotEmpty()
-	}
-	return nil, false
 }

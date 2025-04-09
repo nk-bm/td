@@ -31,165 +31,92 @@ var (
 	_ = tdjson.Encoder{}
 )
 
-// StarsTransaction represents TL type `starsTransaction#a39fd94a`.
-// Represents a Telegram Stars transaction »¹.
-//
-// Links:
-//  1. https://core.telegram.org/api/stars
-//
-// See https://core.telegram.org/constructor/starsTransaction for reference.
+// StarsTransaction represents TL type `starsTransaction#64dfc926`.
 type StarsTransaction struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of StarsTransaction.
 	Flags bin.Fields
-	// Whether this transaction is a refund.
+	// Refund field of StarsTransaction.
 	Refund bool
-	// The transaction is currently pending.
+	// Pending field of StarsTransaction.
 	Pending bool
-	// This transaction has failed.
+	// Failed field of StarsTransaction.
 	Failed bool
-	// This transaction was a gift from the user in peer.peer.
+	// Gift field of StarsTransaction.
 	Gift bool
-	// This transaction is a paid reaction »¹.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/reactions#paid-reactions
+	// Reaction field of StarsTransaction.
 	Reaction bool
-	// StargiftUpgrade field of StarsTransaction.
-	StargiftUpgrade bool
-	// Transaction ID.
+	// ID field of StarsTransaction.
 	ID string
-	// Amount of Stars (negative for outgoing transactions).
+	// Stars field of StarsTransaction.
 	Stars StarsAmount
-	// Date of the transaction (unixtime).
+	// Date field of StarsTransaction.
 	Date int
-	// Source of the incoming transaction, or its recipient for outgoing transactions.
+	// Peer field of StarsTransaction.
 	Peer StarsTransactionPeerClass
-	// For transactions with bots, title of the bought product.
+	// Title field of StarsTransaction.
 	//
 	// Use SetTitle and GetTitle helpers.
 	Title string
-	// For transactions with bots, description of the bought product.
+	// Description field of StarsTransaction.
 	//
 	// Use SetDescription and GetDescription helpers.
 	Description string
-	// For transactions with bots, photo of the bought product.
+	// Photo field of StarsTransaction.
 	//
 	// Use SetPhoto and GetPhoto helpers.
 	Photo WebDocumentClass
-	// If neither pending nor failed are set, the transaction was completed successfully, and
-	// this field will contain the point in time (Unix timestamp) when the withdrawal was
-	// completed successfully.
+	// TransactionDate field of StarsTransaction.
 	//
 	// Use SetTransactionDate and GetTransactionDate helpers.
 	TransactionDate int
-	// If neither pending nor failed are set, the transaction was completed successfully, and
-	// this field will contain a URL where the withdrawal transaction can be viewed.
+	// TransactionURL field of StarsTransaction.
 	//
 	// Use SetTransactionURL and GetTransactionURL helpers.
 	TransactionURL string
-	// Bot specified invoice payload (i.e. the payload passed to inputMediaInvoice¹ when
-	// creating the invoice²).
-	//
-	// Links:
-	//  1) https://core.telegram.org/constructor/inputMediaInvoice
-	//  2) https://core.telegram.org/api/payments
+	// BotPayload field of StarsTransaction.
 	//
 	// Use SetBotPayload and GetBotPayload helpers.
 	BotPayload []byte
-	// For paid media transactions »¹, message ID of the paid media posted to peer.peer
-	// (can point to a deleted message; either way, extended_media will always contain the
-	// bought media).
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/paid-media
+	// MsgID field of StarsTransaction.
 	//
 	// Use SetMsgID and GetMsgID helpers.
 	MsgID int
-	// The purchased paid media »¹.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/paid-media
+	// ExtendedMedia field of StarsTransaction.
 	//
 	// Use SetExtendedMedia and GetExtendedMedia helpers.
 	ExtendedMedia []MessageMediaClass
-	// The number of seconds between consecutive Telegram Star debiting for Telegram Star
-	// subscriptions »¹.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/stars#star-subscriptions
+	// SubscriptionPeriod field of StarsTransaction.
 	//
 	// Use SetSubscriptionPeriod and GetSubscriptionPeriod helpers.
 	SubscriptionPeriod int
-	// ID of the message containing the messageMediaGiveaway¹, for incoming star giveaway
-	// prizes².
-	//
-	// Links:
-	//  1) https://core.telegram.org/constructor/messageMediaGiveaway
-	//  2) https://core.telegram.org/api/giveaways#star-giveaways
+	// GiveawayPostID field of StarsTransaction.
 	//
 	// Use SetGiveawayPostID and GetGiveawayPostID helpers.
 	GiveawayPostID int
-	// This transaction indicates a purchase or a sale (conversion back to Stars) of a gift
-	// »¹.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/stars
+	// Stargift field of StarsTransaction.
 	//
 	// Use SetStargift and GetStargift helpers.
-	Stargift StarGiftClass
-	// This transaction is payment for paid bot broadcasts¹.  Paid broadcasts are only
-	// allowed if the allow_paid_floodskip parameter of messages.sendMessage² and other
-	// message sending methods is set while trying to broadcast more than 30 messages per
-	// second to bot users. The integer value returned by this flag indicates the number of
-	// billed API calls.
-	//
-	// Links:
-	//  1) https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once
-	//  2) https://core.telegram.org/method/messages.sendMessage
+	Stargift StarGift
+	// FloodskipNumber field of StarsTransaction.
 	//
 	// Use SetFloodskipNumber and GetFloodskipNumber helpers.
 	FloodskipNumber int
-	// This transaction is the receival (or refund) of an affiliate commission¹ (i.e. this
-	// is the transaction received by the peer that created the referral link², flag 17 is
-	// for transactions made by users that imported the referral link).
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/bots/referrals
-	//  2) https://core.telegram.org/api/links#referral-links
+	// StarrefCommissionPermille field of StarsTransaction.
 	//
 	// Use SetStarrefCommissionPermille and GetStarrefCommissionPermille helpers.
 	StarrefCommissionPermille int
-	// For transactions made by referred users¹, the peer that received the affiliate
-	// commission.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/bots/referrals
+	// StarrefPeer field of StarsTransaction.
 	//
 	// Use SetStarrefPeer and GetStarrefPeer helpers.
 	StarrefPeer PeerClass
-	// For transactions made by referred users¹, the amount of Telegram Stars received by
-	// the affiliate, can be negative for refunds.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/bots/referrals
+	// StarrefAmount field of StarsTransaction.
 	//
 	// Use SetStarrefAmount and GetStarrefAmount helpers.
 	StarrefAmount StarsAmount
-	// PaidMessages field of StarsTransaction.
-	//
-	// Use SetPaidMessages and GetPaidMessages helpers.
-	PaidMessages int
-	// PremiumGiftMonths field of StarsTransaction.
-	//
-	// Use SetPremiumGiftMonths and GetPremiumGiftMonths helpers.
-	PremiumGiftMonths int
 }
 
 // StarsTransactionTypeID is TL type id of StarsTransaction.
-const StarsTransactionTypeID = 0xa39fd94a
+const StarsTransactionTypeID = 0x64dfc926
 
 // Ensuring interfaces in compile-time for StarsTransaction.
 var (
@@ -219,9 +146,6 @@ func (s *StarsTransaction) Zero() bool {
 		return false
 	}
 	if !(s.Reaction == false) {
-		return false
-	}
-	if !(s.StargiftUpgrade == false) {
 		return false
 	}
 	if !(s.ID == "") {
@@ -266,7 +190,7 @@ func (s *StarsTransaction) Zero() bool {
 	if !(s.GiveawayPostID == 0) {
 		return false
 	}
-	if !(s.Stargift == nil) {
+	if !(s.Stargift.Zero()) {
 		return false
 	}
 	if !(s.FloodskipNumber == 0) {
@@ -281,12 +205,6 @@ func (s *StarsTransaction) Zero() bool {
 	if !(s.StarrefAmount.Zero()) {
 		return false
 	}
-	if !(s.PaidMessages == 0) {
-		return false
-	}
-	if !(s.PremiumGiftMonths == 0) {
-		return false
-	}
 
 	return true
 }
@@ -298,116 +216,6 @@ func (s *StarsTransaction) String() string {
 	}
 	type Alias StarsTransaction
 	return fmt.Sprintf("StarsTransaction%+v", Alias(*s))
-}
-
-// FillFrom fills StarsTransaction from given interface.
-func (s *StarsTransaction) FillFrom(from interface {
-	GetRefund() (value bool)
-	GetPending() (value bool)
-	GetFailed() (value bool)
-	GetGift() (value bool)
-	GetReaction() (value bool)
-	GetStargiftUpgrade() (value bool)
-	GetID() (value string)
-	GetStars() (value StarsAmount)
-	GetDate() (value int)
-	GetPeer() (value StarsTransactionPeerClass)
-	GetTitle() (value string, ok bool)
-	GetDescription() (value string, ok bool)
-	GetPhoto() (value WebDocumentClass, ok bool)
-	GetTransactionDate() (value int, ok bool)
-	GetTransactionURL() (value string, ok bool)
-	GetBotPayload() (value []byte, ok bool)
-	GetMsgID() (value int, ok bool)
-	GetExtendedMedia() (value []MessageMediaClass, ok bool)
-	GetSubscriptionPeriod() (value int, ok bool)
-	GetGiveawayPostID() (value int, ok bool)
-	GetStargift() (value StarGiftClass, ok bool)
-	GetFloodskipNumber() (value int, ok bool)
-	GetStarrefCommissionPermille() (value int, ok bool)
-	GetStarrefPeer() (value PeerClass, ok bool)
-	GetStarrefAmount() (value StarsAmount, ok bool)
-	GetPaidMessages() (value int, ok bool)
-	GetPremiumGiftMonths() (value int, ok bool)
-}) {
-	s.Refund = from.GetRefund()
-	s.Pending = from.GetPending()
-	s.Failed = from.GetFailed()
-	s.Gift = from.GetGift()
-	s.Reaction = from.GetReaction()
-	s.StargiftUpgrade = from.GetStargiftUpgrade()
-	s.ID = from.GetID()
-	s.Stars = from.GetStars()
-	s.Date = from.GetDate()
-	s.Peer = from.GetPeer()
-	if val, ok := from.GetTitle(); ok {
-		s.Title = val
-	}
-
-	if val, ok := from.GetDescription(); ok {
-		s.Description = val
-	}
-
-	if val, ok := from.GetPhoto(); ok {
-		s.Photo = val
-	}
-
-	if val, ok := from.GetTransactionDate(); ok {
-		s.TransactionDate = val
-	}
-
-	if val, ok := from.GetTransactionURL(); ok {
-		s.TransactionURL = val
-	}
-
-	if val, ok := from.GetBotPayload(); ok {
-		s.BotPayload = val
-	}
-
-	if val, ok := from.GetMsgID(); ok {
-		s.MsgID = val
-	}
-
-	if val, ok := from.GetExtendedMedia(); ok {
-		s.ExtendedMedia = val
-	}
-
-	if val, ok := from.GetSubscriptionPeriod(); ok {
-		s.SubscriptionPeriod = val
-	}
-
-	if val, ok := from.GetGiveawayPostID(); ok {
-		s.GiveawayPostID = val
-	}
-
-	if val, ok := from.GetStargift(); ok {
-		s.Stargift = val
-	}
-
-	if val, ok := from.GetFloodskipNumber(); ok {
-		s.FloodskipNumber = val
-	}
-
-	if val, ok := from.GetStarrefCommissionPermille(); ok {
-		s.StarrefCommissionPermille = val
-	}
-
-	if val, ok := from.GetStarrefPeer(); ok {
-		s.StarrefPeer = val
-	}
-
-	if val, ok := from.GetStarrefAmount(); ok {
-		s.StarrefAmount = val
-	}
-
-	if val, ok := from.GetPaidMessages(); ok {
-		s.PaidMessages = val
-	}
-
-	if val, ok := from.GetPremiumGiftMonths(); ok {
-		s.PremiumGiftMonths = val
-	}
-
 }
 
 // TypeID returns type id in TL schema.
@@ -457,11 +265,6 @@ func (s *StarsTransaction) TypeInfo() tdp.Type {
 			Name:       "Reaction",
 			SchemaName: "reaction",
 			Null:       !s.Flags.Has(11),
-		},
-		{
-			Name:       "StargiftUpgrade",
-			SchemaName: "stargift_upgrade",
-			Null:       !s.Flags.Has(18),
 		},
 		{
 			Name:       "ID",
@@ -554,16 +357,6 @@ func (s *StarsTransaction) TypeInfo() tdp.Type {
 			SchemaName: "starref_amount",
 			Null:       !s.Flags.Has(17),
 		},
-		{
-			Name:       "PaidMessages",
-			SchemaName: "paid_messages",
-			Null:       !s.Flags.Has(19),
-		},
-		{
-			Name:       "PremiumGiftMonths",
-			SchemaName: "premium_gift_months",
-			Null:       !s.Flags.Has(20),
-		},
 	}
 	return typ
 }
@@ -584,9 +377,6 @@ func (s *StarsTransaction) SetFlags() {
 	}
 	if !(s.Reaction == false) {
 		s.Flags.Set(11)
-	}
-	if !(s.StargiftUpgrade == false) {
-		s.Flags.Set(18)
 	}
 	if !(s.Title == "") {
 		s.Flags.Set(0)
@@ -618,7 +408,7 @@ func (s *StarsTransaction) SetFlags() {
 	if !(s.GiveawayPostID == 0) {
 		s.Flags.Set(13)
 	}
-	if !(s.Stargift == nil) {
+	if !(s.Stargift.Zero()) {
 		s.Flags.Set(14)
 	}
 	if !(s.FloodskipNumber == 0) {
@@ -633,18 +423,12 @@ func (s *StarsTransaction) SetFlags() {
 	if !(s.StarrefAmount.Zero()) {
 		s.Flags.Set(17)
 	}
-	if !(s.PaidMessages == 0) {
-		s.Flags.Set(19)
-	}
-	if !(s.PremiumGiftMonths == 0) {
-		s.Flags.Set(20)
-	}
 }
 
 // Encode implements bin.Encoder.
 func (s *StarsTransaction) Encode(b *bin.Buffer) error {
 	if s == nil {
-		return fmt.Errorf("can't encode starsTransaction#a39fd94a as nil")
+		return fmt.Errorf("can't encode starsTransaction#64dfc926 as nil")
 	}
 	b.PutID(StarsTransactionTypeID)
 	return s.EncodeBare(b)
@@ -653,22 +437,22 @@ func (s *StarsTransaction) Encode(b *bin.Buffer) error {
 // EncodeBare implements bin.BareEncoder.
 func (s *StarsTransaction) EncodeBare(b *bin.Buffer) error {
 	if s == nil {
-		return fmt.Errorf("can't encode starsTransaction#a39fd94a as nil")
+		return fmt.Errorf("can't encode starsTransaction#64dfc926 as nil")
 	}
 	s.SetFlags()
 	if err := s.Flags.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode starsTransaction#a39fd94a: field flags: %w", err)
+		return fmt.Errorf("unable to encode starsTransaction#64dfc926: field flags: %w", err)
 	}
 	b.PutString(s.ID)
 	if err := s.Stars.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode starsTransaction#a39fd94a: field stars: %w", err)
+		return fmt.Errorf("unable to encode starsTransaction#64dfc926: field stars: %w", err)
 	}
 	b.PutInt(s.Date)
 	if s.Peer == nil {
-		return fmt.Errorf("unable to encode starsTransaction#a39fd94a: field peer is nil")
+		return fmt.Errorf("unable to encode starsTransaction#64dfc926: field peer is nil")
 	}
 	if err := s.Peer.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode starsTransaction#a39fd94a: field peer: %w", err)
+		return fmt.Errorf("unable to encode starsTransaction#64dfc926: field peer: %w", err)
 	}
 	if s.Flags.Has(0) {
 		b.PutString(s.Title)
@@ -678,10 +462,10 @@ func (s *StarsTransaction) EncodeBare(b *bin.Buffer) error {
 	}
 	if s.Flags.Has(2) {
 		if s.Photo == nil {
-			return fmt.Errorf("unable to encode starsTransaction#a39fd94a: field photo is nil")
+			return fmt.Errorf("unable to encode starsTransaction#64dfc926: field photo is nil")
 		}
 		if err := s.Photo.Encode(b); err != nil {
-			return fmt.Errorf("unable to encode starsTransaction#a39fd94a: field photo: %w", err)
+			return fmt.Errorf("unable to encode starsTransaction#64dfc926: field photo: %w", err)
 		}
 	}
 	if s.Flags.Has(5) {
@@ -700,10 +484,10 @@ func (s *StarsTransaction) EncodeBare(b *bin.Buffer) error {
 		b.PutVectorHeader(len(s.ExtendedMedia))
 		for idx, v := range s.ExtendedMedia {
 			if v == nil {
-				return fmt.Errorf("unable to encode starsTransaction#a39fd94a: field extended_media element with index %d is nil", idx)
+				return fmt.Errorf("unable to encode starsTransaction#64dfc926: field extended_media element with index %d is nil", idx)
 			}
 			if err := v.Encode(b); err != nil {
-				return fmt.Errorf("unable to encode starsTransaction#a39fd94a: field extended_media element with index %d: %w", idx, err)
+				return fmt.Errorf("unable to encode starsTransaction#64dfc926: field extended_media element with index %d: %w", idx, err)
 			}
 		}
 	}
@@ -714,11 +498,8 @@ func (s *StarsTransaction) EncodeBare(b *bin.Buffer) error {
 		b.PutInt(s.GiveawayPostID)
 	}
 	if s.Flags.Has(14) {
-		if s.Stargift == nil {
-			return fmt.Errorf("unable to encode starsTransaction#a39fd94a: field stargift is nil")
-		}
 		if err := s.Stargift.Encode(b); err != nil {
-			return fmt.Errorf("unable to encode starsTransaction#a39fd94a: field stargift: %w", err)
+			return fmt.Errorf("unable to encode starsTransaction#64dfc926: field stargift: %w", err)
 		}
 	}
 	if s.Flags.Has(15) {
@@ -729,22 +510,16 @@ func (s *StarsTransaction) EncodeBare(b *bin.Buffer) error {
 	}
 	if s.Flags.Has(17) {
 		if s.StarrefPeer == nil {
-			return fmt.Errorf("unable to encode starsTransaction#a39fd94a: field starref_peer is nil")
+			return fmt.Errorf("unable to encode starsTransaction#64dfc926: field starref_peer is nil")
 		}
 		if err := s.StarrefPeer.Encode(b); err != nil {
-			return fmt.Errorf("unable to encode starsTransaction#a39fd94a: field starref_peer: %w", err)
+			return fmt.Errorf("unable to encode starsTransaction#64dfc926: field starref_peer: %w", err)
 		}
 	}
 	if s.Flags.Has(17) {
 		if err := s.StarrefAmount.Encode(b); err != nil {
-			return fmt.Errorf("unable to encode starsTransaction#a39fd94a: field starref_amount: %w", err)
+			return fmt.Errorf("unable to encode starsTransaction#64dfc926: field starref_amount: %w", err)
 		}
-	}
-	if s.Flags.Has(19) {
-		b.PutInt(s.PaidMessages)
-	}
-	if s.Flags.Has(20) {
-		b.PutInt(s.PremiumGiftMonths)
 	}
 	return nil
 }
@@ -752,10 +527,10 @@ func (s *StarsTransaction) EncodeBare(b *bin.Buffer) error {
 // Decode implements bin.Decoder.
 func (s *StarsTransaction) Decode(b *bin.Buffer) error {
 	if s == nil {
-		return fmt.Errorf("can't decode starsTransaction#a39fd94a to nil")
+		return fmt.Errorf("can't decode starsTransaction#64dfc926 to nil")
 	}
 	if err := b.ConsumeID(StarsTransactionTypeID); err != nil {
-		return fmt.Errorf("unable to decode starsTransaction#a39fd94a: %w", err)
+		return fmt.Errorf("unable to decode starsTransaction#64dfc926: %w", err)
 	}
 	return s.DecodeBare(b)
 }
@@ -763,11 +538,11 @@ func (s *StarsTransaction) Decode(b *bin.Buffer) error {
 // DecodeBare implements bin.BareDecoder.
 func (s *StarsTransaction) DecodeBare(b *bin.Buffer) error {
 	if s == nil {
-		return fmt.Errorf("can't decode starsTransaction#a39fd94a to nil")
+		return fmt.Errorf("can't decode starsTransaction#64dfc926 to nil")
 	}
 	{
 		if err := s.Flags.Decode(b); err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field flags: %w", err)
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field flags: %w", err)
 		}
 	}
 	s.Refund = s.Flags.Has(3)
@@ -775,86 +550,85 @@ func (s *StarsTransaction) DecodeBare(b *bin.Buffer) error {
 	s.Failed = s.Flags.Has(6)
 	s.Gift = s.Flags.Has(10)
 	s.Reaction = s.Flags.Has(11)
-	s.StargiftUpgrade = s.Flags.Has(18)
 	{
 		value, err := b.String()
 		if err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field id: %w", err)
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field id: %w", err)
 		}
 		s.ID = value
 	}
 	{
 		if err := s.Stars.Decode(b); err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field stars: %w", err)
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field stars: %w", err)
 		}
 	}
 	{
 		value, err := b.Int()
 		if err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field date: %w", err)
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field date: %w", err)
 		}
 		s.Date = value
 	}
 	{
 		value, err := DecodeStarsTransactionPeer(b)
 		if err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field peer: %w", err)
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field peer: %w", err)
 		}
 		s.Peer = value
 	}
 	if s.Flags.Has(0) {
 		value, err := b.String()
 		if err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field title: %w", err)
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field title: %w", err)
 		}
 		s.Title = value
 	}
 	if s.Flags.Has(1) {
 		value, err := b.String()
 		if err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field description: %w", err)
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field description: %w", err)
 		}
 		s.Description = value
 	}
 	if s.Flags.Has(2) {
 		value, err := DecodeWebDocument(b)
 		if err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field photo: %w", err)
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field photo: %w", err)
 		}
 		s.Photo = value
 	}
 	if s.Flags.Has(5) {
 		value, err := b.Int()
 		if err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field transaction_date: %w", err)
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field transaction_date: %w", err)
 		}
 		s.TransactionDate = value
 	}
 	if s.Flags.Has(5) {
 		value, err := b.String()
 		if err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field transaction_url: %w", err)
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field transaction_url: %w", err)
 		}
 		s.TransactionURL = value
 	}
 	if s.Flags.Has(7) {
 		value, err := b.Bytes()
 		if err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field bot_payload: %w", err)
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field bot_payload: %w", err)
 		}
 		s.BotPayload = value
 	}
 	if s.Flags.Has(8) {
 		value, err := b.Int()
 		if err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field msg_id: %w", err)
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field msg_id: %w", err)
 		}
 		s.MsgID = value
 	}
 	if s.Flags.Has(9) {
 		headerLen, err := b.VectorHeader()
 		if err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field extended_media: %w", err)
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field extended_media: %w", err)
 		}
 
 		if headerLen > 0 {
@@ -863,7 +637,7 @@ func (s *StarsTransaction) DecodeBare(b *bin.Buffer) error {
 		for idx := 0; idx < headerLen; idx++ {
 			value, err := DecodeMessageMedia(b)
 			if err != nil {
-				return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field extended_media: %w", err)
+				return fmt.Errorf("unable to decode starsTransaction#64dfc926: field extended_media: %w", err)
 			}
 			s.ExtendedMedia = append(s.ExtendedMedia, value)
 		}
@@ -871,63 +645,47 @@ func (s *StarsTransaction) DecodeBare(b *bin.Buffer) error {
 	if s.Flags.Has(12) {
 		value, err := b.Int()
 		if err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field subscription_period: %w", err)
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field subscription_period: %w", err)
 		}
 		s.SubscriptionPeriod = value
 	}
 	if s.Flags.Has(13) {
 		value, err := b.Int()
 		if err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field giveaway_post_id: %w", err)
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field giveaway_post_id: %w", err)
 		}
 		s.GiveawayPostID = value
 	}
 	if s.Flags.Has(14) {
-		value, err := DecodeStarGift(b)
-		if err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field stargift: %w", err)
+		if err := s.Stargift.Decode(b); err != nil {
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field stargift: %w", err)
 		}
-		s.Stargift = value
 	}
 	if s.Flags.Has(15) {
 		value, err := b.Int()
 		if err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field floodskip_number: %w", err)
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field floodskip_number: %w", err)
 		}
 		s.FloodskipNumber = value
 	}
 	if s.Flags.Has(16) {
 		value, err := b.Int()
 		if err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field starref_commission_permille: %w", err)
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field starref_commission_permille: %w", err)
 		}
 		s.StarrefCommissionPermille = value
 	}
 	if s.Flags.Has(17) {
 		value, err := DecodePeer(b)
 		if err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field starref_peer: %w", err)
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field starref_peer: %w", err)
 		}
 		s.StarrefPeer = value
 	}
 	if s.Flags.Has(17) {
 		if err := s.StarrefAmount.Decode(b); err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field starref_amount: %w", err)
+			return fmt.Errorf("unable to decode starsTransaction#64dfc926: field starref_amount: %w", err)
 		}
-	}
-	if s.Flags.Has(19) {
-		value, err := b.Int()
-		if err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field paid_messages: %w", err)
-		}
-		s.PaidMessages = value
-	}
-	if s.Flags.Has(20) {
-		value, err := b.Int()
-		if err != nil {
-			return fmt.Errorf("unable to decode starsTransaction#a39fd94a: field premium_gift_months: %w", err)
-		}
-		s.PremiumGiftMonths = value
 	}
 	return nil
 }
@@ -1025,25 +783,6 @@ func (s *StarsTransaction) GetReaction() (value bool) {
 		return
 	}
 	return s.Flags.Has(11)
-}
-
-// SetStargiftUpgrade sets value of StargiftUpgrade conditional field.
-func (s *StarsTransaction) SetStargiftUpgrade(value bool) {
-	if value {
-		s.Flags.Set(18)
-		s.StargiftUpgrade = true
-	} else {
-		s.Flags.Unset(18)
-		s.StargiftUpgrade = false
-	}
-}
-
-// GetStargiftUpgrade returns value of StargiftUpgrade conditional field.
-func (s *StarsTransaction) GetStargiftUpgrade() (value bool) {
-	if s == nil {
-		return
-	}
-	return s.Flags.Has(18)
 }
 
 // GetID returns value of ID field.
@@ -1259,14 +998,14 @@ func (s *StarsTransaction) GetGiveawayPostID() (value int, ok bool) {
 }
 
 // SetStargift sets value of Stargift conditional field.
-func (s *StarsTransaction) SetStargift(value StarGiftClass) {
+func (s *StarsTransaction) SetStargift(value StarGift) {
 	s.Flags.Set(14)
 	s.Stargift = value
 }
 
 // GetStargift returns value of Stargift conditional field and
 // boolean which is true if field was set.
-func (s *StarsTransaction) GetStargift() (value StarGiftClass, ok bool) {
+func (s *StarsTransaction) GetStargift() (value StarGift, ok bool) {
 	if s == nil {
 		return
 	}
@@ -1346,48 +1085,4 @@ func (s *StarsTransaction) GetStarrefAmount() (value StarsAmount, ok bool) {
 		return value, false
 	}
 	return s.StarrefAmount, true
-}
-
-// SetPaidMessages sets value of PaidMessages conditional field.
-func (s *StarsTransaction) SetPaidMessages(value int) {
-	s.Flags.Set(19)
-	s.PaidMessages = value
-}
-
-// GetPaidMessages returns value of PaidMessages conditional field and
-// boolean which is true if field was set.
-func (s *StarsTransaction) GetPaidMessages() (value int, ok bool) {
-	if s == nil {
-		return
-	}
-	if !s.Flags.Has(19) {
-		return value, false
-	}
-	return s.PaidMessages, true
-}
-
-// SetPremiumGiftMonths sets value of PremiumGiftMonths conditional field.
-func (s *StarsTransaction) SetPremiumGiftMonths(value int) {
-	s.Flags.Set(20)
-	s.PremiumGiftMonths = value
-}
-
-// GetPremiumGiftMonths returns value of PremiumGiftMonths conditional field and
-// boolean which is true if field was set.
-func (s *StarsTransaction) GetPremiumGiftMonths() (value int, ok bool) {
-	if s == nil {
-		return
-	}
-	if !s.Flags.Has(20) {
-		return value, false
-	}
-	return s.PremiumGiftMonths, true
-}
-
-// MapExtendedMedia returns field ExtendedMedia wrapped in MessageMediaClassArray helper.
-func (s *StarsTransaction) MapExtendedMedia() (value MessageMediaClassArray, ok bool) {
-	if !s.Flags.Has(9) {
-		return value, false
-	}
-	return MessageMediaClassArray(s.ExtendedMedia), true
 }

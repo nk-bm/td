@@ -32,25 +32,18 @@ var (
 )
 
 // MessagesSponsoredMessages represents TL type `messages.sponsoredMessages#c9ee1d87`.
-// A set of sponsored messages associated to a channel
-//
-// See https://core.telegram.org/constructor/messages.sponsoredMessages for reference.
 type MessagesSponsoredMessages struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessagesSponsoredMessages.
 	Flags bin.Fields
-	// If set, specifies the minimum number of messages between shown sponsored messages;
-	// otherwise, only one sponsored message must be shown after all ordinary messages.
+	// PostsBetween field of MessagesSponsoredMessages.
 	//
 	// Use SetPostsBetween and GetPostsBetween helpers.
 	PostsBetween int
-	// Sponsored messages
+	// Messages field of MessagesSponsoredMessages.
 	Messages []SponsoredMessage
-	// Chats mentioned in the sponsored messages
+	// Chats field of MessagesSponsoredMessages.
 	Chats []ChatClass
-	// Users mentioned in the sponsored messages
+	// Users field of MessagesSponsoredMessages.
 	Users []UserClass
 }
 
@@ -100,22 +93,6 @@ func (s *MessagesSponsoredMessages) String() string {
 	}
 	type Alias MessagesSponsoredMessages
 	return fmt.Sprintf("MessagesSponsoredMessages%+v", Alias(*s))
-}
-
-// FillFrom fills MessagesSponsoredMessages from given interface.
-func (s *MessagesSponsoredMessages) FillFrom(from interface {
-	GetPostsBetween() (value int, ok bool)
-	GetMessages() (value []SponsoredMessage)
-	GetChats() (value []ChatClass)
-	GetUsers() (value []UserClass)
-}) {
-	if val, ok := from.GetPostsBetween(); ok {
-		s.PostsBetween = val
-	}
-
-	s.Messages = from.GetMessages()
-	s.Chats = from.GetChats()
-	s.Users = from.GetUsers()
 }
 
 // TypeID returns type id in TL schema.
@@ -341,20 +318,7 @@ func (s *MessagesSponsoredMessages) GetUsers() (value []UserClass) {
 	return s.Users
 }
 
-// MapChats returns field Chats wrapped in ChatClassArray helper.
-func (s *MessagesSponsoredMessages) MapChats() (value ChatClassArray) {
-	return ChatClassArray(s.Chats)
-}
-
-// MapUsers returns field Users wrapped in UserClassArray helper.
-func (s *MessagesSponsoredMessages) MapUsers() (value UserClassArray) {
-	return UserClassArray(s.Users)
-}
-
 // MessagesSponsoredMessagesEmpty represents TL type `messages.sponsoredMessagesEmpty#1839490f`.
-// No sponsored messages are available.
-//
-// See https://core.telegram.org/constructor/messages.sponsoredMessagesEmpty for reference.
 type MessagesSponsoredMessagesEmpty struct {
 }
 
@@ -458,8 +422,6 @@ const MessagesSponsoredMessagesClassName = "messages.SponsoredMessages"
 
 // MessagesSponsoredMessagesClass represents messages.SponsoredMessages generic type.
 //
-// See https://core.telegram.org/type/messages.SponsoredMessages for reference.
-//
 // Constructors:
 //   - [MessagesSponsoredMessages]
 //   - [MessagesSponsoredMessagesEmpty]
@@ -492,19 +454,6 @@ type MessagesSponsoredMessagesClass interface {
 	String() string
 	// Zero returns true if current object has a zero value.
 	Zero() bool
-
-	// AsNotEmpty tries to map MessagesSponsoredMessagesClass to MessagesSponsoredMessages.
-	AsNotEmpty() (*MessagesSponsoredMessages, bool)
-}
-
-// AsNotEmpty tries to map MessagesSponsoredMessages to MessagesSponsoredMessages.
-func (s *MessagesSponsoredMessages) AsNotEmpty() (*MessagesSponsoredMessages, bool) {
-	return s, true
-}
-
-// AsNotEmpty tries to map MessagesSponsoredMessagesEmpty to MessagesSponsoredMessages.
-func (s *MessagesSponsoredMessagesEmpty) AsNotEmpty() (*MessagesSponsoredMessages, bool) {
-	return nil, false
 }
 
 // DecodeMessagesSponsoredMessages implements binary de-serialization for MessagesSponsoredMessagesClass.

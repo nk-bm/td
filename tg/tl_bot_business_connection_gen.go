@@ -31,46 +31,26 @@ var (
 	_ = tdjson.Encoder{}
 )
 
-// BotBusinessConnection represents TL type `botBusinessConnection#8f34b2f5`.
-// Contains info about a bot business connection¹.
-//
-// Links:
-//  1. https://core.telegram.org/api/business#connected-bots
-//
-// See https://core.telegram.org/constructor/botBusinessConnection for reference.
+// BotBusinessConnection represents TL type `botBusinessConnection#896433b4`.
 type BotBusinessConnection struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of BotBusinessConnection.
 	Flags bin.Fields
-	// Whether this business connection is currently disabled
+	// CanReply field of BotBusinessConnection.
+	CanReply bool
+	// Disabled field of BotBusinessConnection.
 	Disabled bool
-	// Business connection ID, used to identify messages coming from the connection and to
-	// reply to them as specified here »¹.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/business#connected-bots
+	// ConnectionID field of BotBusinessConnection.
 	ConnectionID string
-	// ID of the user that the bot is connected to via this connection.
+	// UserID field of BotBusinessConnection.
 	UserID int64
-	// ID of the datacenter where to send queries wrapped in a invokeWithBusinessConnection¹
-	// as specified here »².
-	//
-	// Links:
-	//  1) https://core.telegram.org/method/invokeWithBusinessConnection
-	//  2) https://core.telegram.org/api/business#connected-bots
+	// DCID field of BotBusinessConnection.
 	DCID int
-	// When was the connection created.
+	// Date field of BotBusinessConnection.
 	Date int
-	// Rights field of BotBusinessConnection.
-	//
-	// Use SetRights and GetRights helpers.
-	Rights BusinessBotRights
 }
 
 // BotBusinessConnectionTypeID is TL type id of BotBusinessConnection.
-const BotBusinessConnectionTypeID = 0x8f34b2f5
+const BotBusinessConnectionTypeID = 0x896433b4
 
 // Ensuring interfaces in compile-time for BotBusinessConnection.
 var (
@@ -85,6 +65,9 @@ func (b *BotBusinessConnection) Zero() bool {
 		return true
 	}
 	if !(b.Flags.Zero()) {
+		return false
+	}
+	if !(b.CanReply == false) {
 		return false
 	}
 	if !(b.Disabled == false) {
@@ -102,9 +85,6 @@ func (b *BotBusinessConnection) Zero() bool {
 	if !(b.Date == 0) {
 		return false
 	}
-	if !(b.Rights.Zero()) {
-		return false
-	}
 
 	return true
 }
@@ -116,26 +96,6 @@ func (b *BotBusinessConnection) String() string {
 	}
 	type Alias BotBusinessConnection
 	return fmt.Sprintf("BotBusinessConnection%+v", Alias(*b))
-}
-
-// FillFrom fills BotBusinessConnection from given interface.
-func (b *BotBusinessConnection) FillFrom(from interface {
-	GetDisabled() (value bool)
-	GetConnectionID() (value string)
-	GetUserID() (value int64)
-	GetDCID() (value int)
-	GetDate() (value int)
-	GetRights() (value BusinessBotRights, ok bool)
-}) {
-	b.Disabled = from.GetDisabled()
-	b.ConnectionID = from.GetConnectionID()
-	b.UserID = from.GetUserID()
-	b.DCID = from.GetDCID()
-	b.Date = from.GetDate()
-	if val, ok := from.GetRights(); ok {
-		b.Rights = val
-	}
-
 }
 
 // TypeID returns type id in TL schema.
@@ -162,6 +122,11 @@ func (b *BotBusinessConnection) TypeInfo() tdp.Type {
 	}
 	typ.Fields = []tdp.Field{
 		{
+			Name:       "CanReply",
+			SchemaName: "can_reply",
+			Null:       !b.Flags.Has(0),
+		},
+		{
 			Name:       "Disabled",
 			SchemaName: "disabled",
 			Null:       !b.Flags.Has(1),
@@ -182,29 +147,24 @@ func (b *BotBusinessConnection) TypeInfo() tdp.Type {
 			Name:       "Date",
 			SchemaName: "date",
 		},
-		{
-			Name:       "Rights",
-			SchemaName: "rights",
-			Null:       !b.Flags.Has(2),
-		},
 	}
 	return typ
 }
 
 // SetFlags sets flags for non-zero fields.
 func (b *BotBusinessConnection) SetFlags() {
+	if !(b.CanReply == false) {
+		b.Flags.Set(0)
+	}
 	if !(b.Disabled == false) {
 		b.Flags.Set(1)
-	}
-	if !(b.Rights.Zero()) {
-		b.Flags.Set(2)
 	}
 }
 
 // Encode implements bin.Encoder.
 func (b *BotBusinessConnection) Encode(buf *bin.Buffer) error {
 	if b == nil {
-		return fmt.Errorf("can't encode botBusinessConnection#8f34b2f5 as nil")
+		return fmt.Errorf("can't encode botBusinessConnection#896433b4 as nil")
 	}
 	buf.PutID(BotBusinessConnectionTypeID)
 	return b.EncodeBare(buf)
@@ -213,31 +173,26 @@ func (b *BotBusinessConnection) Encode(buf *bin.Buffer) error {
 // EncodeBare implements bin.BareEncoder.
 func (b *BotBusinessConnection) EncodeBare(buf *bin.Buffer) error {
 	if b == nil {
-		return fmt.Errorf("can't encode botBusinessConnection#8f34b2f5 as nil")
+		return fmt.Errorf("can't encode botBusinessConnection#896433b4 as nil")
 	}
 	b.SetFlags()
 	if err := b.Flags.Encode(buf); err != nil {
-		return fmt.Errorf("unable to encode botBusinessConnection#8f34b2f5: field flags: %w", err)
+		return fmt.Errorf("unable to encode botBusinessConnection#896433b4: field flags: %w", err)
 	}
 	buf.PutString(b.ConnectionID)
 	buf.PutLong(b.UserID)
 	buf.PutInt(b.DCID)
 	buf.PutInt(b.Date)
-	if b.Flags.Has(2) {
-		if err := b.Rights.Encode(buf); err != nil {
-			return fmt.Errorf("unable to encode botBusinessConnection#8f34b2f5: field rights: %w", err)
-		}
-	}
 	return nil
 }
 
 // Decode implements bin.Decoder.
 func (b *BotBusinessConnection) Decode(buf *bin.Buffer) error {
 	if b == nil {
-		return fmt.Errorf("can't decode botBusinessConnection#8f34b2f5 to nil")
+		return fmt.Errorf("can't decode botBusinessConnection#896433b4 to nil")
 	}
 	if err := buf.ConsumeID(BotBusinessConnectionTypeID); err != nil {
-		return fmt.Errorf("unable to decode botBusinessConnection#8f34b2f5: %w", err)
+		return fmt.Errorf("unable to decode botBusinessConnection#896433b4: %w", err)
 	}
 	return b.DecodeBare(buf)
 }
@@ -245,48 +200,63 @@ func (b *BotBusinessConnection) Decode(buf *bin.Buffer) error {
 // DecodeBare implements bin.BareDecoder.
 func (b *BotBusinessConnection) DecodeBare(buf *bin.Buffer) error {
 	if b == nil {
-		return fmt.Errorf("can't decode botBusinessConnection#8f34b2f5 to nil")
+		return fmt.Errorf("can't decode botBusinessConnection#896433b4 to nil")
 	}
 	{
 		if err := b.Flags.Decode(buf); err != nil {
-			return fmt.Errorf("unable to decode botBusinessConnection#8f34b2f5: field flags: %w", err)
+			return fmt.Errorf("unable to decode botBusinessConnection#896433b4: field flags: %w", err)
 		}
 	}
+	b.CanReply = b.Flags.Has(0)
 	b.Disabled = b.Flags.Has(1)
 	{
 		value, err := buf.String()
 		if err != nil {
-			return fmt.Errorf("unable to decode botBusinessConnection#8f34b2f5: field connection_id: %w", err)
+			return fmt.Errorf("unable to decode botBusinessConnection#896433b4: field connection_id: %w", err)
 		}
 		b.ConnectionID = value
 	}
 	{
 		value, err := buf.Long()
 		if err != nil {
-			return fmt.Errorf("unable to decode botBusinessConnection#8f34b2f5: field user_id: %w", err)
+			return fmt.Errorf("unable to decode botBusinessConnection#896433b4: field user_id: %w", err)
 		}
 		b.UserID = value
 	}
 	{
 		value, err := buf.Int()
 		if err != nil {
-			return fmt.Errorf("unable to decode botBusinessConnection#8f34b2f5: field dc_id: %w", err)
+			return fmt.Errorf("unable to decode botBusinessConnection#896433b4: field dc_id: %w", err)
 		}
 		b.DCID = value
 	}
 	{
 		value, err := buf.Int()
 		if err != nil {
-			return fmt.Errorf("unable to decode botBusinessConnection#8f34b2f5: field date: %w", err)
+			return fmt.Errorf("unable to decode botBusinessConnection#896433b4: field date: %w", err)
 		}
 		b.Date = value
 	}
-	if b.Flags.Has(2) {
-		if err := b.Rights.Decode(buf); err != nil {
-			return fmt.Errorf("unable to decode botBusinessConnection#8f34b2f5: field rights: %w", err)
-		}
-	}
 	return nil
+}
+
+// SetCanReply sets value of CanReply conditional field.
+func (b *BotBusinessConnection) SetCanReply(value bool) {
+	if value {
+		b.Flags.Set(0)
+		b.CanReply = true
+	} else {
+		b.Flags.Unset(0)
+		b.CanReply = false
+	}
+}
+
+// GetCanReply returns value of CanReply conditional field.
+func (b *BotBusinessConnection) GetCanReply() (value bool) {
+	if b == nil {
+		return
+	}
+	return b.Flags.Has(0)
 }
 
 // SetDisabled sets value of Disabled conditional field.
@@ -338,22 +308,4 @@ func (b *BotBusinessConnection) GetDate() (value int) {
 		return
 	}
 	return b.Date
-}
-
-// SetRights sets value of Rights conditional field.
-func (b *BotBusinessConnection) SetRights(value BusinessBotRights) {
-	b.Flags.Set(2)
-	b.Rights = value
-}
-
-// GetRights returns value of Rights conditional field and
-// boolean which is true if field was set.
-func (b *BotBusinessConnection) GetRights() (value BusinessBotRights, ok bool) {
-	if b == nil {
-		return
-	}
-	if !b.Flags.Has(2) {
-		return value, false
-	}
-	return b.Rights, true
 }

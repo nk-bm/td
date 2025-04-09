@@ -31,82 +31,52 @@ var (
 	_ = tdjson.Encoder{}
 )
 
-// MessagesForwardMessagesRequest represents TL type `messages.forwardMessages#bb9fa475`.
-// Forwards messages by their IDs.
-//
-// See https://core.telegram.org/method/messages.forwardMessages for reference.
+// MessagesForwardMessagesRequest represents TL type `messages.forwardMessages#d5039208`.
 type MessagesForwardMessagesRequest struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessagesForwardMessagesRequest.
 	Flags bin.Fields
-	// Whether to send messages silently (no notification will be triggered on the
-	// destination clients)
+	// Silent field of MessagesForwardMessagesRequest.
 	Silent bool
-	// Whether to send the message in background
+	// Background field of MessagesForwardMessagesRequest.
 	Background bool
-	// When forwarding games, whether to include your score in the game
+	// WithMyScore field of MessagesForwardMessagesRequest.
 	WithMyScore bool
-	// Whether to forward messages without quoting the original author
+	// DropAuthor field of MessagesForwardMessagesRequest.
 	DropAuthor bool
-	// Whether to strip captions from media
+	// DropMediaCaptions field of MessagesForwardMessagesRequest.
 	DropMediaCaptions bool
-	// Only for bots, disallows further re-forwarding and saving of the messages, even if the
-	// destination chat doesn't have content protection¹ enabled
-	//
-	// Links:
-	//  1) https://telegram.org/blog/protected-content-delete-by-date-and-more
+	// Noforwards field of MessagesForwardMessagesRequest.
 	Noforwards bool
-	// Bots only: if set, allows sending up to 1000 messages per second, ignoring
-	// broadcasting limits¹ for a fee of 0.1 Telegram Stars per message. The relevant Stars
-	// will be withdrawn from the bot's balance.
-	//
-	// Links:
-	//  1) https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once
+	// AllowPaidFloodskip field of MessagesForwardMessagesRequest.
 	AllowPaidFloodskip bool
-	// Source of messages
+	// FromPeer field of MessagesForwardMessagesRequest.
 	FromPeer InputPeerClass
-	// IDs of messages
+	// ID field of MessagesForwardMessagesRequest.
 	ID []int
-	// Random ID to prevent resending of messages
+	// RandomID field of MessagesForwardMessagesRequest.
 	RandomID []int64
-	// Destination peer
+	// ToPeer field of MessagesForwardMessagesRequest.
 	ToPeer InputPeerClass
-	// Destination forum topic¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/forum#forum-topics
+	// TopMsgID field of MessagesForwardMessagesRequest.
 	//
 	// Use SetTopMsgID and GetTopMsgID helpers.
 	TopMsgID int
-	// Scheduled message date for scheduled messages
+	// ScheduleDate field of MessagesForwardMessagesRequest.
 	//
 	// Use SetScheduleDate and GetScheduleDate helpers.
 	ScheduleDate int
-	// Forward the messages as the specified peer
+	// SendAs field of MessagesForwardMessagesRequest.
 	//
 	// Use SetSendAs and GetSendAs helpers.
 	SendAs InputPeerClass
-	// Add the messages to the specified quick reply shortcut »¹, instead.
-	//
-	// Links:
-	//  1) https://core.telegram.org/api/business#quick-reply-shortcuts
+	// QuickReplyShortcut field of MessagesForwardMessagesRequest.
 	//
 	// Use SetQuickReplyShortcut and GetQuickReplyShortcut helpers.
 	QuickReplyShortcut InputQuickReplyShortcutClass
-	// VideoTimestamp field of MessagesForwardMessagesRequest.
-	//
-	// Use SetVideoTimestamp and GetVideoTimestamp helpers.
-	VideoTimestamp int
-	// AllowPaidStars field of MessagesForwardMessagesRequest.
-	//
-	// Use SetAllowPaidStars and GetAllowPaidStars helpers.
-	AllowPaidStars int64
 }
 
 // MessagesForwardMessagesRequestTypeID is TL type id of MessagesForwardMessagesRequest.
-const MessagesForwardMessagesRequestTypeID = 0xbb9fa475
+const MessagesForwardMessagesRequestTypeID = 0xd5039208
 
 // Ensuring interfaces in compile-time for MessagesForwardMessagesRequest.
 var (
@@ -168,12 +138,6 @@ func (f *MessagesForwardMessagesRequest) Zero() bool {
 	if !(f.QuickReplyShortcut == nil) {
 		return false
 	}
-	if !(f.VideoTimestamp == 0) {
-		return false
-	}
-	if !(f.AllowPaidStars == 0) {
-		return false
-	}
 
 	return true
 }
@@ -185,63 +149,6 @@ func (f *MessagesForwardMessagesRequest) String() string {
 	}
 	type Alias MessagesForwardMessagesRequest
 	return fmt.Sprintf("MessagesForwardMessagesRequest%+v", Alias(*f))
-}
-
-// FillFrom fills MessagesForwardMessagesRequest from given interface.
-func (f *MessagesForwardMessagesRequest) FillFrom(from interface {
-	GetSilent() (value bool)
-	GetBackground() (value bool)
-	GetWithMyScore() (value bool)
-	GetDropAuthor() (value bool)
-	GetDropMediaCaptions() (value bool)
-	GetNoforwards() (value bool)
-	GetAllowPaidFloodskip() (value bool)
-	GetFromPeer() (value InputPeerClass)
-	GetID() (value []int)
-	GetRandomID() (value []int64)
-	GetToPeer() (value InputPeerClass)
-	GetTopMsgID() (value int, ok bool)
-	GetScheduleDate() (value int, ok bool)
-	GetSendAs() (value InputPeerClass, ok bool)
-	GetQuickReplyShortcut() (value InputQuickReplyShortcutClass, ok bool)
-	GetVideoTimestamp() (value int, ok bool)
-	GetAllowPaidStars() (value int64, ok bool)
-}) {
-	f.Silent = from.GetSilent()
-	f.Background = from.GetBackground()
-	f.WithMyScore = from.GetWithMyScore()
-	f.DropAuthor = from.GetDropAuthor()
-	f.DropMediaCaptions = from.GetDropMediaCaptions()
-	f.Noforwards = from.GetNoforwards()
-	f.AllowPaidFloodskip = from.GetAllowPaidFloodskip()
-	f.FromPeer = from.GetFromPeer()
-	f.ID = from.GetID()
-	f.RandomID = from.GetRandomID()
-	f.ToPeer = from.GetToPeer()
-	if val, ok := from.GetTopMsgID(); ok {
-		f.TopMsgID = val
-	}
-
-	if val, ok := from.GetScheduleDate(); ok {
-		f.ScheduleDate = val
-	}
-
-	if val, ok := from.GetSendAs(); ok {
-		f.SendAs = val
-	}
-
-	if val, ok := from.GetQuickReplyShortcut(); ok {
-		f.QuickReplyShortcut = val
-	}
-
-	if val, ok := from.GetVideoTimestamp(); ok {
-		f.VideoTimestamp = val
-	}
-
-	if val, ok := from.GetAllowPaidStars(); ok {
-		f.AllowPaidStars = val
-	}
-
 }
 
 // TypeID returns type id in TL schema.
@@ -338,16 +245,6 @@ func (f *MessagesForwardMessagesRequest) TypeInfo() tdp.Type {
 			SchemaName: "quick_reply_shortcut",
 			Null:       !f.Flags.Has(17),
 		},
-		{
-			Name:       "VideoTimestamp",
-			SchemaName: "video_timestamp",
-			Null:       !f.Flags.Has(20),
-		},
-		{
-			Name:       "AllowPaidStars",
-			SchemaName: "allow_paid_stars",
-			Null:       !f.Flags.Has(21),
-		},
 	}
 	return typ
 }
@@ -387,18 +284,12 @@ func (f *MessagesForwardMessagesRequest) SetFlags() {
 	if !(f.QuickReplyShortcut == nil) {
 		f.Flags.Set(17)
 	}
-	if !(f.VideoTimestamp == 0) {
-		f.Flags.Set(20)
-	}
-	if !(f.AllowPaidStars == 0) {
-		f.Flags.Set(21)
-	}
 }
 
 // Encode implements bin.Encoder.
 func (f *MessagesForwardMessagesRequest) Encode(b *bin.Buffer) error {
 	if f == nil {
-		return fmt.Errorf("can't encode messages.forwardMessages#bb9fa475 as nil")
+		return fmt.Errorf("can't encode messages.forwardMessages#d5039208 as nil")
 	}
 	b.PutID(MessagesForwardMessagesRequestTypeID)
 	return f.EncodeBare(b)
@@ -407,17 +298,17 @@ func (f *MessagesForwardMessagesRequest) Encode(b *bin.Buffer) error {
 // EncodeBare implements bin.BareEncoder.
 func (f *MessagesForwardMessagesRequest) EncodeBare(b *bin.Buffer) error {
 	if f == nil {
-		return fmt.Errorf("can't encode messages.forwardMessages#bb9fa475 as nil")
+		return fmt.Errorf("can't encode messages.forwardMessages#d5039208 as nil")
 	}
 	f.SetFlags()
 	if err := f.Flags.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode messages.forwardMessages#bb9fa475: field flags: %w", err)
+		return fmt.Errorf("unable to encode messages.forwardMessages#d5039208: field flags: %w", err)
 	}
 	if f.FromPeer == nil {
-		return fmt.Errorf("unable to encode messages.forwardMessages#bb9fa475: field from_peer is nil")
+		return fmt.Errorf("unable to encode messages.forwardMessages#d5039208: field from_peer is nil")
 	}
 	if err := f.FromPeer.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode messages.forwardMessages#bb9fa475: field from_peer: %w", err)
+		return fmt.Errorf("unable to encode messages.forwardMessages#d5039208: field from_peer: %w", err)
 	}
 	b.PutVectorHeader(len(f.ID))
 	for _, v := range f.ID {
@@ -428,10 +319,10 @@ func (f *MessagesForwardMessagesRequest) EncodeBare(b *bin.Buffer) error {
 		b.PutLong(v)
 	}
 	if f.ToPeer == nil {
-		return fmt.Errorf("unable to encode messages.forwardMessages#bb9fa475: field to_peer is nil")
+		return fmt.Errorf("unable to encode messages.forwardMessages#d5039208: field to_peer is nil")
 	}
 	if err := f.ToPeer.Encode(b); err != nil {
-		return fmt.Errorf("unable to encode messages.forwardMessages#bb9fa475: field to_peer: %w", err)
+		return fmt.Errorf("unable to encode messages.forwardMessages#d5039208: field to_peer: %w", err)
 	}
 	if f.Flags.Has(9) {
 		b.PutInt(f.TopMsgID)
@@ -441,25 +332,19 @@ func (f *MessagesForwardMessagesRequest) EncodeBare(b *bin.Buffer) error {
 	}
 	if f.Flags.Has(13) {
 		if f.SendAs == nil {
-			return fmt.Errorf("unable to encode messages.forwardMessages#bb9fa475: field send_as is nil")
+			return fmt.Errorf("unable to encode messages.forwardMessages#d5039208: field send_as is nil")
 		}
 		if err := f.SendAs.Encode(b); err != nil {
-			return fmt.Errorf("unable to encode messages.forwardMessages#bb9fa475: field send_as: %w", err)
+			return fmt.Errorf("unable to encode messages.forwardMessages#d5039208: field send_as: %w", err)
 		}
 	}
 	if f.Flags.Has(17) {
 		if f.QuickReplyShortcut == nil {
-			return fmt.Errorf("unable to encode messages.forwardMessages#bb9fa475: field quick_reply_shortcut is nil")
+			return fmt.Errorf("unable to encode messages.forwardMessages#d5039208: field quick_reply_shortcut is nil")
 		}
 		if err := f.QuickReplyShortcut.Encode(b); err != nil {
-			return fmt.Errorf("unable to encode messages.forwardMessages#bb9fa475: field quick_reply_shortcut: %w", err)
+			return fmt.Errorf("unable to encode messages.forwardMessages#d5039208: field quick_reply_shortcut: %w", err)
 		}
-	}
-	if f.Flags.Has(20) {
-		b.PutInt(f.VideoTimestamp)
-	}
-	if f.Flags.Has(21) {
-		b.PutLong(f.AllowPaidStars)
 	}
 	return nil
 }
@@ -467,10 +352,10 @@ func (f *MessagesForwardMessagesRequest) EncodeBare(b *bin.Buffer) error {
 // Decode implements bin.Decoder.
 func (f *MessagesForwardMessagesRequest) Decode(b *bin.Buffer) error {
 	if f == nil {
-		return fmt.Errorf("can't decode messages.forwardMessages#bb9fa475 to nil")
+		return fmt.Errorf("can't decode messages.forwardMessages#d5039208 to nil")
 	}
 	if err := b.ConsumeID(MessagesForwardMessagesRequestTypeID); err != nil {
-		return fmt.Errorf("unable to decode messages.forwardMessages#bb9fa475: %w", err)
+		return fmt.Errorf("unable to decode messages.forwardMessages#d5039208: %w", err)
 	}
 	return f.DecodeBare(b)
 }
@@ -478,11 +363,11 @@ func (f *MessagesForwardMessagesRequest) Decode(b *bin.Buffer) error {
 // DecodeBare implements bin.BareDecoder.
 func (f *MessagesForwardMessagesRequest) DecodeBare(b *bin.Buffer) error {
 	if f == nil {
-		return fmt.Errorf("can't decode messages.forwardMessages#bb9fa475 to nil")
+		return fmt.Errorf("can't decode messages.forwardMessages#d5039208 to nil")
 	}
 	{
 		if err := f.Flags.Decode(b); err != nil {
-			return fmt.Errorf("unable to decode messages.forwardMessages#bb9fa475: field flags: %w", err)
+			return fmt.Errorf("unable to decode messages.forwardMessages#d5039208: field flags: %w", err)
 		}
 	}
 	f.Silent = f.Flags.Has(5)
@@ -495,14 +380,14 @@ func (f *MessagesForwardMessagesRequest) DecodeBare(b *bin.Buffer) error {
 	{
 		value, err := DecodeInputPeer(b)
 		if err != nil {
-			return fmt.Errorf("unable to decode messages.forwardMessages#bb9fa475: field from_peer: %w", err)
+			return fmt.Errorf("unable to decode messages.forwardMessages#d5039208: field from_peer: %w", err)
 		}
 		f.FromPeer = value
 	}
 	{
 		headerLen, err := b.VectorHeader()
 		if err != nil {
-			return fmt.Errorf("unable to decode messages.forwardMessages#bb9fa475: field id: %w", err)
+			return fmt.Errorf("unable to decode messages.forwardMessages#d5039208: field id: %w", err)
 		}
 
 		if headerLen > 0 {
@@ -511,7 +396,7 @@ func (f *MessagesForwardMessagesRequest) DecodeBare(b *bin.Buffer) error {
 		for idx := 0; idx < headerLen; idx++ {
 			value, err := b.Int()
 			if err != nil {
-				return fmt.Errorf("unable to decode messages.forwardMessages#bb9fa475: field id: %w", err)
+				return fmt.Errorf("unable to decode messages.forwardMessages#d5039208: field id: %w", err)
 			}
 			f.ID = append(f.ID, value)
 		}
@@ -519,7 +404,7 @@ func (f *MessagesForwardMessagesRequest) DecodeBare(b *bin.Buffer) error {
 	{
 		headerLen, err := b.VectorHeader()
 		if err != nil {
-			return fmt.Errorf("unable to decode messages.forwardMessages#bb9fa475: field random_id: %w", err)
+			return fmt.Errorf("unable to decode messages.forwardMessages#d5039208: field random_id: %w", err)
 		}
 
 		if headerLen > 0 {
@@ -528,7 +413,7 @@ func (f *MessagesForwardMessagesRequest) DecodeBare(b *bin.Buffer) error {
 		for idx := 0; idx < headerLen; idx++ {
 			value, err := b.Long()
 			if err != nil {
-				return fmt.Errorf("unable to decode messages.forwardMessages#bb9fa475: field random_id: %w", err)
+				return fmt.Errorf("unable to decode messages.forwardMessages#d5039208: field random_id: %w", err)
 			}
 			f.RandomID = append(f.RandomID, value)
 		}
@@ -536,51 +421,37 @@ func (f *MessagesForwardMessagesRequest) DecodeBare(b *bin.Buffer) error {
 	{
 		value, err := DecodeInputPeer(b)
 		if err != nil {
-			return fmt.Errorf("unable to decode messages.forwardMessages#bb9fa475: field to_peer: %w", err)
+			return fmt.Errorf("unable to decode messages.forwardMessages#d5039208: field to_peer: %w", err)
 		}
 		f.ToPeer = value
 	}
 	if f.Flags.Has(9) {
 		value, err := b.Int()
 		if err != nil {
-			return fmt.Errorf("unable to decode messages.forwardMessages#bb9fa475: field top_msg_id: %w", err)
+			return fmt.Errorf("unable to decode messages.forwardMessages#d5039208: field top_msg_id: %w", err)
 		}
 		f.TopMsgID = value
 	}
 	if f.Flags.Has(10) {
 		value, err := b.Int()
 		if err != nil {
-			return fmt.Errorf("unable to decode messages.forwardMessages#bb9fa475: field schedule_date: %w", err)
+			return fmt.Errorf("unable to decode messages.forwardMessages#d5039208: field schedule_date: %w", err)
 		}
 		f.ScheduleDate = value
 	}
 	if f.Flags.Has(13) {
 		value, err := DecodeInputPeer(b)
 		if err != nil {
-			return fmt.Errorf("unable to decode messages.forwardMessages#bb9fa475: field send_as: %w", err)
+			return fmt.Errorf("unable to decode messages.forwardMessages#d5039208: field send_as: %w", err)
 		}
 		f.SendAs = value
 	}
 	if f.Flags.Has(17) {
 		value, err := DecodeInputQuickReplyShortcut(b)
 		if err != nil {
-			return fmt.Errorf("unable to decode messages.forwardMessages#bb9fa475: field quick_reply_shortcut: %w", err)
+			return fmt.Errorf("unable to decode messages.forwardMessages#d5039208: field quick_reply_shortcut: %w", err)
 		}
 		f.QuickReplyShortcut = value
-	}
-	if f.Flags.Has(20) {
-		value, err := b.Int()
-		if err != nil {
-			return fmt.Errorf("unable to decode messages.forwardMessages#bb9fa475: field video_timestamp: %w", err)
-		}
-		f.VideoTimestamp = value
-	}
-	if f.Flags.Has(21) {
-		value, err := b.Long()
-		if err != nil {
-			return fmt.Errorf("unable to decode messages.forwardMessages#bb9fa475: field allow_paid_stars: %w", err)
-		}
-		f.AllowPaidStars = value
 	}
 	return nil
 }
@@ -822,98 +693,7 @@ func (f *MessagesForwardMessagesRequest) GetQuickReplyShortcut() (value InputQui
 	return f.QuickReplyShortcut, true
 }
 
-// SetVideoTimestamp sets value of VideoTimestamp conditional field.
-func (f *MessagesForwardMessagesRequest) SetVideoTimestamp(value int) {
-	f.Flags.Set(20)
-	f.VideoTimestamp = value
-}
-
-// GetVideoTimestamp returns value of VideoTimestamp conditional field and
-// boolean which is true if field was set.
-func (f *MessagesForwardMessagesRequest) GetVideoTimestamp() (value int, ok bool) {
-	if f == nil {
-		return
-	}
-	if !f.Flags.Has(20) {
-		return value, false
-	}
-	return f.VideoTimestamp, true
-}
-
-// SetAllowPaidStars sets value of AllowPaidStars conditional field.
-func (f *MessagesForwardMessagesRequest) SetAllowPaidStars(value int64) {
-	f.Flags.Set(21)
-	f.AllowPaidStars = value
-}
-
-// GetAllowPaidStars returns value of AllowPaidStars conditional field and
-// boolean which is true if field was set.
-func (f *MessagesForwardMessagesRequest) GetAllowPaidStars() (value int64, ok bool) {
-	if f == nil {
-		return
-	}
-	if !f.Flags.Has(21) {
-		return value, false
-	}
-	return f.AllowPaidStars, true
-}
-
-// MessagesForwardMessages invokes method messages.forwardMessages#bb9fa475 returning error if any.
-// Forwards messages by their IDs.
-//
-// Possible errors:
-//
-//	400 BROADCAST_PUBLIC_VOTERS_FORBIDDEN: You can't forward polls with public voters.
-//	400 CHANNEL_INVALID: The provided channel is invalid.
-//	406 CHANNEL_PRIVATE: You haven't joined this channel/supergroup.
-//	403 CHAT_ADMIN_REQUIRED: You must be an admin in this chat to do this.
-//	406 CHAT_FORWARDS_RESTRICTED: You can't forward messages from a protected chat.
-//	403 CHAT_GUEST_SEND_FORBIDDEN: You join the discussion group before commenting, see here » for more info.
-//	400 CHAT_ID_INVALID: The provided chat id is invalid.
-//	400 CHAT_RESTRICTED: You can't send messages in this chat, you were restricted.
-//	403 CHAT_SEND_AUDIOS_FORBIDDEN: You can't send audio messages in this chat.
-//	403 CHAT_SEND_DOCS_FORBIDDEN: You can't send documents in this chat.
-//	403 CHAT_SEND_GAME_FORBIDDEN: You can't send a game to this chat.
-//	403 CHAT_SEND_GIFS_FORBIDDEN: You can't send gifs in this chat.
-//	403 CHAT_SEND_MEDIA_FORBIDDEN: You can't send media in this chat.
-//	403 CHAT_SEND_PHOTOS_FORBIDDEN: You can't send photos in this chat.
-//	403 CHAT_SEND_PLAIN_FORBIDDEN: You can't send non-media (text) messages in this chat.
-//	403 CHAT_SEND_POLL_FORBIDDEN: You can't send polls in this chat.
-//	403 CHAT_SEND_STICKERS_FORBIDDEN: You can't send stickers in this chat.
-//	403 CHAT_SEND_VIDEOS_FORBIDDEN: You can't send videos in this chat.
-//	403 CHAT_SEND_VOICES_FORBIDDEN: You can't send voice recordings in this chat.
-//	403 CHAT_WRITE_FORBIDDEN: You can't write in this chat.
-//	400 GROUPED_MEDIA_INVALID: Invalid grouped media.
-//	400 INPUT_USER_DEACTIVATED: The specified user was deleted.
-//	400 MEDIA_EMPTY: The provided media object is invalid.
-//	400 MESSAGE_IDS_EMPTY: No message ids were provided.
-//	400 MESSAGE_ID_INVALID: The provided message id is invalid.
-//	400 MSG_ID_INVALID: Invalid message ID provided.
-//	406 PAYMENT_UNSUPPORTED: A detailed description of the error will be received separately as described here ».
-//	400 PEER_ID_INVALID: The provided peer id is invalid.
-//	403 PREMIUM_ACCOUNT_REQUIRED: A premium account is required to execute this action.
-//	406 PRIVACY_PREMIUM_REQUIRED: You need a Telegram Premium subscription to send a message to this user.
-//	400 QUICK_REPLIES_TOO_MUCH: A maximum of appConfig.quick_replies_limit shortcuts may be created, the limit was reached.
-//	400 QUIZ_ANSWER_MISSING: You can forward a quiz while hiding the original author only after choosing an option in the quiz.
-//	500 RANDOM_ID_DUPLICATE: You provided a random ID that was already used.
-//	400 RANDOM_ID_INVALID: A provided random ID is invalid.
-//	400 REPLY_MESSAGES_TOO_MUCH: Each shortcut can contain a maximum of appConfig.quick_reply_messages_limit messages, the limit was reached.
-//	400 SCHEDULE_BOT_NOT_ALLOWED: Bots cannot schedule messages.
-//	400 SCHEDULE_DATE_TOO_LATE: You can't schedule a message this far in the future.
-//	400 SCHEDULE_TOO_MUCH: There are too many scheduled messages.
-//	400 SEND_AS_PEER_INVALID: You can't send messages as the specified peer.
-//	400 SLOWMODE_MULTI_MSGS_DISABLED: Slowmode is enabled, you cannot forward multiple messages to this group.
-//	420 SLOWMODE_WAIT_%d: Slowmode is enabled in this chat: wait %d seconds before sending another message to this chat.
-//	406 TOPIC_CLOSED: This topic was closed, you can't send messages to it anymore.
-//	406 TOPIC_DELETED: The specified topic was deleted.
-//	400 USER_BANNED_IN_CHANNEL: You're banned from sending messages in supergroups/channels.
-//	403 USER_IS_BLOCKED: You were blocked by this user.
-//	400 USER_IS_BOT: Bots can't send messages to other bots.
-//	403 VOICE_MESSAGES_FORBIDDEN: This user's privacy settings forbid you from sending voice messages.
-//	400 YOU_BLOCKED_USER: You blocked this user.
-//
-// See https://core.telegram.org/method/messages.forwardMessages for reference.
-// Can be used by bots.
+// MessagesForwardMessages invokes method messages.forwardMessages#d5039208 returning error if any.
 func (c *Client) MessagesForwardMessages(ctx context.Context, request *MessagesForwardMessagesRequest) (UpdatesClass, error) {
 	var result UpdatesBox
 

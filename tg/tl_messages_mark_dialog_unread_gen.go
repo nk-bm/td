@@ -32,18 +32,12 @@ var (
 )
 
 // MessagesMarkDialogUnreadRequest represents TL type `messages.markDialogUnread#c286d98f`.
-// Manually mark dialog as unread
-//
-// See https://core.telegram.org/method/messages.markDialogUnread for reference.
 type MessagesMarkDialogUnreadRequest struct {
-	// Flags, see TL conditional fields¹
-	//
-	// Links:
-	//  1) https://core.telegram.org/mtproto/TL-combinators#conditional-fields
+	// Flags field of MessagesMarkDialogUnreadRequest.
 	Flags bin.Fields
-	// Mark as unread/read
+	// Unread field of MessagesMarkDialogUnreadRequest.
 	Unread bool
-	// Dialog
+	// Peer field of MessagesMarkDialogUnreadRequest.
 	Peer InputDialogPeerClass
 }
 
@@ -82,15 +76,6 @@ func (m *MessagesMarkDialogUnreadRequest) String() string {
 	}
 	type Alias MessagesMarkDialogUnreadRequest
 	return fmt.Sprintf("MessagesMarkDialogUnreadRequest%+v", Alias(*m))
-}
-
-// FillFrom fills MessagesMarkDialogUnreadRequest from given interface.
-func (m *MessagesMarkDialogUnreadRequest) FillFrom(from interface {
-	GetUnread() (value bool)
-	GetPeer() (value InputDialogPeerClass)
-}) {
-	m.Unread = from.GetUnread()
-	m.Peer = from.GetPeer()
 }
 
 // TypeID returns type id in TL schema.
@@ -223,13 +208,6 @@ func (m *MessagesMarkDialogUnreadRequest) GetPeer() (value InputDialogPeerClass)
 }
 
 // MessagesMarkDialogUnread invokes method messages.markDialogUnread#c286d98f returning error if any.
-// Manually mark dialog as unread
-//
-// Possible errors:
-//
-//	400 PEER_ID_INVALID: The provided peer id is invalid.
-//
-// See https://core.telegram.org/method/messages.markDialogUnread for reference.
 func (c *Client) MessagesMarkDialogUnread(ctx context.Context, request *MessagesMarkDialogUnreadRequest) (bool, error) {
 	var result BoolBox
 

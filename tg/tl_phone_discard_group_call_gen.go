@@ -32,11 +32,8 @@ var (
 )
 
 // PhoneDiscardGroupCallRequest represents TL type `phone.discardGroupCall#7a777135`.
-// Terminate a group call
-//
-// See https://core.telegram.org/method/phone.discardGroupCall for reference.
 type PhoneDiscardGroupCallRequest struct {
-	// The group call to terminate
+	// Call field of PhoneDiscardGroupCallRequest.
 	Call InputGroupCall
 }
 
@@ -69,13 +66,6 @@ func (d *PhoneDiscardGroupCallRequest) String() string {
 	}
 	type Alias PhoneDiscardGroupCallRequest
 	return fmt.Sprintf("PhoneDiscardGroupCallRequest%+v", Alias(*d))
-}
-
-// FillFrom fills PhoneDiscardGroupCallRequest from given interface.
-func (d *PhoneDiscardGroupCallRequest) FillFrom(from interface {
-	GetCall() (value InputGroupCall)
-}) {
-	d.Call = from.GetCall()
 }
 
 // TypeID returns type id in TL schema.
@@ -162,15 +152,6 @@ func (d *PhoneDiscardGroupCallRequest) GetCall() (value InputGroupCall) {
 }
 
 // PhoneDiscardGroupCall invokes method phone.discardGroupCall#7a777135 returning error if any.
-// Terminate a group call
-//
-// Possible errors:
-//
-//	400 GROUPCALL_ALREADY_DISCARDED: The group call was already discarded.
-//	403 GROUPCALL_FORBIDDEN: The group call has already ended.
-//	400 GROUPCALL_INVALID: The specified group call is invalid.
-//
-// See https://core.telegram.org/method/phone.discardGroupCall for reference.
 func (c *Client) PhoneDiscardGroupCall(ctx context.Context, call InputGroupCall) (UpdatesClass, error) {
 	var result UpdatesBox
 

@@ -32,9 +32,6 @@ var (
 )
 
 // PhoneCallDiscardReasonMissed represents TL type `phoneCallDiscardReasonMissed#85e42301`.
-// The phone call was missed
-//
-// See https://core.telegram.org/constructor/phoneCallDiscardReasonMissed for reference.
 type PhoneCallDiscardReasonMissed struct {
 }
 
@@ -134,9 +131,6 @@ func (p *PhoneCallDiscardReasonMissed) DecodeBare(b *bin.Buffer) error {
 }
 
 // PhoneCallDiscardReasonDisconnect represents TL type `phoneCallDiscardReasonDisconnect#e095c1a0`.
-// The phone call was disconnected
-//
-// See https://core.telegram.org/constructor/phoneCallDiscardReasonDisconnect for reference.
 type PhoneCallDiscardReasonDisconnect struct {
 }
 
@@ -236,9 +230,6 @@ func (p *PhoneCallDiscardReasonDisconnect) DecodeBare(b *bin.Buffer) error {
 }
 
 // PhoneCallDiscardReasonHangup represents TL type `phoneCallDiscardReasonHangup#57adc690`.
-// The phone call was ended normally
-//
-// See https://core.telegram.org/constructor/phoneCallDiscardReasonHangup for reference.
 type PhoneCallDiscardReasonHangup struct {
 }
 
@@ -338,9 +329,6 @@ func (p *PhoneCallDiscardReasonHangup) DecodeBare(b *bin.Buffer) error {
 }
 
 // PhoneCallDiscardReasonBusy represents TL type `phoneCallDiscardReasonBusy#faf7e8c9`.
-// The phone call was discarded because the user is busy in another call
-//
-// See https://core.telegram.org/constructor/phoneCallDiscardReasonBusy for reference.
 type PhoneCallDiscardReasonBusy struct {
 }
 
@@ -439,153 +427,16 @@ func (p *PhoneCallDiscardReasonBusy) DecodeBare(b *bin.Buffer) error {
 	return nil
 }
 
-// PhoneCallDiscardReasonAllowGroupCall represents TL type `phoneCallDiscardReasonAllowGroupCall#afe2b839`.
-//
-// See https://core.telegram.org/constructor/phoneCallDiscardReasonAllowGroupCall for reference.
-type PhoneCallDiscardReasonAllowGroupCall struct {
-	// EncryptedKey field of PhoneCallDiscardReasonAllowGroupCall.
-	EncryptedKey []byte
-}
-
-// PhoneCallDiscardReasonAllowGroupCallTypeID is TL type id of PhoneCallDiscardReasonAllowGroupCall.
-const PhoneCallDiscardReasonAllowGroupCallTypeID = 0xafe2b839
-
-// construct implements constructor of PhoneCallDiscardReasonClass.
-func (p PhoneCallDiscardReasonAllowGroupCall) construct() PhoneCallDiscardReasonClass { return &p }
-
-// Ensuring interfaces in compile-time for PhoneCallDiscardReasonAllowGroupCall.
-var (
-	_ bin.Encoder     = &PhoneCallDiscardReasonAllowGroupCall{}
-	_ bin.Decoder     = &PhoneCallDiscardReasonAllowGroupCall{}
-	_ bin.BareEncoder = &PhoneCallDiscardReasonAllowGroupCall{}
-	_ bin.BareDecoder = &PhoneCallDiscardReasonAllowGroupCall{}
-
-	_ PhoneCallDiscardReasonClass = &PhoneCallDiscardReasonAllowGroupCall{}
-)
-
-func (p *PhoneCallDiscardReasonAllowGroupCall) Zero() bool {
-	if p == nil {
-		return true
-	}
-	if !(p.EncryptedKey == nil) {
-		return false
-	}
-
-	return true
-}
-
-// String implements fmt.Stringer.
-func (p *PhoneCallDiscardReasonAllowGroupCall) String() string {
-	if p == nil {
-		return "PhoneCallDiscardReasonAllowGroupCall(nil)"
-	}
-	type Alias PhoneCallDiscardReasonAllowGroupCall
-	return fmt.Sprintf("PhoneCallDiscardReasonAllowGroupCall%+v", Alias(*p))
-}
-
-// FillFrom fills PhoneCallDiscardReasonAllowGroupCall from given interface.
-func (p *PhoneCallDiscardReasonAllowGroupCall) FillFrom(from interface {
-	GetEncryptedKey() (value []byte)
-}) {
-	p.EncryptedKey = from.GetEncryptedKey()
-}
-
-// TypeID returns type id in TL schema.
-//
-// See https://core.telegram.org/mtproto/TL-tl#remarks.
-func (*PhoneCallDiscardReasonAllowGroupCall) TypeID() uint32 {
-	return PhoneCallDiscardReasonAllowGroupCallTypeID
-}
-
-// TypeName returns name of type in TL schema.
-func (*PhoneCallDiscardReasonAllowGroupCall) TypeName() string {
-	return "phoneCallDiscardReasonAllowGroupCall"
-}
-
-// TypeInfo returns info about TL type.
-func (p *PhoneCallDiscardReasonAllowGroupCall) TypeInfo() tdp.Type {
-	typ := tdp.Type{
-		Name: "phoneCallDiscardReasonAllowGroupCall",
-		ID:   PhoneCallDiscardReasonAllowGroupCallTypeID,
-	}
-	if p == nil {
-		typ.Null = true
-		return typ
-	}
-	typ.Fields = []tdp.Field{
-		{
-			Name:       "EncryptedKey",
-			SchemaName: "encrypted_key",
-		},
-	}
-	return typ
-}
-
-// Encode implements bin.Encoder.
-func (p *PhoneCallDiscardReasonAllowGroupCall) Encode(b *bin.Buffer) error {
-	if p == nil {
-		return fmt.Errorf("can't encode phoneCallDiscardReasonAllowGroupCall#afe2b839 as nil")
-	}
-	b.PutID(PhoneCallDiscardReasonAllowGroupCallTypeID)
-	return p.EncodeBare(b)
-}
-
-// EncodeBare implements bin.BareEncoder.
-func (p *PhoneCallDiscardReasonAllowGroupCall) EncodeBare(b *bin.Buffer) error {
-	if p == nil {
-		return fmt.Errorf("can't encode phoneCallDiscardReasonAllowGroupCall#afe2b839 as nil")
-	}
-	b.PutBytes(p.EncryptedKey)
-	return nil
-}
-
-// Decode implements bin.Decoder.
-func (p *PhoneCallDiscardReasonAllowGroupCall) Decode(b *bin.Buffer) error {
-	if p == nil {
-		return fmt.Errorf("can't decode phoneCallDiscardReasonAllowGroupCall#afe2b839 to nil")
-	}
-	if err := b.ConsumeID(PhoneCallDiscardReasonAllowGroupCallTypeID); err != nil {
-		return fmt.Errorf("unable to decode phoneCallDiscardReasonAllowGroupCall#afe2b839: %w", err)
-	}
-	return p.DecodeBare(b)
-}
-
-// DecodeBare implements bin.BareDecoder.
-func (p *PhoneCallDiscardReasonAllowGroupCall) DecodeBare(b *bin.Buffer) error {
-	if p == nil {
-		return fmt.Errorf("can't decode phoneCallDiscardReasonAllowGroupCall#afe2b839 to nil")
-	}
-	{
-		value, err := b.Bytes()
-		if err != nil {
-			return fmt.Errorf("unable to decode phoneCallDiscardReasonAllowGroupCall#afe2b839: field encrypted_key: %w", err)
-		}
-		p.EncryptedKey = value
-	}
-	return nil
-}
-
-// GetEncryptedKey returns value of EncryptedKey field.
-func (p *PhoneCallDiscardReasonAllowGroupCall) GetEncryptedKey() (value []byte) {
-	if p == nil {
-		return
-	}
-	return p.EncryptedKey
-}
-
 // PhoneCallDiscardReasonClassName is schema name of PhoneCallDiscardReasonClass.
 const PhoneCallDiscardReasonClassName = "PhoneCallDiscardReason"
 
 // PhoneCallDiscardReasonClass represents PhoneCallDiscardReason generic type.
-//
-// See https://core.telegram.org/type/PhoneCallDiscardReason for reference.
 //
 // Constructors:
 //   - [PhoneCallDiscardReasonMissed]
 //   - [PhoneCallDiscardReasonDisconnect]
 //   - [PhoneCallDiscardReasonHangup]
 //   - [PhoneCallDiscardReasonBusy]
-//   - [PhoneCallDiscardReasonAllowGroupCall]
 //
 // Example:
 //
@@ -598,7 +449,6 @@ const PhoneCallDiscardReasonClassName = "PhoneCallDiscardReason"
 //	case *tg.PhoneCallDiscardReasonDisconnect: // phoneCallDiscardReasonDisconnect#e095c1a0
 //	case *tg.PhoneCallDiscardReasonHangup: // phoneCallDiscardReasonHangup#57adc690
 //	case *tg.PhoneCallDiscardReasonBusy: // phoneCallDiscardReasonBusy#faf7e8c9
-//	case *tg.PhoneCallDiscardReasonAllowGroupCall: // phoneCallDiscardReasonAllowGroupCall#afe2b839
 //	default: panic(v)
 //	}
 type PhoneCallDiscardReasonClass interface {
@@ -651,13 +501,6 @@ func DecodePhoneCallDiscardReason(buf *bin.Buffer) (PhoneCallDiscardReasonClass,
 	case PhoneCallDiscardReasonBusyTypeID:
 		// Decoding phoneCallDiscardReasonBusy#faf7e8c9.
 		v := PhoneCallDiscardReasonBusy{}
-		if err := v.Decode(buf); err != nil {
-			return nil, fmt.Errorf("unable to decode PhoneCallDiscardReasonClass: %w", err)
-		}
-		return &v, nil
-	case PhoneCallDiscardReasonAllowGroupCallTypeID:
-		// Decoding phoneCallDiscardReasonAllowGroupCall#afe2b839.
-		v := PhoneCallDiscardReasonAllowGroupCall{}
 		if err := v.Decode(buf); err != nil {
 			return nil, fmt.Errorf("unable to decode PhoneCallDiscardReasonClass: %w", err)
 		}
